@@ -11,6 +11,7 @@
     <string name="pressure">Pressure</string>
     <string name="visibility">Visibility</string>
     <string name="clear">Clear</string>
+    <string name="hourly_forecast_for_today">Hourly forecast for today</string>
 
     <!-- Errors -->
     <string name="error">Error</string>

@@ -31,7 +31,7 @@ class WeatherRepository {
             return WeatherResponse(
                 location = Location(
                     name = geoObject.name,
-                    country = geoObject.description ?: "Россия",
+                    country = geoObject.description ?: "",
                 ),
                 current = CurrentWeather(
                     temperature = weatherResponse.fact.temp.toDouble(),
@@ -41,8 +41,8 @@ class WeatherRepository {
                     feelsLike = weatherResponse.fact.feels_like.toDouble(),
                     pressure = weatherResponse.fact.pressure_mm,
                     visibility = weatherResponse.fact.visibility,
-                    yesterdayTemperature = weatherResponse.forecasts.getOrNull(1)?.parts?.day?.temp_avg?.toDouble()
-                        ?: return null
+                    yesterdayTemperature = weatherResponse.forecasts.getOrNull(1)?.parts?.day?.temp_avg?.toDouble() ?: return null,
+                    hourlyForecast = getHourlyForecast(weatherResponse)
                 )
             )
         } catch (e: Exception) {

@@ -8,5 +8,6 @@ data class CurrentWeather(
     val feelsLike: Double,
     val pressure: Int,
     val visibility: Double,
-    val yesterdayTemperature: Double
+    val yesterdayTemperature: Double,
+    val hourlyForecast: List<HourlyForecast> = emptyList()
 )

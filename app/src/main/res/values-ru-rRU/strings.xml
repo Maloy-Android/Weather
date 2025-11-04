@@ -11,6 +11,7 @@
     <string name="pressure">Давление</string>
     <string name="visibility">Видимость</string>
     <string name="clear">Ясно</string>
+    <string name="hourly_forecast_for_today">Почасовой прогноз на сегодня</string>
 
     <!-- Ошибки -->
     <string name="error">Ошибка</string>

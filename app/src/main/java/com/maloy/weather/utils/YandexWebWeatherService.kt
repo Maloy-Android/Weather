@@ -14,7 +14,7 @@ interface YandexWeatherService {
         @Query("lat") lat: Double,
         @Query("lon") lon: Double,
         @Query("limit") limit: Int = 2,
-        @Query("hours") hours: Boolean = false,
+        @Query("hours") hours: Boolean = true,
         @Query("extra") extra: Boolean = false
     ): YandexWeatherResponse
 

@@ -34,6 +34,11 @@ fun SuccessState(weather: WeatherResponse, onRefresh: () -> Unit) {
 
         Spacer(modifier = Modifier.height(32.dp))
 
+        if (weather.current.hourlyForecast.isNotEmpty()) {
+            HourlyForecastSection(forecasts = weather.current.hourlyForecast)
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+
         WeatherDetailsGrid(weather = weather)
 
         Spacer(modifier = Modifier.height(32.dp))
