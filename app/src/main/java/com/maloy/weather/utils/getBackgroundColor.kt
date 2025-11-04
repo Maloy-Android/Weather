@@ -33,6 +33,6 @@ private fun getDynamicBackground(dayPhase: String): List<Color> {
         "night_rain" -> listOf(Color(0xFF263238), Color(0xFF1A1A1A))
         "night_snow" -> listOf(Color(0xFF37474F), Color(0xFF1A237E))
         "night_thunderstorm" -> listOf(Color(0xFF1A1A1A), Color(0xFF000000))
-        else -> listOf(Color(0xFF667EEA), Color(0xFF764BA2))
+        else -> listOf(Color(0xFF1A1A1A), Color(0xFF000000))
     }
 }
