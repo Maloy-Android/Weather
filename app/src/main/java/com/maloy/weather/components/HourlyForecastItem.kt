@@ -16,7 +16,7 @@ import com.maloy.weather.data.HourlyForecast
 import com.maloy.weather.utils.getConditionIcon
 
 @Composable
-fun HourlyForecastItem(forecast: HourlyForecast, onBackgroundColor: Color) {
+fun HourlyForecastItem(forecast: HourlyForecast) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.width(80.dp)
@@ -24,7 +24,7 @@ fun HourlyForecastItem(forecast: HourlyForecast, onBackgroundColor: Color) {
         Text(
             text = forecast.time,
             style = MaterialTheme.typography.bodyLarge.copy(
-                color = onBackgroundColor.copy(alpha = 0.9f),
+                color = Color.White.copy(alpha = 0.9f),
                 fontWeight = FontWeight.Medium
             )
         )
@@ -35,7 +35,7 @@ fun HourlyForecastItem(forecast: HourlyForecast, onBackgroundColor: Color) {
             text = "${forecast.temperature}°",
             style = MaterialTheme.typography.titleLarge.copy(
                 fontWeight = FontWeight.Bold,
-                color = onBackgroundColor
+                color = Color.White
             )
         )
 

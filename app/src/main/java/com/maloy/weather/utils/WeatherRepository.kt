@@ -27,6 +27,7 @@ class WeatherRepository {
             }
 
             val weatherResponse = yandexWeatherService.getWeather(lat = coordinates[1].toDouble(), lon =  coordinates[0].toDouble())
+            val dayPhase = getDayPhase(weatherResponse)
 
             return WeatherResponse(
                 location = Location(
@@ -41,9 +42,11 @@ class WeatherRepository {
                     feelsLike = weatherResponse.fact.feels_like.toDouble(),
                     pressure = weatherResponse.fact.pressure_mm,
                     visibility = weatherResponse.fact.visibility,
-                    yesterdayTemperature = weatherResponse.forecasts.getOrNull(1)?.parts?.day?.temp_avg?.toDouble() ?: return null,
+                    yesterdayTemperature = weatherResponse.forecasts.getOrNull(1)?.parts?.day?.temp_avg?.toDouble()
+                        ?: return null,
                     hourlyForecast = getHourlyForecast(weatherResponse)
-                )
+                ),
+                dayPhase = dayPhase
             )
         } catch (e: Exception) {
             e.printStackTrace()

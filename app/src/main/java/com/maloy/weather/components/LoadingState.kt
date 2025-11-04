@@ -1,6 +1,5 @@
 package com.maloy.weather.components
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -20,8 +19,6 @@ import com.maloy.weather.R
 
 @Composable
 fun LoadingState() {
-    val isSystemDarkTheme = isSystemInDarkTheme()
-    val onBackgroundColor = if (!isSystemDarkTheme) Color.Black else Color.White
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -29,7 +26,7 @@ fun LoadingState() {
     ) {
         CircularProgressIndicator(
             modifier = Modifier.size(60.dp),
-            color = onBackgroundColor,
+            color = Color.White,
             strokeWidth = 3.dp
         )
 
@@ -37,7 +34,7 @@ fun LoadingState() {
 
         Text(
             text = stringResource(R.string.loading_weather_data),
-            style = MaterialTheme.typography.bodyLarge.copy(color = onBackgroundColor)
+            style = MaterialTheme.typography.bodyLarge.copy(color = Color.White)
         )
     }
 }

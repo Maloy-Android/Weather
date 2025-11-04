@@ -1,6 +1,5 @@
 package com.maloy.weather.components
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,8 +21,6 @@ import com.maloy.weather.data.WeatherResponse
 
 @Composable
 fun SuccessState(weather: WeatherResponse, onRefresh: () -> Unit) {
-    val isSystemDarkTheme = isSystemInDarkTheme()
-    val onBackgroundColor = if (!isSystemDarkTheme) Color.Black else Color.White
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -45,7 +42,7 @@ fun SuccessState(weather: WeatherResponse, onRefresh: () -> Unit) {
 
         FloatingActionButton(
             onClick = onRefresh,
-            containerColor = onBackgroundColor,
+            containerColor = Color.White,
             contentColor = MaterialTheme.colorScheme.primary,
             modifier = Modifier.size(56.dp)
         ) {

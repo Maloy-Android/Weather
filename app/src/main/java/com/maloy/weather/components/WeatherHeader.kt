@@ -1,6 +1,5 @@
 package com.maloy.weather.components
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,12 +23,10 @@ import com.maloy.weather.data.WeatherResponse
 
 @Composable
 fun WeatherHeader(weather: WeatherResponse) {
-    val isSystemDarkTheme = isSystemInDarkTheme()
-    val onBackgroundColor = if (!isSystemDarkTheme) Color.Black else Color.White
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = onBackgroundColor.copy(alpha = 0.15f))
+        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.15f))
     ) {
         Column(
             modifier = Modifier.padding(24.dp),
@@ -39,7 +36,7 @@ fun WeatherHeader(weather: WeatherResponse) {
                 text = "${weather.location.name}, ${weather.location.country}",
                 style = MaterialTheme.typography.headlineSmall.copy(
                     fontWeight = FontWeight.SemiBold,
-                    color = onBackgroundColor
+                    color = Color.White
                 ),
                 textAlign = TextAlign.Center
             )
@@ -50,25 +47,25 @@ fun WeatherHeader(weather: WeatherResponse) {
                 text = "${weather.current.temperature.toInt()}°",
                 style = MaterialTheme.typography.displayLarge.copy(
                     fontWeight = FontWeight.ExtraBold,
-                    color = onBackgroundColor
+                    color = Color.White
                 )
             )
 
             Text(
                 text = weather.current.condition,
-                style = MaterialTheme.typography.titleLarge.copy(color = onBackgroundColor.copy(alpha = 0.9f)),
+                style = MaterialTheme.typography.titleLarge.copy(color = Color.White.copy(alpha = 0.9f)),
                 modifier = Modifier.padding(top = 8.dp)
             )
 
             Text(
                 text = stringResource(R.string.feels_like, weather.current.feelsLike.toInt()),
-                style = MaterialTheme.typography.bodyLarge.copy(color = onBackgroundColor.copy(alpha = 0.8f)),
+                style = MaterialTheme.typography.bodyLarge.copy(color = Color.White.copy(alpha = 0.8f)),
                 modifier = Modifier.padding(top = 4.dp)
             )
             Text(
                 text = stringResource(R.string.yesterday_at_this_time, weather.current.yesterdayTemperature.toInt()),
                 style = MaterialTheme.typography.bodyMedium.copy(
-                    color = onBackgroundColor.copy(
+                    color = Color.White.copy(
                         alpha = 0.7f
                     )
                 ),

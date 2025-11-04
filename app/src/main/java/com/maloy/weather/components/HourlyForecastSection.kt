@@ -1,6 +1,5 @@
 package com.maloy.weather.components
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,25 +23,22 @@ import com.maloy.weather.R
 
 @Composable
 fun HourlyForecastSection(forecasts: List<HourlyForecast>) {
-    val isSystemDarkTheme = isSystemInDarkTheme()
-    val onBackgroundColor = if (!isSystemDarkTheme) Color.Black else Color.White
-
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 8.dp),
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = onBackgroundColor.copy(alpha = 0.15f)),
+        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.15f)),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Column(
             modifier = Modifier.padding(24.dp)
         ) {
             Text(
-                text = stringResource(R.string.yesterday_at_this_time),
+                text = stringResource(R.string.hourly_forecast_for_today),
                 style = MaterialTheme.typography.headlineSmall.copy(
                     fontWeight = FontWeight.SemiBold,
-                    color = onBackgroundColor
+                    color = Color.White
                 ),
                 textAlign = TextAlign.Center,
                 modifier = Modifier
@@ -55,7 +51,7 @@ fun HourlyForecastSection(forecasts: List<HourlyForecast>) {
                 modifier = Modifier.fillMaxWidth()
             ) {
                 items(forecasts.take(8)) { forecast ->
-                    HourlyForecastItem(forecast = forecast, onBackgroundColor = onBackgroundColor)
+                    HourlyForecastItem(forecast = forecast)
                 }
             }
         }

@@ -1,6 +1,5 @@
 package com.maloy.weather.components
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -27,8 +26,6 @@ import com.maloy.weather.R
 
 @Composable
 fun ErrorState(message: String, onRetry: () -> Unit) {
-    val isSystemDarkTheme = isSystemInDarkTheme()
-    val onBackgroundColor = if (!isSystemDarkTheme) Color.Black else Color.White
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -37,7 +34,7 @@ fun ErrorState(message: String, onRetry: () -> Unit) {
         Icon(
             painter = painterResource(R.drawable.error),
             contentDescription = null,
-            tint = onBackgroundColor,
+            tint = Color.White,
             modifier = Modifier.size(100.dp)
         )
 
@@ -47,13 +44,13 @@ fun ErrorState(message: String, onRetry: () -> Unit) {
             text = stringResource(R.string.error),
             style = MaterialTheme.typography.headlineSmall.copy(
                 fontWeight = FontWeight.SemiBold,
-                color = onBackgroundColor
+                color = Color.White
             )
         )
 
         Text(
             text = message,
-            style = MaterialTheme.typography.bodyLarge.copy(color = onBackgroundColor.copy(alpha = 0.8f)),
+            style = MaterialTheme.typography.bodyLarge.copy(color = Color.White.copy(alpha = 0.8f)),
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(horizontal = 32.dp, vertical = 16.dp)
         )

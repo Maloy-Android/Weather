@@ -1,7 +1,6 @@
 package com.maloy.weather.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -33,8 +32,6 @@ import com.maloy.weather.viewModels.WeatherViewModel
 
 @Composable
 fun WeatherApp(weatherViewModel: WeatherViewModel = viewModel()) {
-    val isSystemDarkTheme = isSystemInDarkTheme()
-    val onBackgroundColor = if (!isSystemDarkTheme) Color.Black else Color.White
     var searchText by remember { mutableStateOf("") }
     val weatherState by weatherViewModel.weatherState.collectAsState()
     val currentCity by weatherViewModel.currentCity.collectAsState()
@@ -61,7 +58,7 @@ fun WeatherApp(weatherViewModel: WeatherViewModel = viewModel()) {
                 text = stringResource(R.string.app_name),
                 style = MaterialTheme.typography.headlineLarge.copy(
                     fontWeight = FontWeight.ExtraBold,
-                    color = onBackgroundColor
+                    color = Color.White
                 ),
                 modifier = Modifier.padding(bottom = 32.dp, top = 16.dp)
             )

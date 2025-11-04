@@ -1,7 +1,6 @@
 package com.maloy.weather.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -39,15 +38,12 @@ fun SearchField(
     modifier: Modifier = Modifier
 ) {
     val focusManager = LocalFocusManager.current
-    val isSystemDarkTheme = isSystemInDarkTheme()
-    val onBackgroundColor = if (!isSystemDarkTheme) Color.Black else Color.White
-    val searchTextColor = if (isSystemDarkTheme) Color.Black else Color.White
 
     Box(
         modifier = modifier
             .height(56.dp)
             .background(
-               onBackgroundColor, RoundedCornerShape(16.dp)
+               Color.White, RoundedCornerShape(16.dp)
             )
     ) {
         Row(
@@ -82,7 +78,7 @@ fun SearchField(
                             onSearch()
                         }
                     },
-                textStyle = MaterialTheme.typography.bodyLarge.copy(searchTextColor),
+                textStyle = MaterialTheme.typography.bodyLarge.copy(Color.Black),
                 decorationBox = { innerTextField ->
                     Box(
                         contentAlignment = Alignment.CenterStart

@@ -1,7 +1,6 @@
 package com.maloy.weather.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -26,8 +25,6 @@ import com.maloy.weather.R
 
 @Composable
 fun IdleState() {
-    val isSystemDarkTheme = isSystemInDarkTheme()
-    val onBackgroundColor = if (!isSystemDarkTheme) Color.Black else Color.White
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -47,7 +44,7 @@ fun IdleState() {
             text = stringResource(R.string.search_description),
             style = MaterialTheme.typography.headlineSmall.copy(
                 fontWeight = FontWeight.Medium,
-                color = onBackgroundColor
+                color = Color.White
             ),
             textAlign = TextAlign.Center
         )
@@ -55,7 +52,7 @@ fun IdleState() {
         Text(
             text = stringResource(R.string.enter_city_name),
             style = MaterialTheme.typography.bodyLarge.copy(
-                color = onBackgroundColor.copy(alpha = 0.8f)
+                color = Color.White.copy(alpha = 0.8f)
             ),
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 8.dp)

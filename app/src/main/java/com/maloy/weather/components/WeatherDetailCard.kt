@@ -1,6 +1,5 @@
 package com.maloy.weather.components
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -23,12 +22,10 @@ import com.maloy.weather.data.WeatherDetailItem
 
 @Composable
 fun WeatherDetailCard(detail: WeatherDetailItem, modifier: Modifier = Modifier) {
-    val isSystemDarkTheme = isSystemInDarkTheme()
-    val onBackgroundColor = if (!isSystemDarkTheme) Color.Black else Color.White
     Card(
         modifier = modifier.height(100.dp),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = onBackgroundColor.copy(alpha = 0.15f))
+        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.15f))
     ) {
         Column(
             modifier = Modifier
@@ -41,7 +38,7 @@ fun WeatherDetailCard(detail: WeatherDetailItem, modifier: Modifier = Modifier) 
                 text = detail.value,
                 style = MaterialTheme.typography.titleLarge.copy(
                     fontWeight = FontWeight.Bold,
-                    color = onBackgroundColor
+                    color = Color.White
                 ),
                 textAlign = TextAlign.Center
             )
@@ -50,7 +47,7 @@ fun WeatherDetailCard(detail: WeatherDetailItem, modifier: Modifier = Modifier) 
 
             Text(
                 text = detail.label,
-                style = MaterialTheme.typography.bodySmall.copy(color = onBackgroundColor.copy(alpha = 0.8f)),
+                style = MaterialTheme.typography.bodySmall.copy(color = Color.White.copy(alpha = 0.8f)),
                 textAlign = TextAlign.Center
             )
         }
