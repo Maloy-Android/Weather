@@ -7,7 +7,7 @@ data class CurrentWeather(
     val humidity: Int,
     val feelsLike: Double,
     val pressure: Int,
-    val visibility: Double,
+    val uvIndex: Int,
     val yesterdayTemperature: Double,
     val hourlyForecast: List<HourlyForecast> = emptyList()
 )

@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.maloy.weather.data.WeatherDetailItem
 import com.maloy.weather.data.WeatherResponse
-import com.maloy.weather.utils.mapVisibility
 
 @Composable
 fun WeatherDetailsGrid(weather: WeatherResponse) {
@@ -21,7 +20,7 @@ fun WeatherDetailsGrid(weather: WeatherResponse) {
         WeatherDetailItem("💨 Ветер", "${weather.current.windSpeed.toInt()} м/с"),
         WeatherDetailItem("💧 Влажность", "${weather.current.humidity}%"),
         WeatherDetailItem("🌡️ Давление", "${weather.current.pressure}"),
-        WeatherDetailItem("👁️ Видимость", mapVisibility(weather.current.visibility))
+        WeatherDetailItem("☀️ УФ-индекс", "${weather.current.uvIndex}"),
     )
 
     Column(
