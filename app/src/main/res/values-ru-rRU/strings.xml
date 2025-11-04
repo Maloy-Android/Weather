@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Погода</string>
+    <string name="search">Введите название города…</string>
+    <string name="enter_city_name">Введите название города в поиске выше</string>
+    <string name="search_description">Узнайте погоду в любом городе</string>
+    <string name="loading_weather_data">Загрузка данных о погоде…</string>
+    <string name="feels_like">Ощущается как</string>
+    <string name="wind">Ветер</string>
+    <string name="humidity">Влажность</string>
+    <string name="pressure">Давление</string>
+    <string name="visibility">Видимость</string>
+    <string name="clear">Ясно</string>
+
+    <!-- Ошибки -->
+    <string name="error">Ошибка</string>
+    <string name="try_again">Попробовать снова</string>
+</resources>

@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Weather</string>
+    <string name="search">Enter city name…</string>
+    <string name="enter_city_name">Enter the city name in the search above</string>
+    <string name="search_description">Find out the weather in any city</string>
+    <string name="loading_weather_data">Loading weather data…</string>
+    <string name="feels_like">Feels like</string>
+    <string name="wind">Wind</string>
+    <string name="humidity">Humidity</string>
+    <string name="pressure">Pressure</string>
+    <string name="visibility">Visibility</string>
+    <string name="clear">Clear</string>
+
+    <!-- Errors -->
+    <string name="error">Error</string>
+    <string name="try_again">Try again</string>
+</resources>
