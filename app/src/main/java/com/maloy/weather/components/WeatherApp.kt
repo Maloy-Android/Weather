@@ -66,8 +66,7 @@ fun WeatherApp(weatherViewModel: WeatherViewModel = viewModel()) {
                 modifier = Modifier.padding(bottom = 32.dp, top = 16.dp)
             )
 
-            when(weatherState) {
-                is WeatherState.Idle->
+            if (weatherState is WeatherState.Idle || weatherState is WeatherState.Error) {
                 SearchField(
                     searchText = searchText,
                     onSearchTextChange = { searchText = it },
@@ -79,7 +78,6 @@ fun WeatherApp(weatherViewModel: WeatherViewModel = viewModel()) {
                     },
                     modifier = Modifier.fillMaxWidth()
                 )
-                else -> {}
             }
 
             Spacer(modifier = Modifier.height(32.dp))

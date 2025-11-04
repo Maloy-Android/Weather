@@ -27,7 +27,7 @@ class WeatherViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val weather = repository.getWeather(city)
-                _weatherState.value = WeatherState.Success(weather)
+                weather?.let { _weatherState.value = WeatherState.Success(it) }
             } catch (e: Exception) {
                 _weatherState.value = WeatherState.Error(e.message ?: "Неизвестная ошибка")
             }

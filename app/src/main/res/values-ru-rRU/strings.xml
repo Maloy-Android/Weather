@@ -4,7 +4,8 @@
     <string name="enter_city_name">Введите название города в поиске выше</string>
     <string name="search_description">Узнайте погоду в любом городе</string>
     <string name="loading_weather_data">Загрузка данных о погоде…</string>
-    <string name="feels_like">Ощущается как</string>
+    <string name="feels_like">Ощущается как %d°</string>
+    <string name="yesterday_at_this_time">Вчера в это время %d°</string>
     <string name="wind">Ветер</string>
     <string name="humidity">Влажность</string>
     <string name="pressure">Давление</string>

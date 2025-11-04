@@ -20,7 +20,7 @@ fun WeatherDetailsGrid(weather: WeatherResponse) {
     val details = listOf(
         WeatherDetailItem("💨 Ветер", "${weather.current.windSpeed.toInt()} м/с"),
         WeatherDetailItem("💧 Влажность", "${weather.current.humidity}%"),
-        WeatherDetailItem("🌡️ Давление", "${weather.current.pressure} мм рт.ст."),
+        WeatherDetailItem("🌡️ Давление", "${weather.current.pressure}"),
         WeatherDetailItem("👁️ Видимость", mapVisibility(weather.current.visibility))
     )
 

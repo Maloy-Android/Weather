@@ -6,10 +6,10 @@ import com.maloy.weather.data.WeatherResponse
 
 class WeatherRepository {
     private val yandexGeocodingService = YandexGeocodingService.create()
-    private val yandexWeatherService = YandexWeatherService.Companion.create("ВАШ API КЛЮЧ")
-    private val yandexGeocodingApiKey = "ВАШ КЛЮЧ ГЕОКОДА"
+    private val yandexWeatherService = YandexWeatherService.Companion.create("8f7cdf69-b220-46f6-8230-4fc569ed9f69")
+    private val yandexGeocodingApiKey = "d6d3c9b5-dec8-45f4-aabc-2080d876b697"
 
-    suspend fun getWeather(city: String): WeatherResponse {
+    suspend fun getWeather(city: String): WeatherResponse? {
         try {
             val geocodingResponse = yandexGeocodingService.geocode(
                 city = city,
@@ -40,7 +40,9 @@ class WeatherRepository {
                     humidity = weatherResponse.fact.humidity,
                     feelsLike = weatherResponse.fact.feels_like.toDouble(),
                     pressure = weatherResponse.fact.pressure_mm,
-                    visibility = weatherResponse.fact.visibility
+                    visibility = weatherResponse.fact.visibility,
+                    yesterdayTemperature = weatherResponse.forecasts.getOrNull(1)?.parts?.day?.temp_avg?.toDouble()
+                        ?: return null
                 )
             )
         } catch (e: Exception) {

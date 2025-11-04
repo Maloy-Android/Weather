@@ -4,7 +4,8 @@
     <string name="enter_city_name">Enter the city name in the search above</string>
     <string name="search_description">Find out the weather in any city</string>
     <string name="loading_weather_data">Loading weather data…</string>
-    <string name="feels_like">Feels like</string>
+    <string name="feels_like">Feels like %d°</string>
+    <string name="yesterday_at_this_time">Yesterday at this time %d°</string>
     <string name="wind">Wind</string>
     <string name="humidity">Humidity</string>
     <string name="pressure">Pressure</string>

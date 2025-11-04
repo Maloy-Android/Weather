@@ -7,5 +7,6 @@ data class CurrentWeather(
     val humidity: Int,
     val feelsLike: Double,
     val pressure: Int,
-    val visibility: Double
+    val visibility: Double,
+    val yesterdayTemperature: Double
 )

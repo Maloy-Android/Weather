@@ -42,7 +42,8 @@ fun WeatherDetailCard(detail: WeatherDetailItem, modifier: Modifier = Modifier) 
                 style = MaterialTheme.typography.titleLarge.copy(
                     fontWeight = FontWeight.Bold,
                     color = onBackgroundColor
-                )
+                ),
+                textAlign = TextAlign.Center
             )
 
             Spacer(modifier = Modifier.height(4.dp))

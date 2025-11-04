@@ -61,9 +61,18 @@ fun WeatherHeader(weather: WeatherResponse) {
             )
 
             Text(
-                text = stringResource(R.string.feels_like) + "${weather.current.feelsLike.toInt()}°",
+                text = stringResource(R.string.feels_like, weather.current.feelsLike.toInt()),
                 style = MaterialTheme.typography.bodyLarge.copy(color = onBackgroundColor.copy(alpha = 0.8f)),
                 modifier = Modifier.padding(top = 4.dp)
+            )
+            Text(
+                text = stringResource(R.string.yesterday_at_this_time, weather.current.yesterdayTemperature.toInt()),
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    color = onBackgroundColor.copy(
+                        alpha = 0.7f
+                    )
+                ),
+                modifier = Modifier.padding(top = 2.dp)
             )
         }
     }
