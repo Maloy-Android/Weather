@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Погода</string>
-    <string name="search">Введите название города…</string>
-    <string name="enter_city_name">Введите название города в поиске выше</string>
+    <string name="search">Поиск</string>
+    <string name="enter_city_name">Введите название города</string>
     <string name="search_description">Узнайте погоду в любом городе</string>
     <string name="loading_weather_data">Загрузка данных о погоде…</string>
     <string name="feels_like">Ощущается как %d°</string>
@@ -12,6 +12,11 @@
     <string name="visibility">Видимость</string>
     <string name="clear">Ясно</string>
     <string name="hourly_forecast_for_today">Почасовой прогноз на сегодня</string>
+    <string name="search_history">История поиска</string>
+    <string name="clear_history">Очистить</string>
+    <string name="about_app">О приложении</string>
+    <string name="developer">Разработчик</string>
+    <string name="app_info">Простое и красивое приложение для просмотра погоды с точными прогнозами и интуитивным интерфейсом. Получайте актуальную информацию о погодных условиях в любом городе мира.</string>
 
     <!-- Ошибки -->
     <string name="error">Ошибка</string>

@@ -47,7 +47,7 @@ fun SuccessState(weather: WeatherResponse, onRefresh: () -> Unit) {
             modifier = Modifier.size(56.dp)
         ) {
             Icon(
-                painter = painterResource(R.drawable.home),
+                painter = painterResource(R.drawable.refresh),
                 contentDescription = null,
                 modifier = Modifier.size(24.dp)
             )

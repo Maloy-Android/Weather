@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Weather</string>
-    <string name="search">Enter city name…</string>
-    <string name="enter_city_name">Enter the city name in the search above</string>
+    <string name="search">Search</string>
+    <string name="enter_city_name">Enter the city name</string>
     <string name="search_description">Find out the weather in any city</string>
     <string name="loading_weather_data">Loading weather data…</string>
     <string name="feels_like">Feels like %d°</string>
@@ -12,6 +12,11 @@
     <string name="visibility">Visibility</string>
     <string name="clear">Clear</string>
     <string name="hourly_forecast_for_today">Hourly forecast for today</string>
+    <string name="search_history">Search history</string>
+    <string name="clear_history">Clear</string>
+    <string name="about_app">About app</string>
+    <string name="developer">Developer</string>
+    <string name="app_info">A simple and beautiful weather app with accurate forecasts and an intuitive interface. Get up-to-date information about weather conditions in any city around the world.</string>
 
     <!-- Errors -->
     <string name="error">Error</string>

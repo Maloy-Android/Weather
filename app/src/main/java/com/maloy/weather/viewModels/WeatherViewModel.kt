@@ -1,5 +1,7 @@
 package com.maloy.weather.viewModels
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.maloy.weather.data.WeatherResponse
@@ -16,7 +18,10 @@ class WeatherViewModel : ViewModel() {
     val weatherState: StateFlow<WeatherState> = _weatherState.asStateFlow()
 
     private val _currentCity = MutableStateFlow("")
-    val currentCity = _currentCity.asStateFlow()
+    val currentCity: StateFlow<String> = _currentCity.asStateFlow()
+
+    private val _searchHistory = mutableStateOf<List<String>>(emptyList())
+    val searchHistory: State<List<String>> = _searchHistory
 
     fun loadWeather(city: String) {
         if (city.isBlank()) return
@@ -27,7 +32,10 @@ class WeatherViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val weather = repository.getWeather(city)
-                weather?.let { _weatherState.value = WeatherState.Success(it) }
+                weather?.let {
+                    _weatherState.value = WeatherState.Success(it)
+                    addToSearchHistory(city)
+                }
             } catch (e: Exception) {
                 _weatherState.value = WeatherState.Error(e.message ?: "Неизвестная ошибка")
             }
@@ -36,6 +44,20 @@ class WeatherViewModel : ViewModel() {
 
     fun resetState() {
         _weatherState.value = WeatherState.Idle
+    }
+
+    fun addToSearchHistory(city: String) {
+        val currentHistory = _searchHistory.value.toMutableList()
+        currentHistory.remove(city)
+        currentHistory.add(0, city)
+        if (currentHistory.size > 10) {
+            currentHistory.removeAt(currentHistory.lastIndex)
+        }
+        _searchHistory.value = currentHistory
+    }
+
+    fun clearSearchHistory() {
+        _searchHistory.value = emptyList()
     }
 }
 

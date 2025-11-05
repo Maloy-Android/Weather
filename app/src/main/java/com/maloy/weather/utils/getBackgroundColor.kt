@@ -1,6 +1,5 @@
 package com.maloy.weather.utils
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import com.maloy.weather.viewModels.WeatherState
@@ -12,11 +11,7 @@ fun getBackgroundColors(weatherState: WeatherState): List<Color> {
             getDynamicBackground(weatherState.weather.dayPhase)
         }
         else -> {
-            val isSystemDarkTheme = isSystemInDarkTheme()
-            if (!isSystemDarkTheme)
-                listOf(Color(0xFF667EEA), Color(0xFF764BA2))
-            else
-                listOf(Color(0xFF2C3E50), Color(0xFF34495E))
+            listOf(Color(0xFF2C3E50), Color(0xFF34495E))
         }
     }
 }

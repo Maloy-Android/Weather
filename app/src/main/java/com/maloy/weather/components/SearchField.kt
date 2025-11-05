@@ -1,33 +1,23 @@
 package com.maloy.weather.components
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.dp
 import com.maloy.weather.R
 
 @Composable
@@ -35,88 +25,53 @@ fun SearchField(
     searchText: String,
     onSearchTextChange: (String) -> Unit,
     onSearch: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    autoFocus: Boolean = false
 ) {
-    val focusManager = LocalFocusManager.current
+    val focusRequester = remember { FocusRequester() }
 
-    Box(
+    LaunchedEffect(autoFocus) {
+        if (autoFocus) {
+            focusRequester.requestFocus()
+        }
+    }
+
+    OutlinedTextField(
+        value = searchText,
+        onValueChange = onSearchTextChange,
         modifier = modifier
-            .height(56.dp)
-            .background(
-               Color.White, RoundedCornerShape(16.dp)
+            .focusRequester(focusRequester)
+            .onFocusChanged { it.isFocused },
+        placeholder = {
+            Text(
+                text = stringResource(R.string.enter_city_name),
+                color = Color.White.copy(alpha = 0.7f)
             )
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            IconButton(
-                onClick = {
-                    onSearchTextChange("")
-                    onSearch()
-                },
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.search),
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-
-            Spacer(modifier = Modifier.width(12.dp))
-
-            BasicTextField(
-                value = searchText,
-                onValueChange = onSearchTextChange,
-                modifier = Modifier
-                    .weight(1f)
-                    .onFocusChanged { focusState ->
-                        if (focusState.isFocused && searchText.isNotEmpty()) {
-                            onSearch()
-                        }
-                    },
-                textStyle = MaterialTheme.typography.bodyLarge.copy(Color.Black),
-                decorationBox = { innerTextField ->
-                    Box(
-                        contentAlignment = Alignment.CenterStart
-                    ) {
-                        if (searchText.isEmpty()) {
-                            Text(
-                                text = stringResource(R.string.search),
-                                style = MaterialTheme.typography.bodyLarge,
-                                color = Color.Gray
-                            )
-                        }
-                        innerTextField()
-                    }
-                },
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Text, imeAction = ImeAction.Search
-                ),
-                keyboardActions = KeyboardActions(
-                    onSearch = {
-                        onSearch()
-                        focusManager.clearFocus()
-                    }),
-                singleLine = true
-            )
-
-            if (searchText.isNotEmpty()) {
+        },
+        textStyle = MaterialTheme.typography.bodyLarge.copy(color = Color.White),
+        singleLine = true,
+        trailingIcon = {
+            if (searchText.isNotBlank()) {
                 IconButton(
                     onClick = {
                         onSearchTextChange("")
-                    }, modifier = Modifier.size(24.dp)
+                    }
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.clear),
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primary
+                        contentDescription = stringResource(R.string.clear),
+                        tint = Color.White.copy(alpha = 0.7f)
                     )
                 }
             }
-        }
-    }
+        },
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Search
+        ),
+        keyboardActions = KeyboardActions(
+            onSearch = {
+                onSearch()
+            }
+        )
+    )
 }

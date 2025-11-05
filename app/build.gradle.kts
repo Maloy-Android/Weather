@@ -14,7 +14,6 @@ android {
         targetSdk = 36
         versionCode = 4
         versionName = "1.3"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -57,5 +56,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.converter.gson)
-    implementation("org.jsoup:jsoup:1.17.1")
+    implementation(libs.coil)
+    implementation(libs.jsoup)
 }

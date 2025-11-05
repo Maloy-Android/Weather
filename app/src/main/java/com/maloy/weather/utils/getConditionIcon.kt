@@ -11,6 +11,6 @@ fun getConditionIcon(condition: String): String {
         "Снег" -> "❄️"
         "Гроза" -> "🌩️"
         "Туман" -> "🌫️"
-        else -> "🌈"
+        else -> ""
     }
 }
