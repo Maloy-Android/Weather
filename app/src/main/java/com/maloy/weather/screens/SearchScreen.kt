@@ -1,6 +1,8 @@
 package com.maloy.weather.screens
 
 import com.maloy.weather.components.SearchField
+import com.maloy.weather.components.SearchHistorySection
+import com.maloy.weather.components.SuggestionsSection
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,6 +19,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,7 +35,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.maloy.weather.R
-import com.maloy.weather.components.SearchHistorySection
 import com.maloy.weather.utils.getBackgroundColors
 import com.maloy.weather.viewModels.WeatherViewModel
 
@@ -45,6 +47,8 @@ fun SearchScreen(
 ) {
     var searchText by remember { mutableStateOf("") }
     val searchHistory by weatherViewModel.searchHistory
+    val suggestions by weatherViewModel.suggestions
+    val isLoadingSuggestions by weatherViewModel.isLoadingSuggestions
 
     val weatherState by weatherViewModel.weatherState.collectAsState()
     val backgroundGradient: Brush = Brush.verticalGradient(
@@ -52,6 +56,10 @@ fun SearchScreen(
         startY = 0f,
         endY = 1000f
     )
+
+    LaunchedEffect(searchText) {
+        weatherViewModel.getSuggestions(searchText)
+    }
 
     Box(
         modifier = Modifier
@@ -68,10 +76,16 @@ fun SearchScreen(
 
             SearchField(
                 searchText = searchText,
-                onSearchTextChange = { searchText = it },
+                onSearchTextChange = {
+                    searchText = it
+                    if (it.isEmpty()) {
+                        weatherViewModel.clearSuggestions()
+                    }
+                },
                 onSearch = {
                     if (searchText.isNotBlank()) {
                         onSearch(searchText)
+                        weatherViewModel.clearSuggestions()
                     }
                 },
                 modifier = Modifier.fillMaxWidth(),
@@ -80,12 +94,27 @@ fun SearchScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            if (searchHistory.isNotEmpty()) {
+            if (suggestions.isNotEmpty()) {
+                SuggestionsSection(
+                    suggestions = suggestions,
+                    isLoading = isLoadingSuggestions,
+                    onSuggestionClick = { suggestion ->
+                        searchText = suggestion.name
+                        onSearch(suggestion.name)
+                        weatherViewModel.clearSuggestions()
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+
+            if (searchHistory.isNotEmpty() && suggestions.isEmpty()) {
                 SearchHistorySection(
                     searchHistory = searchHistory,
                     onSuggestionClick = { city ->
                         searchText = city
                         onSearch(city)
+                        weatherViewModel.clearSuggestions()
                     },
                     onClearHistory = { weatherViewModel.clearSearchHistory() }
                 )
@@ -111,7 +140,10 @@ fun SearchScreen(
                 },
                 navigationIcon = {
                     IconButton(
-                        onClick = onBackClick
+                        onClick = {
+                            onBackClick()
+                            weatherViewModel.clearSuggestions()
+                        }
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.arrow_back),

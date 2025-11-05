@@ -4,8 +4,11 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.maloy.weather.data.GeocodingSuggestion
 import com.maloy.weather.data.WeatherResponse
 import com.maloy.weather.utils.WeatherRepository
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,6 +25,14 @@ class WeatherViewModel : ViewModel() {
 
     private val _searchHistory = mutableStateOf<List<String>>(emptyList())
     val searchHistory: State<List<String>> = _searchHistory
+
+    private val _suggestions = mutableStateOf<List<GeocodingSuggestion>>(emptyList())
+    val suggestions: State<List<GeocodingSuggestion>> = _suggestions
+
+    private val _isLoadingSuggestions = mutableStateOf(false)
+    val isLoadingSuggestions: State<Boolean> = _isLoadingSuggestions
+
+    private var suggestionsJob: Job? = null
 
     fun loadWeather(city: String) {
         if (city.isBlank()) return
@@ -58,6 +69,31 @@ class WeatherViewModel : ViewModel() {
 
     fun clearSearchHistory() {
         _searchHistory.value = emptyList()
+    }
+
+    fun getSuggestions(query: String) {
+        suggestionsJob?.cancel()
+        if (query.length < 2) {
+            _suggestions.value = emptyList()
+            return
+        }
+        suggestionsJob = viewModelScope.launch {
+            delay(300)
+            _isLoadingSuggestions.value = true
+            try {
+                val suggestions = repository.getCitySuggestions(query)
+                _suggestions.value = suggestions
+            } catch (_: Exception) {
+                _suggestions.value = emptyList()
+            } finally {
+                _isLoadingSuggestions.value = false
+            }
+        }
+    }
+
+    fun clearSuggestions() {
+        suggestionsJob?.cancel()
+        _suggestions.value = emptyList()
     }
 }
 

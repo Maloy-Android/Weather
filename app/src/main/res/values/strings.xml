@@ -17,6 +17,7 @@
     <string name="about_app">About app</string>
     <string name="developer">Developer</string>
     <string name="app_info">A simple and beautiful weather app with accurate forecasts and an intuitive interface. Get up-to-date information about weather conditions in any city around the world.</string>
+    <string name="suggestions">Suggestions</string>
 
     <!-- Errors -->
     <string name="error">Error</string>

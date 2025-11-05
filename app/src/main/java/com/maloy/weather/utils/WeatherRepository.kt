@@ -1,6 +1,7 @@
 package com.maloy.weather.utils
 
 import com.maloy.weather.data.CurrentWeather
+import com.maloy.weather.data.GeocodingSuggestion
 import com.maloy.weather.data.Location
 import com.maloy.weather.data.WeatherResponse
 
@@ -51,6 +52,26 @@ class WeatherRepository {
         } catch (e: Exception) {
             e.printStackTrace()
             throw Exception("Ошибка получения погоды: ${e.message ?: "Неизвестная ошибка"}")
+        }
+    }
+    suspend fun getCitySuggestions(query: String): List<GeocodingSuggestion> {
+        try {
+            if (query.length < 2) return emptyList()
+            val geocodingResponse = yandexGeocodingService.geocode(
+                city = query,
+                apiKey = yandexGeocodingApiKey,
+                results = 5
+            )
+            return geocodingResponse.response.GeoObjectCollection.featureMember.map { feature ->
+                val geoObject = feature.GeoObject
+                GeocodingSuggestion(
+                    name = geoObject.name,
+                    description = geoObject.description ?: ""
+                )
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return emptyList()
         }
     }
 }

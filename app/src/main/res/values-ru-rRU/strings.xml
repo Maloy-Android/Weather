@@ -17,6 +17,7 @@
     <string name="about_app">О приложении</string>
     <string name="developer">Разработчик</string>
     <string name="app_info">Простое и красивое приложение для просмотра погоды с точными прогнозами и интуитивным интерфейсом. Получайте актуальную информацию о погодных условиях в любом городе мира.</string>
+    <string name="suggestions">Предложения</string>
 
     <!-- Ошибки -->
     <string name="error">Ошибка</string>

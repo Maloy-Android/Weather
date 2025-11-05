@@ -14,7 +14,7 @@ interface YandexGeocodingService {
         @Query("apikey") apiKey: String,
         @Query("format") format: String = "json",
         @Query("lang") lang: String = "ru_RU",
-        @Query("results") results: Int = 1
+        @Query("results") results: Int = 10
     ): YandexGeocodingResponse
 
     companion object {
