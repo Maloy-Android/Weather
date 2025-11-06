@@ -1,9 +1,11 @@
 package com.maloy.weather.utils
 
 import com.maloy.weather.data.CurrentWeather
+import com.maloy.weather.data.WeeklyForecast
 import com.maloy.weather.data.GeocodingSuggestion
 import com.maloy.weather.data.Location
 import com.maloy.weather.data.WeatherResponse
+import com.maloy.weather.data.YandexWeatherResponse
 
 class WeatherRepository {
     private val yandexGeocodingService = YandexGeocodingService.create()
@@ -47,7 +49,8 @@ class WeatherRepository {
                         ?: return null,
                     hourlyForecast = getHourlyForecast(weatherResponse)
                 ),
-                dayPhase = dayPhase
+                dayPhase = dayPhase,
+                weeklyForecast = getWeeklyForecast(weatherResponse)
             )
         } catch (e: Exception) {
             e.printStackTrace()
@@ -72,6 +75,20 @@ class WeatherRepository {
         } catch (e: Exception) {
             e.printStackTrace()
             return emptyList()
+        }
+    }
+    private fun getWeeklyForecast(weatherResponse: YandexWeatherResponse): List<WeeklyForecast> {
+        return weatherResponse.forecasts.mapIndexed { index, forecast ->
+            WeeklyForecast(
+                date = formatDateForDisplay(forecast.date),
+                dayOfWeek = getDayOfWeek(forecast.date, index),
+                tempMin = forecast.parts.night.temp_avg ?: forecast.parts.day.temp_min ?: forecast.parts.night.temp_min ?: 0,
+                tempMax = forecast.parts.day.temp_avg ?: forecast.parts.day.temp_max ?: forecast.parts.night.temp_max ?: 0,
+                condition = mapYandexCondition(forecast.parts.day.condition ?: forecast.parts.night.condition ?: "clear"),
+                precipitation = forecast.parts.day.prec_prob ?: 0,
+                windSpeed = forecast.parts.day.wind_speed ?: 0.0,
+                humidity = forecast.parts.day.humidity ?: 0
+            )
         }
     }
 }

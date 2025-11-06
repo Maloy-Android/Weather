@@ -3,5 +3,6 @@ package com.maloy.weather.data
 data class WeatherResponse(
     val location: Location,
     val current: CurrentWeather,
-    val dayPhase: String
+    val dayPhase: String,
+    val weeklyForecast: List<WeeklyForecast> = emptyList()
 )

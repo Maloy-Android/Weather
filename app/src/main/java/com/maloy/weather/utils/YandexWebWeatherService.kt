@@ -13,7 +13,7 @@ interface YandexWeatherService {
     suspend fun getWeather(
         @Query("lat") lat: Double,
         @Query("lon") lon: Double,
-        @Query("limit") limit: Int = 2,
+        @Query("limit") limit: Int = 10,
         @Query("hours") hours: Boolean = true,
         @Query("extra") extra: Boolean = false
     ): YandexWeatherResponse

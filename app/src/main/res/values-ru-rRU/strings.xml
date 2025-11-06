@@ -18,6 +18,9 @@
     <string name="developer">Разработчик</string>
     <string name="app_info">Простое и красивое приложение для просмотра погоды с точными прогнозами и интуитивным интерфейсом. Получайте актуальную информацию о погодных условиях в любом городе мира.</string>
     <string name="suggestions">Предложения</string>
+    <string name="weekly_forecast">Прогноз на неделю</string>
+    <string name="day">День</string>
+    <string name="night">Ночь</string>
 
     <!-- Ошибки -->
     <string name="error">Ошибка</string>
