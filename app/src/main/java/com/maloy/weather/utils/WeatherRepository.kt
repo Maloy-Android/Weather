@@ -9,7 +9,8 @@ import com.maloy.weather.data.YandexWeatherResponse
 
 class WeatherRepository {
     private val yandexGeocodingService = YandexGeocodingService.create()
-    private val yandexWeatherService = YandexWeatherService.Companion.create("8f7cdf69-b220-46f6-8230-4fc569ed9f69")
+    private val yandexWeatherService =
+        YandexWeatherService.Companion.create("8f7cdf69-b220-46f6-8230-4fc569ed9f69")
     private val yandexGeocodingApiKey = "d6d3c9b5-dec8-45f4-aabc-2080d876b697"
 
     suspend fun getWeather(city: String): WeatherResponse? {
@@ -23,19 +24,20 @@ class WeatherRepository {
                 throw Exception("Город '$city' не найден")
             }
 
-            val geoObject = geocodingResponse.response.GeoObjectCollection.featureMember[0].GeoObject
-            val coordinates = geoObject.Point.pos.split(" ")
-            if (coordinates.size < 2) {
-                throw Exception("Неверные координаты для города '$city'")
-            }
-
-            val weatherResponse = yandexWeatherService.getWeather(lat = coordinates[1].toDouble(), lon =  coordinates[0].toDouble())
-            val dayPhase = getDayPhase(weatherResponse)
+            val weatherResponse = yandexWeatherService.getWeather(
+                lat = geocodingResponse.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(
+                    " "
+                )[1].toDouble(),
+                lon = geocodingResponse.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(
+                    " "
+                )[0].toDouble()
+            )
 
             return WeatherResponse(
                 location = Location(
-                    name = geoObject.name,
-                    country = geoObject.description ?: "",
+                    name = geocodingResponse.response.GeoObjectCollection.featureMember[0].GeoObject.name,
+                    country = geocodingResponse.response.GeoObjectCollection.featureMember[0].GeoObject.description
+                        ?: "",
                 ),
                 current = CurrentWeather(
                     temperature = weatherResponse.fact.temp.toDouble(),
@@ -44,12 +46,12 @@ class WeatherRepository {
                     humidity = weatherResponse.fact.humidity,
                     feelsLike = weatherResponse.fact.feels_like.toDouble(),
                     pressure = weatherResponse.fact.pressure_mm,
-                    uvIndex = weatherResponse.forecasts.firstOrNull()?.parts?.day?.uv_index ?: return null,
+                    uvIndex = weatherResponse.forecasts.firstOrNull()?.parts?.day?.uv_index ?: 0,
                     yesterdayTemperature = weatherResponse.forecasts.getOrNull(0)?.parts?.day?.temp_avg?.toDouble()
-                        ?: return null,
+                        ?: 0.0,
                     hourlyForecast = getHourlyForecast(weatherResponse)
                 ),
-                dayPhase = dayPhase,
+                dayPhase = getDayPhase(weatherResponse),
                 weeklyForecast = getWeeklyForecast(weatherResponse)
             )
         } catch (e: Exception) {
@@ -57,6 +59,7 @@ class WeatherRepository {
             throw Exception("Ошибка получения погоды: ${e.message ?: "Неизвестная ошибка"}")
         }
     }
+
     suspend fun getCitySuggestions(query: String): List<GeocodingSuggestion> {
         try {
             if (query.length < 2) return emptyList()
@@ -66,13 +69,14 @@ class WeatherRepository {
                 results = 5
             )
             return geocodingResponse.response.GeoObjectCollection.featureMember.map { feature ->
-                val geoObject = feature.GeoObject
-                val coordinates = geoObject.Point.pos.split(" ")
-                val weather = yandexWeatherService.getWeather(lat = coordinates[1].toDouble(), lon = coordinates[0].toDouble())
                 GeocodingSuggestion(
                     name = feature.GeoObject.name,
-                    description = geoObject.description ?: "",
-                    temperature = weather.fact.temp
+                    description = feature.GeoObject.description ?: "",
+                    temperature = yandexWeatherService.getWeather(
+                        lat = feature.GeoObject.Point.pos.split(
+                            " "
+                        )[1].toDouble(), lon = feature.GeoObject.Point.pos.split(" ")[0].toDouble()
+                    ).fact.temp
                 )
             }
         } catch (e: Exception) {
@@ -80,14 +84,19 @@ class WeatherRepository {
             return emptyList()
         }
     }
+
     private fun getWeeklyForecast(weatherResponse: YandexWeatherResponse): List<WeeklyForecast> {
         return weatherResponse.forecasts.mapIndexed { index, forecast ->
             WeeklyForecast(
                 date = formatDateForDisplay(forecast.date),
                 dayOfWeek = getDayOfWeek(forecast.date, index),
-                tempMin = forecast.parts.night.temp_avg ?: forecast.parts.day.temp_min ?: forecast.parts.night.temp_min ?: 0,
-                tempMax = forecast.parts.day.temp_avg ?: forecast.parts.day.temp_max ?: forecast.parts.night.temp_max ?: 0,
-                condition = mapYandexCondition(forecast.parts.day.condition ?: forecast.parts.night.condition ?: "clear"),
+                tempMin = forecast.parts.night.temp_avg ?: forecast.parts.day.temp_min
+                ?: forecast.parts.night.temp_min ?: 0,
+                tempMax = forecast.parts.day.temp_avg ?: forecast.parts.day.temp_max
+                ?: forecast.parts.night.temp_max ?: 0,
+                condition = mapYandexCondition(
+                    forecast.parts.day.condition ?: forecast.parts.night.condition ?: "clear"
+                ),
                 precipitation = forecast.parts.day.prec_prob ?: 0,
                 windSpeed = forecast.parts.day.wind_speed ?: 0.0,
                 humidity = forecast.parts.day.humidity ?: 0
