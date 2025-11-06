@@ -16,17 +16,7 @@ fun getDayOfWeek(dateString: String, index: Int): String {
             1 -> "Завтра"
             else -> {
                 val formatter = DateTimeFormatter.ofPattern("EEEE", Locale("ru"))
-                val dayName = date.format(formatter).replaceFirstChar { it.uppercase() }
-                when (dayName) {
-                    "Понедельник" -> "Пн"
-                    "Вторник" -> "Вт"
-                    "Среда" -> "Ср"
-                    "Четверг" -> "Чт"
-                    "Пятница" -> "Пт"
-                    "Суббота" -> "Сб"
-                    "Воскресенье" -> "Вс"
-                    else -> dayName
-                }
+                date.format(formatter).replaceFirstChar { it.uppercase() }
             }
         }
     } catch (_: Exception) {
