@@ -58,11 +58,13 @@ fun SuccessState(weather: WeatherResponse, onRefresh: () -> Unit) {
             Spacer(modifier = Modifier.height(32.dp))
         }
 
-        PullToRefreshContainer(
-            state = pullToRefreshState,
-            modifier = Modifier
-                .align(Alignment.TopCenter)
-                .offset(y = (-8).dp)
-        )
+        if (pullToRefreshState.isRefreshing) {
+            PullToRefreshContainer(
+                state = pullToRefreshState,
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .offset(y = (-8).dp)
+            )
+        }
     }
 }
