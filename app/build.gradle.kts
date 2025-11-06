@@ -58,4 +58,5 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.coil)
     implementation(libs.jsoup)
+    implementation(libs.datastore)
 }

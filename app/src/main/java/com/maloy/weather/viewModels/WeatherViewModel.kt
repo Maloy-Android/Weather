@@ -1,11 +1,13 @@
 package com.maloy.weather.viewModels
 
+import android.app.Application
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.maloy.weather.data.GeocodingSuggestion
 import com.maloy.weather.data.WeatherResponse
+import com.maloy.weather.utils.SearchHistoryManager
 import com.maloy.weather.utils.WeatherRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -14,8 +16,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class WeatherViewModel : ViewModel() {
+class WeatherViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = WeatherRepository()
+    private val searchHistoryManager = SearchHistoryManager(application.applicationContext)
 
     private val _weatherState = MutableStateFlow<WeatherState>(WeatherState.Idle)
     val weatherState: StateFlow<WeatherState> = _weatherState.asStateFlow()
@@ -33,6 +36,18 @@ class WeatherViewModel : ViewModel() {
     val isLoadingSuggestions: State<Boolean> = _isLoadingSuggestions
 
     private var suggestionsJob: Job? = null
+
+    init {
+        loadSearchHistory()
+    }
+
+    private fun loadSearchHistory() {
+        viewModelScope.launch {
+            searchHistoryManager.searchHistory.collect { history ->
+                _searchHistory.value = history
+            }
+        }
+    }
 
     fun loadWeather(city: String) {
         if (city.isBlank()) return
@@ -58,17 +73,23 @@ class WeatherViewModel : ViewModel() {
     }
 
     fun addToSearchHistory(city: String) {
-        val currentHistory = _searchHistory.value.toMutableList()
-        currentHistory.remove(city)
-        currentHistory.add(0, city)
-        if (currentHistory.size > 10) {
-            currentHistory.removeAt(currentHistory.lastIndex)
+        viewModelScope.launch {
+            val currentHistory = _searchHistory.value.toMutableList()
+            currentHistory.remove(city)
+            currentHistory.add(0, city)
+            if (currentHistory.size > 10) {
+                currentHistory.removeAt(currentHistory.lastIndex)
+            }
+            _searchHistory.value = currentHistory
+            searchHistoryManager.saveSearchHistory(currentHistory)
         }
-        _searchHistory.value = currentHistory
     }
 
     fun clearSearchHistory() {
-        _searchHistory.value = emptyList()
+        viewModelScope.launch {
+            _searchHistory.value = emptyList()
+            searchHistoryManager.clearSearchHistory()
+        }
     }
 
     fun getSuggestions(query: String) {
