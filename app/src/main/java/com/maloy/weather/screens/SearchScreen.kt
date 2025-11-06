@@ -1,5 +1,6 @@
 package com.maloy.weather.screens
 
+import androidx.activity.compose.BackHandler
 import com.maloy.weather.components.SearchField
 import com.maloy.weather.components.SearchHistorySection
 import com.maloy.weather.components.SuggestionsSection
@@ -162,6 +163,10 @@ fun SearchScreen(
                     containerColor = Color.Transparent
                 )
             )
+        }
+        BackHandler {
+            onBackClick()
+            weatherViewModel.clearSuggestions()
         }
     }
 }

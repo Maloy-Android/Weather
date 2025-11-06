@@ -1,5 +1,6 @@
 package com.maloy.weather.components
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -154,6 +155,11 @@ fun WeatherApp(
                     containerColor = Color.Transparent
                 )
             )
+        }
+        BackHandler(
+            enabled = weatherState is WeatherState.Success || weatherState is WeatherState.Error
+        ) {
+            weatherViewModel.resetState()
         }
     }
 }

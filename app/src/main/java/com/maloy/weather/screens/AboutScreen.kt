@@ -1,6 +1,7 @@
 package com.maloy.weather.screens
 
 import android.content.Intent
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -238,5 +239,8 @@ fun AboutScreen(
             )
             )
         }
+        BackHandler(
+            onBack = onBackClick
+        )
     }
 }
