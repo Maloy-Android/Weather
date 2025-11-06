@@ -90,7 +90,13 @@ fun WeatherApp(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(64.dp)
-                .background(backgroundGradient)
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            Color.Black.copy(alpha = 0.3f), Color.Transparent
+                        )
+                    )
+                )
                 .align(Alignment.TopCenter)
         ) {
             CenterAlignedTopAppBar(
