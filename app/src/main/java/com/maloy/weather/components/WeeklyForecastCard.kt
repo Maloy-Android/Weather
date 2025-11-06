@@ -104,16 +104,16 @@ fun WeeklyForecastItem(forecast: WeeklyForecast) {
             modifier = Modifier.weight(1.8f)
         ) {
             Text(
+                text = forecast.date,
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    color = Color.White.copy(alpha = 0.7f)
+                )
+            )
+            Text(
                 text = forecast.dayOfWeek,
                 style = MaterialTheme.typography.bodyLarge.copy(
                     fontWeight = FontWeight.Medium,
                     color = Color.White
-                )
-            )
-            Text(
-                text = forecast.date,
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    color = Color.White.copy(alpha = 0.7f)
                 )
             )
         }

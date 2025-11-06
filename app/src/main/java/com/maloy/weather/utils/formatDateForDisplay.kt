@@ -11,7 +11,7 @@ import java.util.Locale
 fun formatDateForDisplay(dateString: String): String {
     return try {
         val date = LocalDate.parse(dateString)
-        val formatter = DateTimeFormatter.ofPattern("dd.MM", Locale("ru"))
+        val formatter = DateTimeFormatter.ofPattern("d MMMM", Locale("ru"))
         date.format(formatter)
     } catch (_: Exception) {
         dateString

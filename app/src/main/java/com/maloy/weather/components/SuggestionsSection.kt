@@ -89,5 +89,11 @@ fun SuggestionItem(
                 )
             }
         }
+        Text(
+            text = "${suggestion.temperature}°",
+            style = MaterialTheme.typography.bodyLarge,
+            color = Color.White.copy(alpha = 0.9f),
+            modifier = Modifier.padding(start = 8.dp)
+        )
     }
 }

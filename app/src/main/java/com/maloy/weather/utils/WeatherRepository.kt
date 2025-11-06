@@ -67,9 +67,12 @@ class WeatherRepository {
             )
             return geocodingResponse.response.GeoObjectCollection.featureMember.map { feature ->
                 val geoObject = feature.GeoObject
+                val coordinates = geoObject.Point.pos.split(" ")
+                val weather = yandexWeatherService.getWeather(lat = coordinates[1].toDouble(), lon = coordinates[0].toDouble())
                 GeocodingSuggestion(
-                    name = geoObject.name,
-                    description = geoObject.description ?: ""
+                    name = feature.GeoObject.name,
+                    description = geoObject.description ?: "",
+                    temperature = weather.fact.temp
                 )
             }
         } catch (e: Exception) {
