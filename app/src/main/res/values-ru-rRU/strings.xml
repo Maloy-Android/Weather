@@ -21,6 +21,8 @@
     <string name="weekly_forecast">Прогноз на неделю</string>
     <string name="day">День</string>
     <string name="night">Ночь</string>
+    <string name="moon_phase">Фаза луны</string>
+    <string name="illumination">Освещенность: %d%%</string>
 
     <!-- Ошибки -->
     <string name="error">Ошибка</string>

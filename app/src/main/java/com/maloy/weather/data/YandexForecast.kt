@@ -4,5 +4,6 @@ data class YandexForecast(
     val date: String,
     val date_ts: Long,
     val parts: YandexForecastParts,
-    val hours: List<YandexHour>?
+    val hours: List<YandexHour>?,
+    val moon_code: Int?
 )

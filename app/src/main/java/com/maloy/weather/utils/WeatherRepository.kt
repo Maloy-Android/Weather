@@ -25,19 +25,14 @@ class WeatherRepository {
             }
 
             val weatherResponse = yandexWeatherService.getWeather(
-                lat = geocodingResponse.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(
-                    " "
-                )[1].toDouble(),
-                lon = geocodingResponse.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(
-                    " "
-                )[0].toDouble()
+                lat = geocodingResponse.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(" ")[1].toDouble(),
+                lon = geocodingResponse.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(" ")[0].toDouble()
             )
 
             return WeatherResponse(
                 location = Location(
                     name = geocodingResponse.response.GeoObjectCollection.featureMember[0].GeoObject.name,
-                    country = geocodingResponse.response.GeoObjectCollection.featureMember[0].GeoObject.description
-                        ?: "",
+                    country = geocodingResponse.response.GeoObjectCollection.featureMember[0].GeoObject.description ?: "",
                 ),
                 current = CurrentWeather(
                     temperature = weatherResponse.fact.temp.toDouble(),
@@ -47,12 +42,12 @@ class WeatherRepository {
                     feelsLike = weatherResponse.fact.feels_like.toDouble(),
                     pressure = weatherResponse.fact.pressure_mm,
                     uvIndex = weatherResponse.forecasts.firstOrNull()?.parts?.day?.uv_index ?: 0,
-                    yesterdayTemperature = weatherResponse.forecasts.getOrNull(0)?.parts?.day?.temp_avg?.toDouble()
-                        ?: 0.0,
+                    yesterdayTemperature = weatherResponse.forecasts.getOrNull(0)?.parts?.day?.temp_avg?.toDouble() ?: 0.0,
                     hourlyForecast = getHourlyForecast(weatherResponse)
                 ),
                 dayPhase = getDayPhase(weatherResponse),
-                weeklyForecast = getWeeklyForecast(weatherResponse)
+                weeklyForecast = getWeeklyForecast(weatherResponse),
+                moonData = getMoonData(weatherResponse.forecasts.firstOrNull()?.moon_code)
             )
         } catch (e: Exception) {
             e.printStackTrace()

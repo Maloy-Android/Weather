@@ -55,8 +55,14 @@ fun SuccessState(weather: WeatherResponse, onRefresh: () -> Unit) {
 
             WeatherDetailsGrid(weather = weather)
 
+            Spacer(modifier = Modifier.height(16.dp))
+
+            if (weather.moonData != null) {
+                MoonPhaseCard(moonData = weather.moonData)
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+
             if (weather.weeklyForecast.isNotEmpty()) {
-                Spacer(modifier = Modifier.height(24.dp))
                 WeeklyForecastCard(forecasts = weather.weeklyForecast)
             }
 

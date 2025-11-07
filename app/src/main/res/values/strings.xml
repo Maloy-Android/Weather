@@ -21,6 +21,8 @@
     <string name="weekly_forecast">Weekly forecast</string>
     <string name="day">Day</string>
     <string name="night">Night</string>
+    <string name="moon_phase">Moon phase</string>
+    <string name="illumination">Illumination: %d%%</string>
 
     <!-- Errors -->
     <string name="error">Error</string>
