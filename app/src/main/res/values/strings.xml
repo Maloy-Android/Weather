@@ -23,6 +23,12 @@
     <string name="night">Night</string>
     <string name="moon_phase">Moon phase</string>
     <string name="illumination">Illumination: %d%%</string>
+    <string name="today">Today</string>
+    <string name="warmer_than_yesterday">On %d° warmer than yesterday</string>
+    <string name="colder_than_yesterday">On %d° colder than yesterday</string>
+    <string name="same_as_yesterday">Just like yesterday</string>
+    <string name="precipitation_chance">Probability of precipitation: %d%%</string>
+
 
     <!-- Errors -->
     <string name="error">Error</string>

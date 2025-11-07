@@ -23,6 +23,11 @@
     <string name="night">Ночь</string>
     <string name="moon_phase">Фаза луны</string>
     <string name="illumination">Освещенность: %d%%</string>
+    <string name="today">Сегодня</string>
+    <string name="warmer_than_yesterday">На %d° теплее, чем вчера</string>
+    <string name="colder_than_yesterday">На %d° холоднее, чем вчера</string>
+    <string name="same_as_yesterday">Так же, как вчера</string>
+    <string name="precipitation_chance">Вероятность осадков: %d%%</string>
 
     <!-- Ошибки -->
     <string name="error">Ошибка</string>
