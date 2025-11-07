@@ -49,11 +49,15 @@ fun SearchHistorySection(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        searchHistory.forEach { city ->
-            SearchHistoryItem(
-                city = city,
-                onClick = { onSuggestionClick(city) }
-            )
+        Column(
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            searchHistory.forEach { city ->
+                SearchHistoryItem(
+                    city = city,
+                    onClick = { onSuggestionClick(city) }
+                )
+            }
         }
     }
 }

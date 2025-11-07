@@ -64,6 +64,10 @@ class WeatherRepository {
                 results = 5
             )
             return geocodingResponse.response.GeoObjectCollection.featureMember.map { feature ->
+                val weatherResponse = yandexWeatherService.getWeather(
+                    lat = feature.GeoObject.Point.pos.split(" ")[1].toDouble(),
+                    lon = feature.GeoObject.Point.pos.split(" ")[0].toDouble()
+                )
                 GeocodingSuggestion(
                     name = feature.GeoObject.name,
                     description = feature.GeoObject.description ?: "",
@@ -71,7 +75,8 @@ class WeatherRepository {
                         lat = feature.GeoObject.Point.pos.split(
                             " "
                         )[1].toDouble(), lon = feature.GeoObject.Point.pos.split(" ")[0].toDouble()
-                    ).fact.temp
+                    ).fact.temp,
+                    condition = mapYandexCondition(weatherResponse.fact.condition)
                 )
             }
         } catch (e: Exception) {
