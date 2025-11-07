@@ -10,7 +10,7 @@ import retrofit2.http.Query
 interface YandexGeocodingService {
     @GET("1.x")
     suspend fun geocode(
-        @Query("geocode") city: String,
+        @Query("geocode") query: String,
         @Query("apikey") apiKey: String,
         @Query("format") format: String = "json",
         @Query("lang") lang: String = "ru_RU",

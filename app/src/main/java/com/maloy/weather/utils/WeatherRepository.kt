@@ -16,7 +16,7 @@ class WeatherRepository {
     suspend fun getWeather(city: String): WeatherResponse? {
         try {
             val geocodingResponse = yandexGeocodingService.geocode(
-                city = city,
+                query = city,
                 apiKey = yandexGeocodingApiKey
             )
 
@@ -59,7 +59,7 @@ class WeatherRepository {
         try {
             if (query.length < 2) return emptyList()
             val geocodingResponse = yandexGeocodingService.geocode(
-                city = query,
+                query = query,
                 apiKey = yandexGeocodingApiKey,
                 results = 5
             )

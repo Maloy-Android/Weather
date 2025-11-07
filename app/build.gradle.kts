@@ -59,4 +59,5 @@ dependencies {
     implementation(libs.coil)
     implementation(libs.jsoup)
     implementation(libs.datastore)
+    implementation(libs.location)
 }

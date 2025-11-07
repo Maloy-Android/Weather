@@ -1,12 +1,14 @@
 package com.maloy.weather.viewModels
 
 import android.app.Application
+import android.content.Context
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.maloy.weather.data.GeocodingSuggestion
 import com.maloy.weather.data.WeatherResponse
+import com.maloy.weather.utils.LocationUtils
 import com.maloy.weather.utils.SearchHistoryManager
 import com.maloy.weather.utils.WeatherRepository
 import kotlinx.coroutines.Job
@@ -36,6 +38,7 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
     val isLoadingSuggestions: State<Boolean> = _isLoadingSuggestions
 
     private var suggestionsJob: Job? = null
+    private val _isLoadingLocation = MutableStateFlow(false)
 
     init {
         loadSearchHistory()
@@ -115,6 +118,39 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
     fun clearSuggestions() {
         suggestionsJob?.cancel()
         _suggestions.value = emptyList()
+    }
+
+    fun loadWeatherByLocation(context: Context) {
+        _isLoadingLocation.value = true
+        viewModelScope.launch {
+            LocationUtils.getCurrentLocation(
+                context = context,
+                onSuccess = { lat, lon ->
+                    viewModelScope.launch {
+                        try {
+                            val cityName = LocationUtils.getCityNameFromLocation(context, lat, lon)
+
+                            if (cityName != "Неизвестный город") {
+                                _currentCity.value = cityName
+                                loadWeather(cityName)
+                            } else {
+                                _weatherState.value = WeatherState.Error("Не удалось определить город")
+                                _isLoadingLocation.value = false
+                            }
+                        } catch (_: Exception) {
+                            _weatherState.value = WeatherState.Error("Ошибка определения города")
+                            _isLoadingLocation.value = false
+                        }
+                    }
+                },
+                onError = { error ->
+                    viewModelScope.launch {
+                        _weatherState.value = WeatherState.Error(error)
+                        _isLoadingLocation.value = false
+                    }
+                }
+            )
+        }
     }
 }
 
