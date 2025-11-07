@@ -46,8 +46,6 @@ fun WeatherApp(
     val weatherState by weatherViewModel.weatherState.collectAsState()
     val currentCity by weatherViewModel.currentCity.collectAsState()
     val context = LocalContext.current
-
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val backgroundGradient: Brush = Brush.verticalGradient(
         colors = getBackgroundColors(weatherState),
         startY = 0f,
@@ -113,7 +111,6 @@ fun WeatherApp(
                         )
                     )
                 },
-                scrollBehavior = scrollBehavior,
                 navigationIcon = {
                     when {
                         weatherState is WeatherState.Success || weatherState is WeatherState.Error -> {

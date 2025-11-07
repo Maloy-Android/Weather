@@ -56,7 +56,6 @@ fun AboutScreen(
     onBackClick: () -> Unit, weatherViewModel: WeatherViewModel = viewModel()
 ) {
     val context = LocalContext.current
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val weatherState by weatherViewModel.weatherState.collectAsState()
     val backgroundGradient = Brush.verticalGradient(
         colors = getBackgroundColors(weatherState), startY = 0f, endY = 1000f
@@ -134,8 +133,9 @@ fun AboutScreen(
                                 )
                                 context.startActivity(intent)
                             }), colors = CardDefaults.cardColors(
-                    containerColor = Color.White.copy(alpha = 0.1f)
-                ), shape = MaterialTheme.shapes.large) {
+                        containerColor = Color.White.copy(alpha = 0.1f)
+                    ), shape = MaterialTheme.shapes.large
+                ) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -218,25 +218,26 @@ fun AboutScreen(
         ) {
             CenterAlignedTopAppBar(
                 title = {
-                Text(
-                    text = stringResource(R.string.about_app),
-                    style = MaterialTheme.typography.headlineSmall.copy(
-                        fontWeight = FontWeight.Bold, color = Color.White
+                    Text(
+                        text = stringResource(R.string.about_app),
+                        style = MaterialTheme.typography.headlineSmall.copy(
+                            fontWeight = FontWeight.Bold, color = Color.White
+                        )
                     )
+                },
+                navigationIcon = {
+                    IconButton(
+                        onClick = onBackClick
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.arrow_back),
+                            contentDescription = null,
+                            tint = Color.White
+                        )
+                    }
+                }, colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Color.Transparent
                 )
-            }, scrollBehavior = scrollBehavior, navigationIcon = {
-                IconButton(
-                    onClick = onBackClick
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.arrow_back),
-                        contentDescription = null,
-                        tint = Color.White
-                    )
-                }
-            }, colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                containerColor = Color.Transparent
-            )
             )
         }
         BackHandler(
