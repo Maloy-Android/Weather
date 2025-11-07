@@ -34,7 +34,9 @@ fun WeatherHeader(weather: WeatherResponse) {
         colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.15f))
     ) {
         Column(
-            modifier = Modifier.padding(24.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
@@ -43,14 +45,16 @@ fun WeatherHeader(weather: WeatherResponse) {
                     fontWeight = FontWeight.SemiBold,
                     color = Color.White
                 ),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
                     text = "${weather.current.temperature.toInt()}°",
@@ -72,22 +76,33 @@ fun WeatherHeader(weather: WeatherResponse) {
             Text(
                 text = weather.current.condition,
                 style = MaterialTheme.typography.titleLarge.copy(color = Color.White.copy(alpha = 0.9f)),
-                modifier = Modifier.padding(top = 8.dp)
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp)
             )
 
             Text(
                 text = stringResource(R.string.feels_like, weather.current.feelsLike.toInt()),
                 style = MaterialTheme.typography.bodyLarge.copy(color = Color.White.copy(alpha = 0.8f)),
-                modifier = Modifier.padding(top = 4.dp)
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 4.dp)
             )
+
             Text(
-                text = stringResource(R.string.yesterday_at_this_time, weather.current.yesterdayTemperature.toInt()),
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    color = Color.White.copy(
-                        alpha = 0.7f
-                    )
+                text = stringResource(
+                    R.string.yesterday_at_this_time,
+                    weather.current.yesterdayTemperature.toInt()
                 ),
-                modifier = Modifier.padding(top = 2.dp)
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    color = Color.White.copy(alpha = 0.7f)
+                ),
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 2.dp)
             )
         }
     }
