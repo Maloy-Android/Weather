@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -114,37 +113,52 @@ fun WeatherApp(
                 navigationIcon = {
                     when {
                         weatherState is WeatherState.Success || weatherState is WeatherState.Error -> {
-                            IconButton(
-                                onClick = {
-                                    weatherViewModel.resetState()
+                            Box {
+                                IconButton(
+                                    onClick = {
+                                        weatherViewModel.resetState()
+                                    }
+                                ) {
+                                    Icon(
+                                        painter = painterResource(R.drawable.arrow_back),
+                                        contentDescription = null,
+                                        tint = Color.White
+                                    )
                                 }
+                                IconButton(
+                                    onClick = onSearchClick,
+                                    modifier = Modifier.padding(start = 48.dp)
+                                ) {
+                                    Icon(
+                                        painter = painterResource(R.drawable.search),
+                                        contentDescription = stringResource(R.string.search),
+                                        tint = Color.White
+                                    )
+                                }
+                            }
+                        }
+
+                        else -> {
+                            IconButton(
+                                onClick = onSearchClick
                             ) {
                                 Icon(
-                                    painter = painterResource(R.drawable.arrow_back),
-                                    contentDescription = null,
+                                    painter = painterResource(R.drawable.search),
+                                    contentDescription = stringResource(R.string.search),
                                     tint = Color.White
                                 )
                             }
                         }
-                        else -> {
-                            Spacer(modifier = Modifier.size(48.dp))
-                        }
                     }
                 },
                 actions = {
-                    IconButton(
-                        onClick = onSearchClick
-                    ) {
-                        Icon(
-                            painter = painterResource(R.drawable.search),
-                            contentDescription = stringResource(R.string.search),
-                            tint = Color.White
-                        )
-                    }
                     if (weatherState is WeatherState.Success) {
                         IconButton(
                             onClick = {
-                                shareWeather(context, (weatherState as WeatherState.Success).weather)
+                                shareWeather(
+                                    context,
+                                    (weatherState as WeatherState.Success).weather
+                                )
                             }
                         ) {
                             Icon(
