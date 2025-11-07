@@ -6,7 +6,6 @@ import com.maloy.weather.data.WeatherResponse
 
 fun shareWeather(context: Context, weather: WeatherResponse) {
     val shareText = createWeatherShareText(weather)
-
     val intent = Intent(Intent.ACTION_SEND).apply {
         type = "text/plain"
         putExtra(Intent.EXTRA_SUBJECT, "Погода в ${weather.location.name}")
@@ -19,31 +18,15 @@ fun shareWeather(context: Context, weather: WeatherResponse) {
 private fun createWeatherShareText(weather: WeatherResponse): String {
     return """
         🌤️ Погода в ${weather.location.name}
-        
         Сейчас: ${weather.current.temperature.toInt()}°C, ${weather.current.condition}
         Ощущается как: ${weather.current.feelsLike.toInt()}°C
-        
         💨 Ветер: ${weather.current.windSpeed.toInt()} м/с
         💧 Влажность: ${weather.current.humidity}%
         🌡️ Давление: ${weather.current.pressure} мм рт.ст.
         ☀️ УФ-индекс: ${weather.current.uvIndex}
-        
         ${getWeatherEmoji(weather.current.condition)} Сегодня: ${getDailyForecastSummary(weather)}
-        
         #Погода #${weather.location.name.replace(" ", "")}
     """.trimIndent()
-}
-
-private fun getWeatherEmoji(condition: String): String {
-    return when {
-        condition.contains("Ясно") -> "☀️"
-        condition.contains("Облачно") -> "⛅"
-        condition.contains("Пасмурно") -> "☁️"
-        condition.contains("Дождь") -> "🌧️"
-        condition.contains("Снег") -> "❄️"
-        condition.contains("Гроза") -> "⛈️"
-        else -> ""
-    }
 }
 
 private fun getDailyForecastSummary(weather: WeatherResponse): String {

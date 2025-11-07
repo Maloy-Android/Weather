@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.maloy.weather.data.GeocodingSuggestion
 import com.maloy.weather.data.WeatherResponse
 import com.maloy.weather.utils.LocationUtils
+import com.maloy.weather.utils.NotificationService
 import com.maloy.weather.utils.SearchHistoryManager
 import com.maloy.weather.utils.WeatherRepository
 import kotlinx.coroutines.Job
@@ -40,6 +41,8 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
     private var suggestionsJob: Job? = null
     private val _isLoadingLocation = MutableStateFlow(false)
 
+    private val notificationService = NotificationService(application.applicationContext)
+
     init {
         loadSearchHistory()
     }
@@ -64,6 +67,7 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
                 weather?.let {
                     _weatherState.value = WeatherState.Success(it)
                     addToSearchHistory(city)
+                    showWeatherNotification(it)
                 }
             } catch (e: Exception) {
                 _weatherState.value = WeatherState.Error(e.message ?: "Неизвестная ошибка")
@@ -71,8 +75,17 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
+    private fun showWeatherNotification(weather: WeatherResponse) {
+        viewModelScope.launch {
+            notificationService.sendCurrentWeather(weather)
+        }
+    }
+
     fun resetState() {
         _weatherState.value = WeatherState.Idle
+        viewModelScope.launch {
+            notificationService.cancelNotification()
+        }
     }
 
     fun addToSearchHistory(city: String) {

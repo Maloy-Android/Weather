@@ -23,29 +23,35 @@ fun AppNavigation() {
     val context = LocalContext.current
 
     var hasRequestedPermission by remember { mutableStateOf(false) }
+
     val permissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
-        if (permissions.values.all { it }) {
+        val allGranted = permissions.values.all { it }
+
+        if (allGranted) {
             weatherViewModel.loadWeatherByLocation(context)
         } else {
-            weatherViewModel.resetState()
+            val hasLocation = PermissionUtils.hasLocationPermission(context)
+            if (hasLocation) {
+                weatherViewModel.loadWeatherByLocation(context)
+            } else {
+                weatherViewModel.resetState()
+            }
         }
     }
 
     LaunchedEffect(Unit) {
         if (!hasRequestedPermission) {
             hasRequestedPermission = true
-
-            if (PermissionUtils.hasLocationPermission(context)) {
+            val hasLocation = PermissionUtils.hasLocationPermission(context)
+            val hasNotifications = PermissionUtils.hasNotificationPermission(context)
+            if (hasLocation && hasNotifications) {
+                weatherViewModel.loadWeatherByLocation(context)
+            } else if (hasLocation) {
                 weatherViewModel.loadWeatherByLocation(context)
             } else {
-                permissionLauncher.launch(
-                    arrayOf(
-                        android.Manifest.permission.ACCESS_FINE_LOCATION,
-                        android.Manifest.permission.ACCESS_COARSE_LOCATION
-                    )
-                )
+                permissionLauncher.launch(PermissionUtils.getRequiredPermissions())
             }
         }
     }
