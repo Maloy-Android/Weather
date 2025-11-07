@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -31,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.maloy.weather.R
 import com.maloy.weather.utils.getBackgroundColors
+import com.maloy.weather.utils.shareWeather
 import com.maloy.weather.viewModels.WeatherState
 import com.maloy.weather.viewModels.WeatherViewModel
 
@@ -43,6 +45,7 @@ fun WeatherApp(
 ) {
     val weatherState by weatherViewModel.weatherState.collectAsState()
     val currentCity by weatherViewModel.currentCity.collectAsState()
+    val context = LocalContext.current
 
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val backgroundGradient: Brush = Brush.verticalGradient(
@@ -140,6 +143,19 @@ fun WeatherApp(
                             contentDescription = stringResource(R.string.search),
                             tint = Color.White
                         )
+                    }
+                    if (weatherState is WeatherState.Success) {
+                        IconButton(
+                            onClick = {
+                                shareWeather(context, (weatherState as WeatherState.Success).weather)
+                            }
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.share),
+                                contentDescription = null,
+                                tint = Color.White
+                            )
+                        }
                     }
                     IconButton(
                         onClick = onAboutClick
