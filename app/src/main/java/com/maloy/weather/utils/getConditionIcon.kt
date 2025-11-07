@@ -1,12 +1,17 @@
 package com.maloy.weather.utils
 
-fun getConditionIcon(condition: String): String? {
+import com.maloy.weather.data.YandexWeatherResponse
+
+fun getConditionIcon(condition: String, weatherResponse: YandexWeatherResponse?): String? {
+    val isDay = weatherResponse?.fact?.is_day == 1
     return when (condition) {
-        "Ясно" -> "☀️"
+        "Ясно" -> if (isDay) "☀️" else "🌙"
+        "Облачно" -> "⛅"
         "Малооблачно" -> "🌤️"
         "Облачно с прояснениями" -> "⛅"
         "Пасмурно" -> "☁️"
-        "Дождь", "Небольшой дождь" -> "🌧️"
+        "Дождь" -> "🌧️"
+        "Небольшой дождь" -> "🌧️"
         "Ливень" -> "⛈️"
         "Снег" -> "❄️"
         "Гроза" -> "🌩️"
@@ -15,13 +20,16 @@ fun getConditionIcon(condition: String): String? {
     }
 }
 
-fun getWeatherEmoji(condition: String): String {
+fun getWeatherEmoji(condition: String, weatherResponse: YandexWeatherResponse?): String {
+    val isDay = weatherResponse?.fact?.is_day == 1
     return when {
-        condition.contains("Ясно") -> "☀️"
-        condition.contains("Малооблачно") -> "🌤️"
+        condition.contains("Ясно") -> if (isDay) "☀️" else "🌙"
         condition.contains("Облачно") -> "⛅"
+        condition.contains("Малооблачно") -> "🌤️"
+        condition.contains("Облачно с прояснениями") -> "⛅"
         condition.contains("Пасмурно") -> "☁️"
         condition.contains("Дождь") -> "🌧️"
+        condition.contains("Небольшой дождь") -> "🌧️"
         condition.contains("Ливень") -> "⛈️"
         condition.contains("Снег") -> "❄️"
         condition.contains("Гроза") -> "🌩️"

@@ -24,7 +24,7 @@ private fun createWeatherShareText(weather: WeatherResponse): String {
         💧 Влажность: ${weather.current.humidity}%
         🌡️ Давление: ${weather.current.pressure} мм рт.ст.
         ☀️ УФ-индекс: ${weather.current.uvIndex}
-        ${getWeatherEmoji(weather.current.condition)} Сегодня: ${getDailyForecastSummary(weather)}
+        ${getWeatherEmoji(weather.current.condition, weatherResponse = null)} Сегодня: ${getDailyForecastSummary(weather)}
         #Погода #${weather.location.name.replace(" ", "")}
     """.trimIndent()
 }

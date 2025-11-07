@@ -121,7 +121,7 @@ fun SuggestionItem(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.End
             ) {
-                getConditionIcon(suggestion.condition)?.let { icon ->
+                getConditionIcon(suggestion.condition,weatherResponse = null)?.let { icon ->
                     Text(
                         text = icon,
                         style = MaterialTheme.typography.bodyLarge

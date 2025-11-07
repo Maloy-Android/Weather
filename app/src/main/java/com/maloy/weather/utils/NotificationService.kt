@@ -40,7 +40,7 @@ class NotificationService(private val context: Context) {
         if (!PermissionUtils.hasNotificationPermission(context)) {
             return
         }
-        val emoji = getWeatherEmoji(weather.current.condition)
+        val emoji = getWeatherEmoji(weather.current.condition, weatherResponse = null)
         val title = "$emoji Погода в ${weather.location.name}"
 
         val message = """

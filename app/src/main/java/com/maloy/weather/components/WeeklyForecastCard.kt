@@ -118,7 +118,7 @@ fun WeeklyForecastItem(forecast: WeeklyForecast) {
             )
         }
 
-        getConditionIcon(forecast.condition)?.let { icon ->
+        getConditionIcon(forecast.condition, weatherResponse = null)?.let { icon ->
             Text(
                 text = icon,
                 style = MaterialTheme.typography.headlineSmall,
