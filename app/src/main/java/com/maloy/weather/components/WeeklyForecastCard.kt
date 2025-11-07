@@ -118,12 +118,14 @@ fun WeeklyForecastItem(forecast: WeeklyForecast) {
             )
         }
 
-        Text(
-            text = getConditionIcon(forecast.condition),
-            style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier.weight(1f),
-            textAlign = TextAlign.Center
-        )
+        getConditionIcon(forecast.condition)?.let { icon ->
+            Text(
+                text = icon,
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier.weight(1f),
+                textAlign = TextAlign.Center
+            )
+        }
 
         if (forecast.precipitation > 0) {
             Column(

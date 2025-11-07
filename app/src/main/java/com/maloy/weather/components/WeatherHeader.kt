@@ -64,13 +64,16 @@ fun WeatherHeader(weather: WeatherResponse) {
                     )
                 )
 
-                Spacer(modifier = Modifier.width(16.dp))
-
-                Text(
-                    text = getConditionIcon(weather.current.condition),
-                    style = MaterialTheme.typography.displayLarge,
-                    modifier = Modifier.size(80.dp)
-                )
+                getConditionIcon(weather.current.condition)?.let { icon ->
+                    if (icon.isNotEmpty()) {
+                        Spacer(modifier = Modifier.width(16.dp))
+                        Text(
+                            text = icon,
+                            style = MaterialTheme.typography.displayLarge,
+                            modifier = Modifier.size(80.dp)
+                        )
+                    }
+                }
             }
 
             Text(

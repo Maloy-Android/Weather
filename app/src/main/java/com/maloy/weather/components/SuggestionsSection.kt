@@ -121,10 +121,12 @@ fun SuggestionItem(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.End
             ) {
-                Text(
-                    text = getConditionIcon(suggestion.condition),
-                    style = MaterialTheme.typography.bodyLarge
-                )
+                getConditionIcon(suggestion.condition)?.let { icon ->
+                    Text(
+                        text = icon,
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                }
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = "${suggestion.temperature}°",

@@ -1,6 +1,6 @@
 package com.maloy.weather.utils
 
-fun getConditionIcon(condition: String): String {
+fun getConditionIcon(condition: String): String? {
     return when (condition) {
         "Ясно" -> "☀️"
         "Малооблачно" -> "🌤️"
@@ -11,7 +11,7 @@ fun getConditionIcon(condition: String): String {
         "Снег" -> "❄️"
         "Гроза" -> "🌩️"
         "Туман" -> "🌫️"
-        else -> "🌈"
+        else -> null
     }
 }
 
@@ -26,6 +26,6 @@ fun getWeatherEmoji(condition: String): String {
         condition.contains("Снег") -> "❄️"
         condition.contains("Гроза") -> "🌩️"
         condition.contains("Туман") -> "🌫️"
-        else -> "🌈"
-    }
+        else -> null
+    }!!
 }

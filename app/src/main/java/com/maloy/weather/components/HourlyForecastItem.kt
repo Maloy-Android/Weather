@@ -41,9 +41,11 @@ fun HourlyForecastItem(forecast: HourlyForecast) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        Text(
-            text = getConditionIcon(forecast.condition),
-            style = MaterialTheme.typography.bodyLarge
-        )
+        getConditionIcon(forecast.condition)?.let { icon ->
+            Text(
+                text = icon,
+                style = MaterialTheme.typography.bodyLarge
+            )
+        }
     }
 }
