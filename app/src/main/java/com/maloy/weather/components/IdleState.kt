@@ -38,7 +38,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.maloy.weather.R
+import com.maloy.weather.constans.ThemeType
+import com.maloy.weather.constans.themeType
 import com.maloy.weather.utils.PermissionUtils
+import com.maloy.weather.utils.rememberEnumPreference
 import com.maloy.weather.viewModels.WeatherViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -48,6 +51,13 @@ fun IdleState() {
     val weatherViewModel: WeatherViewModel = viewModel()
     val context = LocalContext.current
     var hasRequestedPermission by remember { mutableStateOf(false) }
+
+    val (themeType) = rememberEnumPreference(themeType, defaultValue = ThemeType.GRADIENT)
+    val textColor = when(themeType) {
+        ThemeType.DARK -> Color.White
+        ThemeType.LIGHT -> Color.Black
+        ThemeType.GRADIENT -> Color.White
+    }
 
     val permissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -108,7 +118,7 @@ fun IdleState() {
                 text = stringResource(R.string.search_description),
                 style = MaterialTheme.typography.headlineSmall.copy(
                     fontWeight = FontWeight.Medium,
-                    color = Color.White
+                    color = textColor
                 ),
                 textAlign = TextAlign.Center
             )

@@ -17,6 +17,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.maloy.weather.R
+import com.maloy.weather.constans.ThemeType
+import com.maloy.weather.constans.themeType
+import com.maloy.weather.utils.rememberEnumPreference
 
 @Composable
 fun SearchHistorySection(
@@ -25,6 +28,12 @@ fun SearchHistorySection(
     onClearHistory: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val (themeType) = rememberEnumPreference(themeType, defaultValue = ThemeType.GRADIENT)
+    val textColor = when(themeType) {
+        ThemeType.DARK -> Color.White
+        ThemeType.LIGHT -> Color.Black
+        ThemeType.GRADIENT -> Color.White
+    }
     Column(modifier = modifier.fillMaxWidth()) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -34,7 +43,7 @@ fun SearchHistorySection(
             Text(
                 text = stringResource(R.string.search_history),
                 style = MaterialTheme.typography.bodyMedium,
-                color = Color.White,
+                color = textColor,
                 fontWeight = FontWeight.Medium
             )
             TextButton(
@@ -42,7 +51,7 @@ fun SearchHistorySection(
             ) {
                 Text(
                     text = stringResource(R.string.clear_history),
-                    color = Color.White.copy(alpha = 0.7f)
+                    color = textColor.copy(alpha = 0.7f)
                 )
             }
         }

@@ -16,9 +16,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.maloy.weather.R
+import com.maloy.weather.constans.ThemeType
+import com.maloy.weather.constans.themeType
+import com.maloy.weather.utils.rememberEnumPreference
 
 @Composable
 fun LoadingState() {
+    val (themeType) = rememberEnumPreference(themeType, defaultValue = ThemeType.GRADIENT)
+    val textColor = when(themeType) {
+        ThemeType.DARK -> Color.White
+        ThemeType.LIGHT -> Color.Black
+        ThemeType.GRADIENT -> Color.White
+    }
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -26,7 +35,7 @@ fun LoadingState() {
     ) {
         CircularProgressIndicator(
             modifier = Modifier.size(60.dp),
-            color = Color.White,
+            color = textColor,
             strokeWidth = 3.dp
         )
 
@@ -34,7 +43,7 @@ fun LoadingState() {
 
         Text(
             text = stringResource(R.string.loading_weather_data),
-            style = MaterialTheme.typography.bodyLarge.copy(color = Color.White)
+            style = MaterialTheme.typography.bodyLarge.copy(color = textColor)
         )
     }
 }

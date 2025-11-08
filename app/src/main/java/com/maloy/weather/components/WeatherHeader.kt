@@ -23,15 +23,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.maloy.weather.R
+import com.maloy.weather.constans.ThemeType
+import com.maloy.weather.constans.themeType
 import com.maloy.weather.data.WeatherResponse
 import com.maloy.weather.utils.getConditionIcon
+import com.maloy.weather.utils.rememberEnumPreference
 
 @Composable
 fun WeatherHeader(weather: WeatherResponse) {
+    val (themeType) = rememberEnumPreference(themeType, defaultValue = ThemeType.GRADIENT)
+    val textColor = when(themeType) {
+        ThemeType.DARK -> Color.White
+        ThemeType.LIGHT -> Color.Black
+        ThemeType.GRADIENT -> Color.White
+    }
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.15f))
+        colors = CardDefaults.cardColors(containerColor = textColor.copy(alpha = 0.15f))
     ) {
         Column(
             modifier = Modifier
@@ -43,7 +52,7 @@ fun WeatherHeader(weather: WeatherResponse) {
                 text = "${weather.location.name}, ${weather.location.country}",
                 style = MaterialTheme.typography.headlineSmall.copy(
                     fontWeight = FontWeight.SemiBold,
-                    color = Color.White
+                    color = textColor
                 ),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
@@ -60,7 +69,7 @@ fun WeatherHeader(weather: WeatherResponse) {
                     text = "${weather.current.temperature.toInt()}°",
                     style = MaterialTheme.typography.displayLarge.copy(
                         fontWeight = FontWeight.ExtraBold,
-                        color = Color.White
+                        color = textColor
                     )
                 )
 
@@ -78,7 +87,7 @@ fun WeatherHeader(weather: WeatherResponse) {
 
             Text(
                 text = weather.current.condition,
-                style = MaterialTheme.typography.titleLarge.copy(color = Color.White.copy(alpha = 0.9f)),
+                style = MaterialTheme.typography.titleLarge.copy(color = textColor.copy(alpha = 0.9f)),
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -87,7 +96,7 @@ fun WeatherHeader(weather: WeatherResponse) {
 
             Text(
                 text = stringResource(R.string.feels_like, weather.current.feelsLike.toInt()),
-                style = MaterialTheme.typography.bodyLarge.copy(color = Color.White.copy(alpha = 0.8f)),
+                style = MaterialTheme.typography.bodyLarge.copy(color = textColor.copy(alpha = 0.8f)),
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -100,7 +109,7 @@ fun WeatherHeader(weather: WeatherResponse) {
                     weather.current.yesterdayTemperature.toInt()
                 ),
                 style = MaterialTheme.typography.bodyMedium.copy(
-                    color = Color.White.copy(alpha = 0.7f)
+                    color = textColor.copy(alpha = 0.7f)
                 ),
                 textAlign = TextAlign.Center,
                 modifier = Modifier

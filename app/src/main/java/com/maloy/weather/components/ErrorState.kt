@@ -23,9 +23,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.maloy.weather.R
+import com.maloy.weather.constans.ThemeType
+import com.maloy.weather.constans.themeType
+import com.maloy.weather.utils.rememberEnumPreference
 
 @Composable
 fun ErrorState(message: String, onRetry: () -> Unit) {
+    val (themeType) = rememberEnumPreference(themeType, defaultValue = ThemeType.GRADIENT)
+    val textColor = when(themeType) {
+        ThemeType.DARK -> Color.White
+        ThemeType.LIGHT -> Color.Black
+        ThemeType.GRADIENT -> Color.White
+    }
+
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -34,7 +44,7 @@ fun ErrorState(message: String, onRetry: () -> Unit) {
         Icon(
             painter = painterResource(R.drawable.error),
             contentDescription = null,
-            tint = Color.White,
+            tint = textColor,
             modifier = Modifier.size(100.dp)
         )
 
@@ -44,13 +54,13 @@ fun ErrorState(message: String, onRetry: () -> Unit) {
             text = stringResource(R.string.error),
             style = MaterialTheme.typography.headlineSmall.copy(
                 fontWeight = FontWeight.SemiBold,
-                color = Color.White
+                color = textColor
             )
         )
 
         Text(
             text = message,
-            style = MaterialTheme.typography.bodyLarge.copy(color = Color.White.copy(alpha = 0.8f)),
+            style = MaterialTheme.typography.bodyLarge.copy(color = textColor.copy(alpha = 0.8f)),
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(horizontal = 32.dp, vertical = 16.dp)
         )

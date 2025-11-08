@@ -23,6 +23,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.maloy.weather.R
+import com.maloy.weather.constans.ThemeType
+import com.maloy.weather.constans.themeType
+import com.maloy.weather.utils.rememberEnumPreference
 
 @Composable
 fun SearchHistoryItem(
@@ -30,11 +33,17 @@ fun SearchHistoryItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val (themeType) = rememberEnumPreference(themeType, defaultValue = ThemeType.GRADIENT)
+    val textColor = when(themeType) {
+        ThemeType.DARK -> Color.White
+        ThemeType.LIGHT -> Color.Black
+        ThemeType.GRADIENT -> Color.White
+    }
     Box(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
-            .background(Color.White.copy(alpha = 0.1f))
+            .background(textColor.copy(alpha = 0.1f))
             .clickable { onClick() }
             .padding(horizontal = 16.dp, vertical = 14.dp)
     ) {
@@ -46,14 +55,14 @@ fun SearchHistoryItem(
             Icon(
                 painter = painterResource(R.drawable.history),
                 contentDescription = null,
-                tint = Color.White.copy(alpha = 0.7f),
+                tint = textColor.copy(alpha = 0.7f),
                 modifier = Modifier.size(20.dp)
             )
             Spacer(modifier = Modifier.width(12.dp))
             Text(
                 text = city,
                 style = MaterialTheme.typography.bodyLarge.copy(
-                    color = Color.White.copy(alpha = 0.9f),
+                    color = textColor.copy(alpha = 0.9f),
                     fontWeight = FontWeight.Medium
                 ),
                 modifier = Modifier.weight(1f)

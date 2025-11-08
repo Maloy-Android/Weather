@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.maloy.weather.screens
 
 import android.content.Intent
@@ -47,24 +49,54 @@ import androidx.core.net.toUri
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.maloy.weather.R
+import com.maloy.weather.components.EnumListPreference
+import com.maloy.weather.constans.ThemeType
+import com.maloy.weather.constans.themeType
 import com.maloy.weather.utils.getBackgroundColors
+import com.maloy.weather.utils.rememberEnumPreference
 import com.maloy.weather.viewModels.WeatherViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AboutScreen(
-    onBackClick: () -> Unit, weatherViewModel: WeatherViewModel = viewModel()
+    onBackClick: () -> Unit,
+    weatherViewModel: WeatherViewModel = viewModel()
 ) {
     val context = LocalContext.current
     val weatherState by weatherViewModel.weatherState.collectAsState()
     val backgroundGradient = Brush.verticalGradient(
-        colors = getBackgroundColors(weatherState), startY = 0f, endY = 1000f
+        colors = getBackgroundColors(weatherState),
+        startY = 0f,
+        endY = 1000f
     )
+
+    val (themeType, onThemeTypeChange) = rememberEnumPreference(
+        themeType,
+        defaultValue = ThemeType.GRADIENT
+    )
+
+    val backgroundColors = when(themeType) {
+        ThemeType.DARK -> Color.Black
+        ThemeType.LIGHT -> Color.White
+        ThemeType.GRADIENT -> backgroundGradient
+    }
+
+    val textColor = when(themeType) {
+        ThemeType.DARK -> Color.White
+        ThemeType.LIGHT -> Color.Black
+        ThemeType.GRADIENT -> Color.White
+    }
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(backgroundGradient)
+            .then(
+                when (backgroundColors) {
+                    is Brush -> Modifier.background(backgroundColors)
+                    is Color -> Modifier.background(backgroundColors)
+                    else -> Modifier
+                }
+            )
     ) {
         Box(
             modifier = Modifier
@@ -72,8 +104,10 @@ fun AboutScreen(
                 .background(
                     brush = Brush.radialGradient(
                         colors = listOf(
-                            MaterialTheme.colorScheme.primary.copy(alpha = 0.1f), Color.Transparent
-                        ), radius = 500f
+                            MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+                            Color.Transparent
+                        ),
+                        radius = 500f
                     )
                 )
         )
@@ -88,7 +122,7 @@ fun AboutScreen(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(32.dp),
+                    .padding(horizontal = 32.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Box(
@@ -108,7 +142,8 @@ fun AboutScreen(
                 Text(
                     text = stringResource(R.string.app_name),
                     style = MaterialTheme.typography.headlineLarge.copy(
-                        fontWeight = FontWeight.ExtraBold, color = Color.White
+                        fontWeight = FontWeight.ExtraBold,
+                        color = textColor
                     ),
                     textAlign = TextAlign.Center
                 )
@@ -116,17 +151,20 @@ fun AboutScreen(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = "1.3", style = MaterialTheme.typography.bodyMedium.copy(
-                        color = Color.White.copy(alpha = 0.8f)
+                    text = "1.3",
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        color = textColor.copy(alpha = 0.8f)
                     )
                 )
 
                 Spacer(modifier = Modifier.height(32.dp))
 
                 Card(
-                    modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(
-                        containerColor = Color.White.copy(alpha = 0.1f)
-                    ), shape = MaterialTheme.shapes.large
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(
+                        containerColor = textColor.copy(alpha = 0.1f)
+                    ),
+                    shape = MaterialTheme.shapes.large
                 ) {
                     Column(
                         modifier = Modifier.padding(20.dp)
@@ -134,7 +172,8 @@ fun AboutScreen(
                         Text(
                             text = stringResource(R.string.about_app),
                             style = MaterialTheme.typography.titleMedium.copy(
-                                fontWeight = FontWeight.Bold, color = Color.White
+                                fontWeight = FontWeight.Bold,
+                                color = textColor
                             )
                         )
 
@@ -143,7 +182,8 @@ fun AboutScreen(
                         Text(
                             text = stringResource(R.string.app_info),
                             style = MaterialTheme.typography.bodyMedium.copy(
-                                color = Color.White.copy(alpha = 0.8f), lineHeight = 22.sp
+                                color = textColor.copy(alpha = 0.8f),
+                                lineHeight = 22.sp
                             ),
                             textAlign = TextAlign.Start
                         )
@@ -153,17 +193,73 @@ fun AboutScreen(
                 Spacer(modifier = Modifier.height(24.dp))
 
                 Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(
+                        containerColor = textColor.copy(alpha = 0.1f)
+                    ),
+                    shape = MaterialTheme.shapes.large
+                ) {
+                    Column(
+                        modifier = Modifier.padding(vertical = 8.dp)
+                    ) {
+                        Text(
+                            text = stringResource(R.string.settings),
+                            style = MaterialTheme.typography.titleLarge.copy(
+                                fontWeight = FontWeight.Bold,
+                                color = textColor
+                            ),
+                            modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp)
+                        )
+
+                        EnumListPreference(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 8.dp),
+                            title = {
+                                Text(
+                                    stringResource(R.string.theme_title),
+                                    style = MaterialTheme.typography.titleMedium.copy(
+                                        color = textColor
+                                    )
+                                )
+                            },
+                            icon = {
+                                Icon(
+                                    painterResource(R.drawable.palette),
+                                    null,
+                                    tint = textColor
+                                )
+                            },
+                            selectedValue = themeType,
+                            valueText = {
+                                when (it) {
+                                    ThemeType.GRADIENT -> stringResource(R.string.theme_gradient)
+                                    ThemeType.LIGHT -> stringResource(R.string.theme_light)
+                                    ThemeType.DARK -> stringResource(R.string.theme_dark)
+                                }
+                            },
+                            onValueSelected = onThemeTypeChange,
+                            textColor = textColor
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable(
-                            onClick = {
-                                val intent = Intent(
-                                    Intent.ACTION_VIEW, "https://github.com/Maloy-Android".toUri()
-                                )
-                                context.startActivity(intent)
-                            }), colors = CardDefaults.cardColors(
-                        containerColor = Color.White.copy(alpha = 0.1f)
-                    ), shape = MaterialTheme.shapes.large
+                        .clickable {
+                            val intent = Intent(
+                                Intent.ACTION_VIEW,
+                                "https://github.com/Maloy-Android".toUri()
+                            )
+                            context.startActivity(intent)
+                        },
+                    colors = CardDefaults.cardColors(
+                        containerColor = textColor.copy(alpha = 0.1f)
+                    ),
+                    shape = MaterialTheme.shapes.large
                 ) {
                     Row(
                         modifier = Modifier
@@ -189,13 +285,14 @@ fun AboutScreen(
                             Text(
                                 text = "Maloy-Android (@MaloyBegonia)",
                                 style = MaterialTheme.typography.titleLarge.copy(
-                                    fontWeight = FontWeight.Bold, color = Color.White
+                                    fontWeight = FontWeight.Bold,
+                                    color = textColor
                                 )
                             )
                             Text(
                                 text = stringResource(R.string.developer),
                                 style = MaterialTheme.typography.bodyMedium.copy(
-                                    color = Color.White.copy(alpha = 0.7f)
+                                    color = textColor.copy(alpha = 0.7f)
                                 )
                             )
                         }
@@ -207,16 +304,17 @@ fun AboutScreen(
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable(
-                            onClick = {
-                                val intent = Intent(
-                                    Intent.ACTION_VIEW,
-                                    "https://github.com/Maloy-Android/Weather".toUri()
-                                )
-                                context.startActivity(intent)
-                            }), colors = CardDefaults.cardColors(
-                        containerColor = Color.White.copy(alpha = 0.1f)
-                    ), shape = MaterialTheme.shapes.large
+                        .clickable {
+                            val intent = Intent(
+                                Intent.ACTION_VIEW,
+                                "https://github.com/Maloy-Android/Weather".toUri()
+                            )
+                            context.startActivity(intent)
+                        },
+                    colors = CardDefaults.cardColors(
+                        containerColor = textColor.copy(alpha = 0.1f)
+                    ),
+                    shape = MaterialTheme.shapes.large
                 ) {
                     Row(
                         modifier = Modifier
@@ -242,18 +340,21 @@ fun AboutScreen(
                             Text(
                                 text = stringResource(R.string.source_code),
                                 style = MaterialTheme.typography.titleLarge.copy(
-                                    fontWeight = FontWeight.Bold, color = Color.White
+                                    fontWeight = FontWeight.Bold,
+                                    color = textColor
                                 )
                             )
                             Text(
                                 text = stringResource(R.string.source_code_description),
                                 style = MaterialTheme.typography.bodyMedium.copy(
-                                    color = Color.White.copy(alpha = 0.7f)
+                                    color = textColor.copy(alpha = 0.7f)
                                 )
                             )
                         }
                     }
                 }
+
+                Spacer(modifier = Modifier.height(32.dp))
             }
         }
 
@@ -263,7 +364,8 @@ fun AboutScreen(
                 .background(
                     brush = Brush.verticalGradient(
                         colors = listOf(
-                            Color.Black.copy(alpha = 0.3f), Color.Transparent
+                            Color.Black.copy(alpha = 0.3f),
+                            Color.Transparent
                         )
                     )
                 )
@@ -274,7 +376,8 @@ fun AboutScreen(
                     Text(
                         text = stringResource(R.string.about_app),
                         style = MaterialTheme.typography.headlineSmall.copy(
-                            fontWeight = FontWeight.Bold, color = Color.White
+                            fontWeight = FontWeight.Bold,
+                            color = textColor
                         )
                     )
                 },
@@ -285,14 +388,16 @@ fun AboutScreen(
                         Icon(
                             painter = painterResource(R.drawable.arrow_back),
                             contentDescription = null,
-                            tint = Color.White
+                            tint = textColor
                         )
                     }
-                }, colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = Color.Transparent
                 )
             )
         }
+
         BackHandler(
             onBack = onBackClick
         )

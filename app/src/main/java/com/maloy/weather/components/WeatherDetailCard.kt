@@ -18,14 +18,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.maloy.weather.constans.ThemeType
+import com.maloy.weather.constans.themeType
 import com.maloy.weather.data.WeatherDetailItem
+import com.maloy.weather.utils.rememberEnumPreference
 
 @Composable
 fun WeatherDetailCard(detail: WeatherDetailItem, modifier: Modifier = Modifier) {
+    val (themeType) = rememberEnumPreference(themeType, defaultValue = ThemeType.GRADIENT)
+    val textColor = when(themeType) {
+        ThemeType.DARK -> Color.White
+        ThemeType.LIGHT -> Color.Black
+        ThemeType.GRADIENT -> Color.White
+    }
     Card(
         modifier = modifier.height(100.dp),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.15f))
+        colors = CardDefaults.cardColors(containerColor = textColor.copy(alpha = 0.15f))
     ) {
         Column(
             modifier = Modifier
@@ -38,7 +47,7 @@ fun WeatherDetailCard(detail: WeatherDetailItem, modifier: Modifier = Modifier) 
                 text = detail.value,
                 style = MaterialTheme.typography.titleLarge.copy(
                     fontWeight = FontWeight.Bold,
-                    color = Color.White
+                    color = textColor
                 ),
                 textAlign = TextAlign.Center
             )
@@ -47,7 +56,7 @@ fun WeatherDetailCard(detail: WeatherDetailItem, modifier: Modifier = Modifier) 
 
             Text(
                 text = detail.label,
-                style = MaterialTheme.typography.bodySmall.copy(color = Color.White.copy(alpha = 0.8f)),
+                style = MaterialTheme.typography.bodySmall.copy(color = textColor.copy(alpha = 0.8f)),
                 textAlign = TextAlign.Center
             )
         }

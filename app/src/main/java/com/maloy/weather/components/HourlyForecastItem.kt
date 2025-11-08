@@ -12,11 +12,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.maloy.weather.constans.ThemeType
+import com.maloy.weather.constans.themeType
 import com.maloy.weather.data.HourlyForecast
 import com.maloy.weather.utils.getHourlyConditionIcon
+import com.maloy.weather.utils.rememberEnumPreference
 
 @Composable
 fun HourlyForecastItem(forecast: HourlyForecast) {
+    val (themeType) = rememberEnumPreference(themeType, defaultValue = ThemeType.GRADIENT)
+    val textColor = when(themeType) {
+        ThemeType.DARK -> Color.White
+        ThemeType.LIGHT -> Color.Black
+        ThemeType.GRADIENT -> Color.White
+    }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.width(80.dp)
@@ -24,7 +33,7 @@ fun HourlyForecastItem(forecast: HourlyForecast) {
         Text(
             text = forecast.time,
             style = MaterialTheme.typography.bodyLarge.copy(
-                color = Color.White.copy(alpha = 0.9f),
+                color = textColor.copy(alpha = 0.9f),
                 fontWeight = FontWeight.Medium
             )
         )
@@ -35,7 +44,7 @@ fun HourlyForecastItem(forecast: HourlyForecast) {
             text = "${forecast.temperature}°",
             style = MaterialTheme.typography.titleLarge.copy(
                 fontWeight = FontWeight.Bold,
-                color = Color.White
+                color = textColor
             )
         )
 

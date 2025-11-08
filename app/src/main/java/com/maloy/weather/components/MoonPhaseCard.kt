@@ -24,15 +24,25 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.maloy.weather.R
+import com.maloy.weather.constans.ThemeType
+import com.maloy.weather.constans.themeType
 import com.maloy.weather.data.MoonData
 import com.maloy.weather.utils.getMoonEmoji
+import com.maloy.weather.utils.rememberEnumPreference
 
 @Composable
 fun MoonPhaseCard(moonData: MoonData) {
+    val (themeType) = rememberEnumPreference(themeType, defaultValue = ThemeType.GRADIENT)
+    val textColor = when(themeType) {
+        ThemeType.DARK -> Color.White
+        ThemeType.LIGHT -> Color.Black
+        ThemeType.GRADIENT -> Color.White
+    }
+
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.15f))
+        colors = CardDefaults.cardColors(containerColor = textColor.copy(alpha = 0.15f))
     ) {
         Column(
             modifier = Modifier.padding(20.dp)
@@ -41,7 +51,7 @@ fun MoonPhaseCard(moonData: MoonData) {
                 text = stringResource(R.string.moon_phase),
                 style = MaterialTheme.typography.titleMedium.copy(
                     fontWeight = FontWeight.Bold,
-                    color = Color.White
+                    color = textColor
                 )
             )
 
@@ -66,7 +76,7 @@ fun MoonPhaseCard(moonData: MoonData) {
                         text = moonData.phase,
                         style = MaterialTheme.typography.bodyLarge.copy(
                             fontWeight = FontWeight.Medium,
-                            color = Color.White
+                            color = textColor
                         )
                     )
 
@@ -75,7 +85,7 @@ fun MoonPhaseCard(moonData: MoonData) {
                     Text(
                         text = stringResource(R.string.illumination, moonData.illumination),
                         style = MaterialTheme.typography.bodySmall.copy(
-                            color = Color.White.copy(alpha = 0.8f)
+                            color = textColor.copy(alpha = 0.8f)
                         )
                     )
 
@@ -88,7 +98,7 @@ fun MoonPhaseCard(moonData: MoonData) {
                             .height(8.dp)
                             .clip(RoundedCornerShape(4.dp)),
                         color = Color(0xFF64B5F6),
-                        trackColor = Color.White.copy(alpha = 0.3f),
+                        trackColor = textColor.copy(alpha = 0.3f),
                         strokeCap = ProgressIndicatorDefaults.LinearStrokeCap,
                     )
                 }

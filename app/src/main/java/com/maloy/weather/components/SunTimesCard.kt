@@ -27,14 +27,23 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.maloy.weather.R
+import com.maloy.weather.constans.ThemeType
+import com.maloy.weather.constans.themeType
 import com.maloy.weather.data.SunTimes
+import com.maloy.weather.utils.rememberEnumPreference
 
 @Composable
 fun SunTimesCard(sunTimes: SunTimes) {
+    val (themeType) = rememberEnumPreference(themeType, defaultValue = ThemeType.GRADIENT)
+    val textColor = when(themeType) {
+        ThemeType.DARK -> Color.White
+        ThemeType.LIGHT -> Color.Black
+        ThemeType.GRADIENT -> Color.White
+    }
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.15f))
+        colors = CardDefaults.cardColors(containerColor = textColor.copy(alpha = 0.15f))
     ) {
         Column(
             modifier = Modifier.padding(16.dp)
@@ -48,7 +57,7 @@ fun SunTimesCard(sunTimes: SunTimes) {
                     text = stringResource(R.string.sun_title),
                     style = MaterialTheme.typography.titleMedium.copy(
                         fontWeight = FontWeight.Bold,
-                        color = Color.White
+                        color = textColor
                     )
                 )
             }
@@ -72,12 +81,18 @@ fun SunTimesCard(sunTimes: SunTimes) {
 
 @Composable
 private fun SunTimeline(sunTimes: SunTimes) {
+    val (themeType) = rememberEnumPreference(themeType, defaultValue = ThemeType.GRADIENT)
+    val textColor = when(themeType) {
+        ThemeType.DARK -> Color.White
+        ThemeType.LIGHT -> Color.Black
+        ThemeType.GRADIENT -> Color.White
+    }
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(24.dp)
             .clip(RoundedCornerShape(12.dp))
-            .background(Color.White.copy(alpha = 0.15f))
+            .background(textColor.copy(alpha = 0.15f))
     ) {
         Box(
             modifier = Modifier
@@ -97,7 +112,7 @@ private fun SunTimeline(sunTimes: SunTimes) {
             modifier = Modifier
                 .size(20.dp)
                 .clip(CircleShape)
-                .background(Color.White)
+                .background(textColor)
                 .align(Alignment.CenterStart)
         )
         Box(
@@ -106,7 +121,7 @@ private fun SunTimeline(sunTimes: SunTimes) {
             Text(
                 text = sunTimes.sunrise,
                 style = MaterialTheme.typography.labelSmall.copy(
-                    color = Color.White,
+                    color = textColor,
                     fontWeight = FontWeight.Medium
                 ),
                 modifier = Modifier.offset(y = (-20).dp)
@@ -119,7 +134,7 @@ private fun SunTimeline(sunTimes: SunTimes) {
             Text(
                 text = sunTimes.sunset,
                 style = MaterialTheme.typography.labelSmall.copy(
-                    color = Color.White,
+                    color = textColor,
                     fontWeight = FontWeight.Medium
                 ),
                 modifier = Modifier.offset(y = (-20).dp)
@@ -130,17 +145,23 @@ private fun SunTimeline(sunTimes: SunTimes) {
 
 @Composable
 private fun TimeLabel(label: String, time: String) {
+    val (themeType) = rememberEnumPreference(themeType, defaultValue = ThemeType.GRADIENT)
+    val textColor = when(themeType) {
+        ThemeType.DARK -> Color.White
+        ThemeType.LIGHT -> Color.Black
+        ThemeType.GRADIENT -> Color.White
+    }
     Column {
         Text(
             text = label,
             style = MaterialTheme.typography.bodySmall.copy(
-                color = Color.White.copy(alpha = 0.6f)
+                color = textColor.copy(alpha = 0.6f)
             )
         )
         Text(
             text = time,
             style = MaterialTheme.typography.bodyMedium.copy(
-                color = Color.White,
+                color = textColor,
                 fontWeight = FontWeight.SemiBold
             )
         )

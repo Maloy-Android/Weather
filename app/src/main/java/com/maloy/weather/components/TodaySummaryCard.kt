@@ -17,15 +17,24 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.maloy.weather.R
+import com.maloy.weather.constans.ThemeType
+import com.maloy.weather.constans.themeType
 import com.maloy.weather.data.WeatherResponse
+import com.maloy.weather.utils.rememberEnumPreference
 import kotlin.math.abs
 
 @Composable
 fun TodaySummaryCard(weather: WeatherResponse) {
+    val (themeType) = rememberEnumPreference(themeType, defaultValue = ThemeType.GRADIENT)
+    val textColor = when(themeType) {
+        ThemeType.DARK -> Color.White
+        ThemeType.LIGHT -> Color.Black
+        ThemeType.GRADIENT -> Color.White
+    }
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.15f))
+        colors = CardDefaults.cardColors(containerColor = textColor.copy(alpha = 0.15f))
     ) {
         Column(
             modifier = Modifier.padding(20.dp)
@@ -34,7 +43,7 @@ fun TodaySummaryCard(weather: WeatherResponse) {
                 text = stringResource(R.string.today),
                 style = MaterialTheme.typography.titleMedium.copy(
                     fontWeight = FontWeight.Bold,
-                    color = Color.White
+                    color = textColor
                 )
             )
 
@@ -54,7 +63,7 @@ fun TodaySummaryCard(weather: WeatherResponse) {
 
             Text(
                 text = "$diffEmoji $diffText",
-                style = MaterialTheme.typography.bodyMedium.copy(color = Color.White)
+                style = MaterialTheme.typography.bodyMedium.copy(color = textColor)
             )
 
             if (weather.weeklyForecast.isNotEmpty()) {
@@ -62,7 +71,7 @@ fun TodaySummaryCard(weather: WeatherResponse) {
                 if (precipitation > 0) {
                     Text(
                         text = "💧 ${stringResource(R.string.precipitation_chance, precipitation)}",
-                        style = MaterialTheme.typography.bodyMedium.copy(color = Color.White),
+                        style = MaterialTheme.typography.bodyMedium.copy(color = textColor),
                         modifier = Modifier.padding(top = 8.dp)
                     )
                 }

@@ -31,6 +31,12 @@
     <string name="sun_title">Sun</string>
     <string name="sunrise">Sunrise</string>
     <string name="sunset">Sunset</string>
+    <string name="theme_title">App theme</string>
+    <string name="settings">Settings</string>
+    <string name="select_theme">Select Theme</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_gradient">Gradient</string>
     <string name="source_code">Source code</string>
     <string name="source_code_description">Get access to the application\'s source code</string>
 

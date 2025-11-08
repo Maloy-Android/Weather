@@ -30,7 +30,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.maloy.weather.R
+import com.maloy.weather.constans.ThemeType
+import com.maloy.weather.constans.themeType
 import com.maloy.weather.utils.getBackgroundColors
+import com.maloy.weather.utils.rememberEnumPreference
 import com.maloy.weather.utils.shareWeather
 import com.maloy.weather.viewModels.WeatherState
 import com.maloy.weather.viewModels.WeatherViewModel
@@ -51,10 +54,31 @@ fun WeatherApp(
         endY = 1000f
     )
 
+
+    val (themeType) = rememberEnumPreference(themeType, defaultValue = ThemeType.GRADIENT)
+
+    val backgroundColors = when(themeType) {
+        ThemeType.DARK -> Color.Black
+        ThemeType.LIGHT -> Color.White
+        ThemeType.GRADIENT -> backgroundGradient
+    }
+
+    val textColor = when(themeType) {
+        ThemeType.DARK -> Color.White
+        ThemeType.LIGHT -> Color.Black
+        ThemeType.GRADIENT -> Color.White
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(backgroundGradient)
+            .then(
+                when (backgroundColors) {
+                    is Brush -> Modifier.background(backgroundColors)
+                    is Color -> Modifier.background(backgroundColors)
+                    else -> Modifier
+                }
+            )
     ) {
         Column(
             modifier = Modifier
@@ -106,7 +130,7 @@ fun WeatherApp(
                         text = stringResource(R.string.app_name),
                         style = MaterialTheme.typography.headlineSmall.copy(
                             fontWeight = FontWeight.ExtraBold,
-                            color = Color.White
+                            color = textColor
                         )
                     )
                 },
@@ -122,7 +146,7 @@ fun WeatherApp(
                                     Icon(
                                         painter = painterResource(R.drawable.arrow_back),
                                         contentDescription = null,
-                                        tint = Color.White
+                                        tint = textColor
                                     )
                                 }
                                 IconButton(
@@ -132,7 +156,7 @@ fun WeatherApp(
                                     Icon(
                                         painter = painterResource(R.drawable.search),
                                         contentDescription = stringResource(R.string.search),
-                                        tint = Color.White
+                                        tint = textColor
                                     )
                                 }
                             }
@@ -145,7 +169,7 @@ fun WeatherApp(
                                 Icon(
                                     painter = painterResource(R.drawable.search),
                                     contentDescription = stringResource(R.string.search),
-                                    tint = Color.White
+                                    tint = textColor
                                 )
                             }
                         }
@@ -164,7 +188,7 @@ fun WeatherApp(
                             Icon(
                                 painter = painterResource(R.drawable.share),
                                 contentDescription = null,
-                                tint = Color.White
+                                tint = textColor
                             )
                         }
                     }
@@ -174,7 +198,7 @@ fun WeatherApp(
                         Icon(
                             painter = painterResource(R.drawable.settings),
                             contentDescription = null,
-                            tint = Color.White
+                            tint = textColor
                         )
                     }
                 },

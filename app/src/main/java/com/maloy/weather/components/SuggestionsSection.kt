@@ -26,8 +26,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.maloy.weather.constans.ThemeType
+import com.maloy.weather.constans.themeType
 import com.maloy.weather.data.GeocodingSuggestion
 import com.maloy.weather.utils.getConditionIcon
+import com.maloy.weather.utils.rememberEnumPreference
 
 @Composable
 fun SuggestionsSection(
@@ -36,17 +39,23 @@ fun SuggestionsSection(
     onSuggestionClick: (GeocodingSuggestion) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val (themeType) = rememberEnumPreference(themeType, defaultValue = ThemeType.GRADIENT)
+    val textColor = when(themeType) {
+        ThemeType.DARK -> Color.White
+        ThemeType.LIGHT -> Color.Black
+        ThemeType.GRADIENT -> Color.White
+    }
     Column(modifier = modifier) {
         Text(
             text = stringResource(R.string.suggestions),
             style = MaterialTheme.typography.titleMedium,
-            color = Color.White.copy(alpha = 0.8f),
+            color = textColor.copy(alpha = 0.8f),
             modifier = Modifier.padding(bottom = 12.dp)
         )
 
         if (isLoading) {
             CircularProgressIndicator(
-                color = Color.White,
+                color = textColor,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .padding(16.dp)
@@ -73,11 +82,17 @@ fun SuggestionItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val (themeType) = rememberEnumPreference(themeType, defaultValue = ThemeType.GRADIENT)
+    val textColor = when(themeType) {
+        ThemeType.DARK -> Color.White
+        ThemeType.LIGHT -> Color.Black
+        ThemeType.GRADIENT -> Color.White
+    }
     Box(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
-            .background(Color.White.copy(alpha = 0.1f))
+            .background(textColor.copy(alpha = 0.1f))
             .clickable { onClick() }
             .padding(horizontal = 16.dp, vertical = 16.dp)
     ) {
@@ -89,7 +104,7 @@ fun SuggestionItem(
             Icon(
                 painter = painterResource(R.drawable.location),
                 contentDescription = null,
-                tint = Color.White.copy(alpha = 0.7f),
+                tint = textColor.copy(alpha = 0.7f),
                 modifier = Modifier.size(20.dp)
             )
 
@@ -101,7 +116,7 @@ fun SuggestionItem(
                 Text(
                     text = suggestion.name,
                     style = MaterialTheme.typography.bodyLarge.copy(
-                        color = Color.White.copy(alpha = 0.9f),
+                        color = textColor.copy(alpha = 0.9f),
                         fontWeight = FontWeight.Medium
                     )
                 )
@@ -109,7 +124,7 @@ fun SuggestionItem(
                     Text(
                         text = suggestion.description,
                         style = MaterialTheme.typography.bodyMedium.copy(
-                            color = Color.White.copy(alpha = 0.6f)
+                            color = textColor.copy(alpha = 0.6f)
                         )
                     )
                 }
@@ -131,7 +146,7 @@ fun SuggestionItem(
                 Text(
                     text = "${suggestion.temperature}°",
                     style = MaterialTheme.typography.bodyLarge.copy(
-                        color = Color.White.copy(alpha = 0.9f),
+                        color = textColor.copy(alpha = 0.9f),
                         fontWeight = FontWeight.SemiBold
                     )
                 )

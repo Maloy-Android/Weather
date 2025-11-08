@@ -23,6 +23,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.maloy.weather.R
+import com.maloy.weather.constans.ThemeType
+import com.maloy.weather.constans.themeType
+import com.maloy.weather.utils.rememberEnumPreference
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,6 +36,12 @@ fun SearchField(
     modifier: Modifier = Modifier,
     autoFocus: Boolean = false
 ) {
+    val (themeType) = rememberEnumPreference(themeType, defaultValue = ThemeType.GRADIENT)
+    val textColor = when(themeType) {
+        ThemeType.DARK -> Color.White
+        ThemeType.LIGHT -> Color.Black
+        ThemeType.GRADIENT -> Color.White
+    }
     val focusRequester = remember { FocusRequester() }
 
     LaunchedEffect(autoFocus) {
@@ -50,16 +59,16 @@ fun SearchField(
         placeholder = {
             Text(
                 text = stringResource(R.string.enter_city_name),
-                color = Color.White.copy(alpha = 0.6f)
+                color = textColor.copy(alpha = 0.6f)
             )
         },
-        textStyle = MaterialTheme.typography.bodyLarge.copy(color = Color.White),
+        textStyle = MaterialTheme.typography.bodyLarge.copy(color = textColor),
         singleLine = true,
         leadingIcon = {
             Icon(
                 painter = painterResource(R.drawable.search),
                 contentDescription = null,
-                tint = Color.White.copy(alpha = 0.7f)
+                tint = textColor.copy(alpha = 0.7f)
             )
         },
         trailingIcon = {
@@ -70,18 +79,18 @@ fun SearchField(
                     Icon(
                         painter = painterResource(R.drawable.clear),
                         contentDescription = stringResource(R.string.clear),
-                        tint = Color.White.copy(alpha = 0.7f)
+                        tint = textColor.copy(alpha = 0.7f)
                     )
                 }
             }
         },
         shape = RoundedCornerShape(16.dp),
         colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = Color.White.copy(alpha = 0.5f),
-            unfocusedBorderColor = Color.White.copy(alpha = 0.3f),
-            cursorColor = Color.White,
-            focusedTextColor = Color.White,
-            unfocusedTextColor = Color.White
+            focusedBorderColor = textColor.copy(alpha = 0.5f),
+            unfocusedBorderColor = textColor.copy(alpha = 0.3f),
+            cursorColor = textColor,
+            focusedTextColor = textColor,
+            unfocusedTextColor = textColor
         ),
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
         keyboardActions = KeyboardActions(onSearch = { onSearch() })

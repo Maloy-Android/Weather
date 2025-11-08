@@ -21,15 +21,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.maloy.weather.R
+import com.maloy.weather.constans.ThemeType
+import com.maloy.weather.constans.themeType
 import com.maloy.weather.data.WeeklyForecast
 import com.maloy.weather.utils.getWeeklyConditionIcon
+import com.maloy.weather.utils.rememberEnumPreference
 
 @Composable
 fun WeeklyForecastCard(forecasts: List<WeeklyForecast>) {
+    val (themeType) = rememberEnumPreference(themeType, defaultValue = ThemeType.GRADIENT)
+    val textColor = when(themeType) {
+        ThemeType.DARK -> Color.White
+        ThemeType.LIGHT -> Color.Black
+        ThemeType.GRADIENT -> Color.White
+    }
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.15f)),
+        colors = CardDefaults.cardColors(containerColor = textColor.copy(alpha = 0.15f)),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Column(
@@ -46,7 +55,7 @@ fun WeeklyForecastCard(forecasts: List<WeeklyForecast>) {
                     text = stringResource(R.string.weekly_forecast),
                     style = MaterialTheme.typography.headlineSmall.copy(
                         fontWeight = FontWeight.SemiBold,
-                        color = Color.White
+                        color = textColor
                     )
                 )
 
@@ -57,7 +66,7 @@ fun WeeklyForecastCard(forecasts: List<WeeklyForecast>) {
                     Text(
                         text = stringResource(R.string.day),
                         style = MaterialTheme.typography.bodySmall.copy(
-                            color = Color.White.copy(alpha = 0.8f),
+                            color = textColor.copy(alpha = 0.8f),
                             fontWeight = FontWeight.Medium
                         ),
                         modifier = Modifier.weight(1f),
@@ -66,7 +75,7 @@ fun WeeklyForecastCard(forecasts: List<WeeklyForecast>) {
                     Text(
                         text = stringResource(R.string.night),
                         style = MaterialTheme.typography.bodySmall.copy(
-                            color = Color.White.copy(alpha = 0.6f),
+                            color = textColor.copy(alpha = 0.6f),
                             fontWeight = FontWeight.Medium
                         ),
                         modifier = Modifier.weight(1f),
@@ -81,7 +90,7 @@ fun WeeklyForecastCard(forecasts: List<WeeklyForecast>) {
                 WeeklyForecastItem(forecast = forecast)
                 if (index < forecasts.size - 1) {
                     HorizontalDivider(
-                        color = Color.White.copy(alpha = 0.2f),
+                        color = textColor.copy(alpha = 0.2f),
                         thickness = 1.dp,
                         modifier = Modifier.padding(vertical = 12.dp)
                     )
@@ -93,6 +102,12 @@ fun WeeklyForecastCard(forecasts: List<WeeklyForecast>) {
 
 @Composable
 fun WeeklyForecastItem(forecast: WeeklyForecast) {
+    val (themeType) = rememberEnumPreference(themeType, defaultValue = ThemeType.GRADIENT)
+    val textColor = when(themeType) {
+        ThemeType.DARK -> Color.White
+        ThemeType.LIGHT -> Color.Black
+        ThemeType.GRADIENT -> Color.White
+    }
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -106,14 +121,14 @@ fun WeeklyForecastItem(forecast: WeeklyForecast) {
             Text(
                 text = forecast.date,
                 style = MaterialTheme.typography.bodyMedium.copy(
-                    color = Color.White.copy(alpha = 0.7f)
+                    color = textColor.copy(alpha = 0.7f)
                 )
             )
             Text(
                 text = forecast.dayOfWeek,
                 style = MaterialTheme.typography.bodyLarge.copy(
                     fontWeight = FontWeight.Medium,
-                    color = Color.White
+                    color = textColor
                 )
             )
         }
@@ -139,7 +154,7 @@ fun WeeklyForecastItem(forecast: WeeklyForecast) {
                 Text(
                     text = "${forecast.precipitation}%",
                     style = MaterialTheme.typography.bodySmall.copy(
-                        color = Color.White.copy(alpha = 0.8f)
+                        color = textColor.copy(alpha = 0.8f)
                     )
                 )
             }
@@ -156,7 +171,7 @@ fun WeeklyForecastItem(forecast: WeeklyForecast) {
                 text = "${forecast.tempMax}°",
                 style = MaterialTheme.typography.bodyLarge.copy(
                     fontWeight = FontWeight.SemiBold,
-                    color = Color.White
+                    color = textColor
                 ),
                 modifier = Modifier.weight(1f),
                 textAlign = TextAlign.Center
@@ -165,7 +180,7 @@ fun WeeklyForecastItem(forecast: WeeklyForecast) {
                 text = "${forecast.tempMin}°",
                 style = MaterialTheme.typography.bodyLarge.copy(
                     fontWeight = FontWeight.SemiBold,
-                    color = Color.White.copy(alpha = 0.7f)
+                    color = textColor.copy(alpha = 0.7f)
                 ),
                 modifier = Modifier.weight(1f),
                 textAlign = TextAlign.Center
