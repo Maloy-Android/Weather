@@ -124,6 +124,35 @@ fun AboutScreen(
                 Spacer(modifier = Modifier.height(32.dp))
 
                 Card(
+                    modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(
+                        containerColor = Color.White.copy(alpha = 0.1f)
+                    ), shape = MaterialTheme.shapes.large
+                ) {
+                    Column(
+                        modifier = Modifier.padding(20.dp)
+                    ) {
+                        Text(
+                            text = stringResource(R.string.about_app),
+                            style = MaterialTheme.typography.titleMedium.copy(
+                                fontWeight = FontWeight.Bold, color = Color.White
+                            )
+                        )
+
+                        Spacer(modifier = Modifier.height(12.dp))
+
+                        Text(
+                            text = stringResource(R.string.app_info),
+                            style = MaterialTheme.typography.bodyMedium.copy(
+                                color = Color.White.copy(alpha = 0.8f), lineHeight = 22.sp
+                            ),
+                            textAlign = TextAlign.Start
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                Card(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable(
@@ -176,29 +205,53 @@ fun AboutScreen(
                 Spacer(modifier = Modifier.height(24.dp))
 
                 Card(
-                    modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable(
+                            onClick = {
+                                val intent = Intent(
+                                    Intent.ACTION_VIEW,
+                                    "https://github.com/Maloy-Android/Weather".toUri()
+                                )
+                                context.startActivity(intent)
+                            }), colors = CardDefaults.cardColors(
                         containerColor = Color.White.copy(alpha = 0.1f)
                     ), shape = MaterialTheme.shapes.large
                 ) {
-                    Column(
-                        modifier = Modifier.padding(20.dp)
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(20.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        Text(
-                            text = stringResource(R.string.about_app),
-                            style = MaterialTheme.typography.titleMedium.copy(
-                                fontWeight = FontWeight.Bold, color = Color.White
+                        AsyncImage(
+                            model = "https://cdn.iconscout.com/icon/free/png-256/free-github-logo-icon-download-in-svg-png-gif-file-formats--application-productivity-apps-pack-logos-icons-8630395.png?f=webp&w=256",
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(60.dp)
+                                .clip(CircleShape)
+                                .border(
+                                    width = 2.dp,
+                                    color = MaterialTheme.colorScheme.primary,
+                                    shape = CircleShape
+                                )
+                        )
+
+                        Column {
+                            Text(
+                                text = stringResource(R.string.source_code),
+                                style = MaterialTheme.typography.titleLarge.copy(
+                                    fontWeight = FontWeight.Bold, color = Color.White
+                                )
                             )
-                        )
-
-                        Spacer(modifier = Modifier.height(12.dp))
-
-                        Text(
-                            text = stringResource(R.string.app_info),
-                            style = MaterialTheme.typography.bodyMedium.copy(
-                                color = Color.White.copy(alpha = 0.8f), lineHeight = 22.sp
-                            ),
-                            textAlign = TextAlign.Start
-                        )
+                            Text(
+                                text = stringResource(R.string.source_code_description),
+                                style = MaterialTheme.typography.bodyMedium.copy(
+                                    color = Color.White.copy(alpha = 0.7f)
+                                )
+                            )
+                        }
                     }
                 }
             }

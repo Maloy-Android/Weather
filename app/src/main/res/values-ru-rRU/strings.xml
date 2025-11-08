@@ -28,6 +28,8 @@
     <string name="colder_than_yesterday">На %d° холоднее, чем вчера</string>
     <string name="same_as_yesterday">Так же, как вчера</string>
     <string name="precipitation_chance">Вероятность осадков: %d%%</string>
+    <string name="source_code">Исходный код</string>
+    <string name="source_code_description">Получите доступ к исходному коду приложения</string>
 
     <!-- Ошибки -->
     <string name="error">Ошибка</string>
