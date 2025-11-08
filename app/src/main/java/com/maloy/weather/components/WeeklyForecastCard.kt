@@ -22,7 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.maloy.weather.R
 import com.maloy.weather.data.WeeklyForecast
-import com.maloy.weather.utils.getConditionIcon
+import com.maloy.weather.utils.getWeeklyConditionIcon
 
 @Composable
 fun WeeklyForecastCard(forecasts: List<WeeklyForecast>) {
@@ -118,7 +118,7 @@ fun WeeklyForecastItem(forecast: WeeklyForecast) {
             )
         }
 
-        getConditionIcon(forecast.condition, weatherResponse = null)?.let { icon ->
+        getWeeklyConditionIcon(forecast.condition)?.let { icon ->
             Text(
                 text = icon,
                 style = MaterialTheme.typography.headlineSmall,

@@ -1,9 +1,10 @@
 package com.maloy.weather.utils
 
+import com.maloy.weather.data.HourlyForecast
 import com.maloy.weather.data.YandexWeatherResponse
 
 fun getConditionIcon(condition: String, weatherResponse: YandexWeatherResponse?): String? {
-    val isDay = weatherResponse?.forecasts?.getOrNull(0)?.parts?.day?.is_day == 1
+    val isDay = weatherResponse?.forecasts?.getOrNull(0)?.parts?.day?.is_day == 0
     return when (condition) {
         "Ясно" -> if (isDay) "☀️" else "🌙"
         "Облачно" -> "⛅"
@@ -21,7 +22,7 @@ fun getConditionIcon(condition: String, weatherResponse: YandexWeatherResponse?)
 }
 
 fun getWeatherEmoji(condition: String, weatherResponse: YandexWeatherResponse?): String {
-    val isDay = weatherResponse?.forecasts?.getOrNull(0)?.parts?.day?.is_day == 1
+    val isDay = weatherResponse?.forecasts?.getOrNull(0)?.parts?.day?.is_day == 0
     return when {
         condition.contains("Ясно") -> if (isDay) "☀️" else "🌙"
         condition.contains("Облачно") -> "⛅"
@@ -36,4 +37,39 @@ fun getWeatherEmoji(condition: String, weatherResponse: YandexWeatherResponse?):
         condition.contains("Туман") -> "🌫️"
         else -> null
     }!!
+}
+
+fun getWeeklyConditionIcon(condition: String): String? {
+    return when (condition) {
+        "Ясно" -> "☀️"
+        "Облачно" -> "⛅"
+        "Малооблачно" -> "🌤️"
+        "Облачно с прояснениями" -> "⛅"
+        "Пасмурно" -> "☁️"
+        "Дождь" -> "🌧️"
+        "Небольшой дождь" -> "🌧️"
+        "Ливень" -> "⛈️"
+        "Снег" -> "❄️"
+        "Гроза" -> "🌩️"
+        "Туман" -> "🌫️"
+        else -> null
+    }
+}
+
+fun getHourlyConditionIcon(condition: String, forecast: HourlyForecast?): String? {
+    val isNight = isNightTime(forecast?.time)
+    return when (condition) {
+        "Ясно" -> if (isNight) "🌙" else "☀️"
+        "Малооблачно" -> if (isNight) "🌙☁️" else "🌤️"
+        "Облачно с прояснениями" -> if (isNight) "🌙⛅" else "⛅"
+        "Облачно" -> if (isNight) "🌙☁️" else "☁️"
+        "Пасмурно" -> "☁️"
+        "Дождь" -> if (isNight) "🌙🌧️" else "🌧️"
+        "Небольшой дождь" -> if (isNight) "🌙🌧️" else "🌧️"
+        "Ливень" -> "⛈️"
+        "Снег" -> if (isNight) "🌙❄️" else "❄️"
+        "Гроза" -> "🌩️"
+        "Туман" -> "🌫️"
+        else -> if (isNight) "🌙" else "☀️"
+    }
 }

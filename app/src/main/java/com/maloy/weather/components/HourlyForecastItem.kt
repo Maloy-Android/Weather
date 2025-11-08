@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.maloy.weather.data.HourlyForecast
-import com.maloy.weather.utils.getConditionIcon
+import com.maloy.weather.utils.getHourlyConditionIcon
 
 @Composable
 fun HourlyForecastItem(forecast: HourlyForecast) {
@@ -41,12 +41,9 @@ fun HourlyForecastItem(forecast: HourlyForecast) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        getConditionIcon(
-            forecast.condition, weatherResponse = null)?.let { icon ->
-            Text(
-                text = icon,
-                style = MaterialTheme.typography.bodyLarge
-            )
-        }
+        Text(
+            text = getHourlyConditionIcon(forecast.condition, forecast) ?: "☀️",
+            style = MaterialTheme.typography.bodyLarge
+        )
     }
 }
