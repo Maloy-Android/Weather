@@ -54,7 +54,7 @@ class WeatherRepository {
                     yesterdayTemperature = weatherResponse.forecasts.getOrNull(0)?.parts?.day?.temp_avg?.toDouble() ?: 0.0,
                     hourlyForecast = getHourlyForecast(weatherResponse)
                 ),
-                dayPhase = getDayPhase(weatherResponse),
+                dayPhase = getDayPhase(weatherResponse, forecast = null),
                 weeklyForecast = getWeeklyForecast(weatherResponse),
                 moonData = getMoonData(weatherResponse.forecasts.firstOrNull()?.moon_code),
                 sunTimes = sunTimes

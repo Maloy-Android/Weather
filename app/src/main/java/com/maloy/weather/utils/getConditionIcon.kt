@@ -1,12 +1,11 @@
 package com.maloy.weather.utils
 
 import com.maloy.weather.data.HourlyForecast
-import com.maloy.weather.data.YandexWeatherResponse
 
-fun getConditionIcon(condition: String, weatherResponse: YandexWeatherResponse?): String? {
-    val isDay = weatherResponse?.forecasts?.getOrNull(0)?.parts?.day?.is_day == 1
+fun getConditionIcon(condition: String, forecast: HourlyForecast?): String? {
+    val isNight = isNightTime(forecast?.time)
     return when (condition) {
-        "Ясно" -> if (isDay) "☀️" else "🌙"
+        "Ясно" -> if (isNight) "🌙" else "☀️"
         "Облачно" -> "⛅"
         "Малооблачно" -> "🌤️"
         "Облачно с прояснениями" -> "⛅"
@@ -21,10 +20,10 @@ fun getConditionIcon(condition: String, weatherResponse: YandexWeatherResponse?)
     }
 }
 
-fun getWeatherEmoji(condition: String, weatherResponse: YandexWeatherResponse?): String {
-    val isDay = weatherResponse?.forecasts?.getOrNull(0)?.parts?.day?.is_day == 1
+fun getWeatherEmoji(condition: String, forecast: HourlyForecast?): String {
+    val isNight = isNightTime(forecast?.time)
     return when {
-        condition.contains("Ясно") -> if (isDay) "☀️" else "🌙"
+        condition.contains("Ясно") -> if (isNight) "🌙" else "☀️"
         condition.contains("Облачно") -> "⛅"
         condition.contains("Малооблачно") -> "🌤️"
         condition.contains("Облачно с прояснениями") -> "⛅"

@@ -1,8 +1,10 @@
 package com.maloy.weather.utils
 
-fun getDayPhase(weatherResponse: com.maloy.weather.data.YandexWeatherResponse): String {
+import com.maloy.weather.data.HourlyForecast
+
+fun getDayPhase(weatherResponse: com.maloy.weather.data.YandexWeatherResponse,forecast: HourlyForecast?): String {
     return try {
-        if (weatherResponse.forecasts.getOrNull(0)?.parts?.day?.is_day == 1) {
+        if (isNightTime(forecast?.time)) {
             when (weatherResponse.fact.condition) {
                 "clear", "partly-cloudy" -> "day_clear"
                 "cloudy", "overcast" -> "day_cloudy"
