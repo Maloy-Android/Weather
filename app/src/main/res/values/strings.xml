@@ -28,6 +28,9 @@
     <string name="colder_than_yesterday">On %d° colder than yesterday</string>
     <string name="same_as_yesterday">Just like yesterday</string>
     <string name="precipitation_chance">Probability of precipitation: %d%%</string>
+    <string name="sun_title">Sun</string>
+    <string name="sunrise">Sunrise</string>
+    <string name="sunset">Sunset</string>
     <string name="source_code">Source code</string>
     <string name="source_code_description">Get access to the application\'s source code</string>
 

@@ -5,5 +5,6 @@ data class WeatherResponse(
     val current: CurrentWeather,
     val dayPhase: String,
     val weeklyForecast: List<WeeklyForecast> = emptyList(),
-    val moonData: MoonData? = null
+    val moonData: MoonData? = null,
+    val sunTimes: SunTimes? = null
 )

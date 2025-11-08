@@ -29,6 +29,15 @@ class WeatherRepository {
                 lon = geocodingResponse.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(" ")[0].toDouble()
             )
 
+            val todayForecast = weatherResponse.forecasts.firstOrNull()
+            val sunTimes = todayForecast?.let { forecast ->
+                if (forecast.sunrise != null && forecast.sunset != null) {
+                    SunTimesUtils.calculateSunTimes(forecast.sunrise, forecast.sunset)
+                } else {
+                    null
+                }
+            }
+
             return WeatherResponse(
                 location = Location(
                     name = geocodingResponse.response.GeoObjectCollection.featureMember[0].GeoObject.name,
@@ -47,7 +56,8 @@ class WeatherRepository {
                 ),
                 dayPhase = getDayPhase(weatherResponse),
                 weeklyForecast = getWeeklyForecast(weatherResponse),
-                moonData = getMoonData(weatherResponse.forecasts.firstOrNull()?.moon_code)
+                moonData = getMoonData(weatherResponse.forecasts.firstOrNull()?.moon_code),
+                sunTimes = sunTimes
             )
         } catch (e: Exception) {
             e.printStackTrace()

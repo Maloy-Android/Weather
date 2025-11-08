@@ -60,6 +60,11 @@ fun SuccessState(weather: WeatherResponse, onRefresh: () -> Unit) {
             TodaySummaryCard(weather = weather)
             Spacer(modifier = Modifier.height(16.dp))
 
+            if (weather.sunTimes != null) {
+                SunTimesCard(sunTimes = weather.sunTimes)
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+
             if (weather.moonData != null) {
                 MoonPhaseCard(moonData = weather.moonData)
                 Spacer(modifier = Modifier.height(16.dp))
