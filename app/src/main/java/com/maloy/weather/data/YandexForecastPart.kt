@@ -8,5 +8,6 @@ data class YandexForecastPart(
     val prec_prob: Int? = null,
     val prec_mm: Double? = null,
     val temp_min: Int? = null,
-    val temp_max: Int? = null
+    val temp_max: Int? = null,
+    val is_day: Int = 1,
 )

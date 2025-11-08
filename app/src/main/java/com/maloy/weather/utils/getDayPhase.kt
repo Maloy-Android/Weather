@@ -2,7 +2,7 @@ package com.maloy.weather.utils
 
 fun getDayPhase(weatherResponse: com.maloy.weather.data.YandexWeatherResponse): String {
     return try {
-        if (weatherResponse.fact.is_day == 1) {
+        if (weatherResponse.forecasts.getOrNull(0)?.parts?.day?.is_day == 1) {
             when (weatherResponse.fact.condition) {
                 "clear", "partly-cloudy" -> "day_clear"
                 "cloudy", "overcast" -> "day_cloudy"

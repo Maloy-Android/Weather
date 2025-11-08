@@ -3,7 +3,7 @@ package com.maloy.weather.utils
 import com.maloy.weather.data.YandexWeatherResponse
 
 fun getConditionIcon(condition: String, weatherResponse: YandexWeatherResponse?): String? {
-    val isDay = weatherResponse?.fact?.is_day == 1
+    val isDay = weatherResponse?.forecasts?.getOrNull(0)?.parts?.day?.is_day == 1
     return when (condition) {
         "Ясно" -> if (isDay) "☀️" else "🌙"
         "Облачно" -> "⛅"
@@ -21,7 +21,7 @@ fun getConditionIcon(condition: String, weatherResponse: YandexWeatherResponse?)
 }
 
 fun getWeatherEmoji(condition: String, weatherResponse: YandexWeatherResponse?): String {
-    val isDay = weatherResponse?.fact?.is_day == 1
+    val isDay = weatherResponse?.forecasts?.getOrNull(0)?.parts?.day?.is_day == 1
     return when {
         condition.contains("Ясно") -> if (isDay) "☀️" else "🌙"
         condition.contains("Облачно") -> "⛅"

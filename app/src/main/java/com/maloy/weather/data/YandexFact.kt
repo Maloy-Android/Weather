@@ -8,6 +8,5 @@ data class YandexFact(
     val pressure_mm: Int,
     val humidity: Int,
     val visibility: Double,
-    val is_day: Int = 1,
     val uv_index: Int?
 )
