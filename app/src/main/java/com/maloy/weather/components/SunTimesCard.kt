@@ -92,7 +92,7 @@ private fun SunTimeline(sunTimes: SunTimes) {
             .fillMaxWidth()
             .height(24.dp)
             .clip(RoundedCornerShape(12.dp))
-            .background(textColor.copy(alpha = 0.15f))
+            .background(Color.White.copy(alpha = 0.15f))
     ) {
         Box(
             modifier = Modifier
