@@ -2,7 +2,6 @@ package com.maloy.weather.data
 
 data class YandexForecastPart(
     val temp_avg: Int?,
-    val uv_index: Int?,
     val condition: String? = null,
     val wind_speed: Double? = null,
     val humidity: Int? = null,

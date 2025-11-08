@@ -50,7 +50,7 @@ class WeatherRepository {
                     humidity = weatherResponse.fact.humidity,
                     feelsLike = weatherResponse.fact.feels_like.toDouble(),
                     pressure = weatherResponse.fact.pressure_mm,
-                    uvIndex = weatherResponse.forecasts.firstOrNull()?.parts?.day?.uv_index ?: 0,
+                    uvIndex = weatherResponse.fact.uv_index?: 0,
                     yesterdayTemperature = weatherResponse.forecasts.getOrNull(0)?.parts?.day?.temp_avg?.toDouble() ?: 0.0,
                     hourlyForecast = getHourlyForecast(weatherResponse)
                 ),
