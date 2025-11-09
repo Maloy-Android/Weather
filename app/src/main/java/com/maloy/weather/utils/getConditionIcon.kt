@@ -3,7 +3,7 @@ package com.maloy.weather.utils
 import com.maloy.weather.data.HourlyForecast
 
 fun getConditionIcon(condition: String, forecast: HourlyForecast?): String? {
-    val isNight = isNightTime(forecast?.time)
+    val isNight = !isNightTime(forecast?.time)
     return when (condition) {
         "Ясно" -> if (isNight) "🌙" else "☀️"
         "Облачно" -> if (isNight) "🌙☁️" else "☁️"
@@ -21,7 +21,7 @@ fun getConditionIcon(condition: String, forecast: HourlyForecast?): String? {
 }
 
 fun getWeatherEmoji(condition: String, forecast: HourlyForecast?): String {
-    val isNight = isNightTime(forecast?.time)
+    val isNight = !isNightTime(forecast?.time)
     return when {
         condition.contains("Ясно") -> if (isNight) "🌙" else "☀️"
         condition.contains("Облачно") -> "⛅"
