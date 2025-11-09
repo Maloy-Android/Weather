@@ -37,6 +37,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.maloy.weather.R
+import com.maloy.weather.components.EmptyPlaceholder
+import com.maloy.weather.components.SearchLoadingState
 import com.maloy.weather.constans.ThemeType
 import com.maloy.weather.constans.themeType
 import com.maloy.weather.utils.getBackgroundColors
@@ -125,7 +127,6 @@ fun SearchScreen(
             if (suggestions.isNotEmpty()) {
                 SuggestionsSection(
                     suggestions = suggestions,
-                    isLoading = isLoadingSuggestions,
                     onSuggestionClick = { suggestion ->
                         searchText = suggestion.name
                         onSearch(suggestion.name)
@@ -136,7 +137,11 @@ fun SearchScreen(
                 Spacer(modifier = Modifier.height(16.dp))
             }
 
-            if (searchHistory.isNotEmpty() && suggestions.isEmpty()) {
+            if (isLoadingSuggestions && suggestions.isEmpty()) {
+                SearchLoadingState()
+            }
+
+            if (searchHistory.isNotEmpty() && searchText.isEmpty() && suggestions.isEmpty()) {
                 SearchHistorySection(
                     searchHistory = searchHistory,
                     onSuggestionClick = { city ->
@@ -145,6 +150,13 @@ fun SearchScreen(
                         weatherViewModel.clearSuggestions()
                     },
                     onClearHistory = { weatherViewModel.clearSearchHistory() }
+                )
+            }
+            if (searchText.isNotEmpty() && suggestions.isEmpty()) {
+                EmptyPlaceholder(
+                    text = stringResource(R.string.search_empty_place_holder),
+                    icon = R.drawable.search,
+                    modifier = Modifier.fillMaxWidth()
                 )
             }
         }

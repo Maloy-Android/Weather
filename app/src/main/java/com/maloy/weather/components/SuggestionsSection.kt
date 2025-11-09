@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,13 +35,12 @@ import com.maloy.weather.utils.rememberEnumPreference
 @Composable
 fun SuggestionsSection(
     suggestions: List<GeocodingSuggestion>,
-    isLoading: Boolean,
     onSuggestionClick: (GeocodingSuggestion) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val (themeType) = rememberEnumPreference(themeType, defaultValue = ThemeType.GRADIENT)
     val isSystemDarkTheme = isSystemInDarkTheme()
-    val textColor = when(themeType) {
+    val textColor = when (themeType) {
         ThemeType.SYSTEM -> if (isSystemDarkTheme) Color.White else Color.Black
         ThemeType.DARK -> Color.White
         ThemeType.LIGHT -> Color.Black
@@ -56,24 +54,15 @@ fun SuggestionsSection(
             modifier = Modifier.padding(bottom = 12.dp)
         )
 
-        if (isLoading) {
-            CircularProgressIndicator(
-                color = textColor,
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(16.dp)
-            )
-        } else {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                suggestions.forEach { suggestion ->
-                    SuggestionItem(
-                        suggestion = suggestion,
-                        onClick = { onSuggestionClick(suggestion) },
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
+        Column(
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            suggestions.forEach { suggestion ->
+                SuggestionItem(
+                    suggestion = suggestion,
+                    onClick = { onSuggestionClick(suggestion) },
+                    modifier = Modifier.fillMaxWidth()
+                )
             }
         }
     }

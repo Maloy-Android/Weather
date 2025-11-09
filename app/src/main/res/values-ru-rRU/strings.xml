@@ -13,6 +13,8 @@
     <string name="clear">Ясно</string>
     <string name="hourly_forecast_for_today">Почасовой прогноз на сегодня</string>
     <string name="search_history">История поиска</string>
+    <string name="search_empty_place_holder">Нечего не найденно</string>
+    <string name="loading_search">Поиск…</string>
     <string name="clear_history">Очистить</string>
     <string name="about_app">О приложении</string>
     <string name="developer">Разработчик</string>

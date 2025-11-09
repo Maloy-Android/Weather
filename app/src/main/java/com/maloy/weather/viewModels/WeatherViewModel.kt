@@ -13,7 +13,6 @@ import com.maloy.weather.utils.NotificationService
 import com.maloy.weather.utils.SearchHistoryManager
 import com.maloy.weather.utils.WeatherRepository
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -115,7 +114,6 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
             return
         }
         suggestionsJob = viewModelScope.launch {
-            delay(300)
             _isLoadingSuggestions.value = true
             try {
                 val suggestions = repository.getCitySuggestions(query)
