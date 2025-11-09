@@ -244,8 +244,7 @@ fun AboutScreen(
                                     ThemeType.GRADIENT -> stringResource(R.string.theme_gradient)
                                 }
                             },
-                            onValueSelected = onThemeTypeChange,
-                            textColor = textColor
+                            onValueSelected = onThemeTypeChange
                         )
                     }
                 }

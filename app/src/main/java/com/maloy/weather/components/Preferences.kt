@@ -6,6 +6,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -42,6 +43,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.maloy.weather.R
+import com.maloy.weather.constans.ThemeType
+import com.maloy.weather.constans.themeType
+import com.maloy.weather.utils.rememberEnumPreference
 
 @Composable
 fun <T> ListPreference(
@@ -159,6 +163,26 @@ fun ThemeSelectionDialog(
     modifier: Modifier = Modifier,
     content: LazyListScope.() -> Unit
 ) {
+    val (themeType) = rememberEnumPreference(
+        themeType,
+        defaultValue = ThemeType.GRADIENT
+    )
+
+    val isSystemDarkTheme = isSystemInDarkTheme()
+
+    val backgroundColors = when(themeType) {
+        ThemeType.SYSTEM -> if (isSystemDarkTheme) Color.Black else Color.White
+        ThemeType.DARK -> Color.Black
+        ThemeType.LIGHT -> Color.White
+        ThemeType.GRADIENT -> Color.Black
+    }
+
+    val textColor = when(themeType) {
+        ThemeType.SYSTEM -> if (isSystemDarkTheme) Color.White else Color.Black
+        ThemeType.DARK -> Color.White
+        ThemeType.LIGHT -> Color.Black
+        ThemeType.GRADIENT -> Color.White
+    }
     Dialog(
         onDismissRequest = onDismiss,
         properties = DialogProperties(usePlatformDefaultWidth = false)
@@ -166,7 +190,7 @@ fun ThemeSelectionDialog(
         Surface(
             modifier = Modifier.padding(24.dp),
             shape = MaterialTheme.shapes.extraLarge,
-            color = MaterialTheme.colorScheme.surfaceContainer,
+            color = backgroundColors,
             tonalElevation = 8.dp
         ) {
             Column(
@@ -174,10 +198,8 @@ fun ThemeSelectionDialog(
             ) {
                 Text(
                     text = stringResource(R.string.select_theme),
-                    style = MaterialTheme.typography.headlineSmall.copy(
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    ),
+                    color = textColor,
+                    fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp)
                 )
 
@@ -196,20 +218,33 @@ fun ThemeOptionCard(
     title: String,
     onClick: () -> Unit
 ) {
+    val (themeType) = rememberEnumPreference(
+        themeType,
+        defaultValue = ThemeType.GRADIENT
+    )
+
+    val isSystemDarkTheme = isSystemInDarkTheme()
+
+    val textColor = when(themeType) {
+        ThemeType.SYSTEM -> if (isSystemDarkTheme) Color.White else Color.Black
+        ThemeType.DARK -> Color.White
+        ThemeType.LIGHT -> Color.Black
+        ThemeType.GRADIENT -> Color.White
+    }
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 8.dp, vertical = 4.dp),
         colors = CardDefaults.cardColors(
             containerColor = if (isSelected) {
-                MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)
+               textColor.copy(alpha = 0.2f)
             } else {
-                Color.White.copy(alpha = 0.05f)
+               textColor.copy(alpha = 0.05f)
             }
         ),
         shape = MaterialTheme.shapes.medium,
         border = if (isSelected) {
-            BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
+            BorderStroke(2.dp, textColor)
         } else {
             null
         }
@@ -241,17 +276,15 @@ fun ThemeOptionCard(
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(Color.White, CircleShape)
+                            .background(textColor, CircleShape)
                     )
                 }
             }
 
             Text(
                 text = title,
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    color = Color.White,
-                    fontWeight = if (isSelected) FontWeight.Medium else FontWeight.Normal
-                ),
+                color = textColor,
+                fontWeight = if (isSelected) FontWeight.Medium else FontWeight.Normal,
                 modifier = Modifier.padding(start = 16.dp)
             )
         }
@@ -267,8 +300,20 @@ inline fun <reified T : Enum<T>> EnumListPreference(
     noinline valueText: @Composable (T) -> String,
     noinline onValueSelected: (T) -> Unit,
     isEnabled: Boolean = true,
-    textColor: Color = MaterialTheme.colorScheme.onSurface,
 ) {
+    val (themeType) = rememberEnumPreference(
+        themeType,
+        defaultValue = ThemeType.GRADIENT
+    )
+
+    val isSystemDarkTheme = isSystemInDarkTheme()
+
+    val textColor = when(themeType) {
+        ThemeType.SYSTEM -> if (isSystemDarkTheme) Color.White else Color.Black
+        ThemeType.DARK -> Color.White
+        ThemeType.LIGHT -> Color.Black
+        ThemeType.GRADIENT -> Color.White
+    }
     ListPreference(
         modifier = modifier,
         title = title,
