@@ -2,6 +2,7 @@ package com.maloy.weather.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -34,7 +35,9 @@ fun SearchHistoryItem(
     modifier: Modifier = Modifier
 ) {
     val (themeType) = rememberEnumPreference(themeType, defaultValue = ThemeType.GRADIENT)
+    val isSystemDarkTheme = isSystemInDarkTheme()
     val textColor = when(themeType) {
+        ThemeType.SYSTEM -> if (isSystemDarkTheme) Color.White else Color.Black
         ThemeType.DARK -> Color.White
         ThemeType.LIGHT -> Color.Black
         ThemeType.GRADIENT -> Color.White

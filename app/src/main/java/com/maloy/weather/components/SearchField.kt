@@ -1,5 +1,6 @@
 package com.maloy.weather.components
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -37,7 +38,9 @@ fun SearchField(
     autoFocus: Boolean = false
 ) {
     val (themeType) = rememberEnumPreference(themeType, defaultValue = ThemeType.GRADIENT)
+    val isSystemDarkTheme = isSystemInDarkTheme()
     val textColor = when(themeType) {
+        ThemeType.SYSTEM -> if (isSystemDarkTheme) Color.White else Color.Black
         ThemeType.DARK -> Color.White
         ThemeType.LIGHT -> Color.Black
         ThemeType.GRADIENT -> Color.White

@@ -1,6 +1,7 @@
 package com.maloy.weather.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,7 +36,9 @@ import com.maloy.weather.utils.rememberEnumPreference
 @Composable
 fun SunTimesCard(sunTimes: SunTimes) {
     val (themeType) = rememberEnumPreference(themeType, defaultValue = ThemeType.GRADIENT)
+    val isSystemDarkTheme = isSystemInDarkTheme()
     val textColor = when(themeType) {
+        ThemeType.SYSTEM -> if (isSystemDarkTheme) Color.White else Color.Black
         ThemeType.DARK -> Color.White
         ThemeType.LIGHT -> Color.Black
         ThemeType.GRADIENT -> Color.White
@@ -82,7 +85,9 @@ fun SunTimesCard(sunTimes: SunTimes) {
 @Composable
 private fun SunTimeline(sunTimes: SunTimes) {
     val (themeType) = rememberEnumPreference(themeType, defaultValue = ThemeType.GRADIENT)
+    val isSystemDarkTheme = isSystemInDarkTheme()
     val textColor = when(themeType) {
+        ThemeType.SYSTEM -> if (isSystemDarkTheme) Color.White else Color.Black
         ThemeType.DARK -> Color.White
         ThemeType.LIGHT -> Color.Black
         ThemeType.GRADIENT -> Color.White
@@ -112,7 +117,7 @@ private fun SunTimeline(sunTimes: SunTimes) {
             modifier = Modifier
                 .size(20.dp)
                 .clip(CircleShape)
-                .background(textColor)
+                .background(Color.White)
                 .align(Alignment.CenterStart)
         )
         Box(
@@ -146,7 +151,9 @@ private fun SunTimeline(sunTimes: SunTimes) {
 @Composable
 private fun TimeLabel(label: String, time: String) {
     val (themeType) = rememberEnumPreference(themeType, defaultValue = ThemeType.GRADIENT)
+    val isSystemDarkTheme = isSystemInDarkTheme()
     val textColor = when(themeType) {
+        ThemeType.SYSTEM -> if (isSystemDarkTheme) Color.White else Color.Black
         ThemeType.DARK -> Color.White
         ThemeType.LIGHT -> Color.Black
         ThemeType.GRADIENT -> Color.White

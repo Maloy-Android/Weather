@@ -1,5 +1,6 @@
 package com.maloy.weather.components
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -21,7 +22,9 @@ import com.maloy.weather.utils.rememberEnumPreference
 @Composable
 fun HourlyForecastItem(forecast: HourlyForecast) {
     val (themeType) = rememberEnumPreference(themeType, defaultValue = ThemeType.GRADIENT)
+    val isSystemDarkTheme = isSystemInDarkTheme()
     val textColor = when(themeType) {
+        ThemeType.SYSTEM -> if (isSystemDarkTheme) Color.White else Color.Black
         ThemeType.DARK -> Color.White
         ThemeType.LIGHT -> Color.Black
         ThemeType.GRADIENT -> Color.White

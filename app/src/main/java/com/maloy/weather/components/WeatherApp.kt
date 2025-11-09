@@ -2,6 +2,7 @@ package com.maloy.weather.components
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -57,13 +58,17 @@ fun WeatherApp(
 
     val (themeType) = rememberEnumPreference(themeType, defaultValue = ThemeType.GRADIENT)
 
+    val isSystemDarkTheme = isSystemInDarkTheme()
+
     val backgroundColors = when(themeType) {
+        ThemeType.SYSTEM -> if (isSystemDarkTheme) Color.Black else Color.White
         ThemeType.DARK -> Color.Black
         ThemeType.LIGHT -> Color.White
         ThemeType.GRADIENT -> backgroundGradient
     }
 
     val textColor = when(themeType) {
+        ThemeType.SYSTEM -> if (isSystemDarkTheme) Color.White else Color.Black
         ThemeType.DARK -> Color.White
         ThemeType.LIGHT -> Color.Black
         ThemeType.GRADIENT -> Color.White

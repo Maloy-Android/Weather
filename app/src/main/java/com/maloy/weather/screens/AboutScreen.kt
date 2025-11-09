@@ -8,6 +8,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -75,13 +76,17 @@ fun AboutScreen(
         defaultValue = ThemeType.GRADIENT
     )
 
+    val isSystemDarkTheme = isSystemInDarkTheme()
+
     val backgroundColors = when(themeType) {
+        ThemeType.SYSTEM -> if (isSystemDarkTheme) Color.Black else Color.White
         ThemeType.DARK -> Color.Black
         ThemeType.LIGHT -> Color.White
         ThemeType.GRADIENT -> backgroundGradient
     }
 
     val textColor = when(themeType) {
+        ThemeType.SYSTEM -> if (isSystemDarkTheme) Color.White else Color.Black
         ThemeType.DARK -> Color.White
         ThemeType.LIGHT -> Color.Black
         ThemeType.GRADIENT -> Color.White
@@ -233,9 +238,10 @@ fun AboutScreen(
                             selectedValue = themeType,
                             valueText = {
                                 when (it) {
-                                    ThemeType.GRADIENT -> stringResource(R.string.theme_gradient)
+                                    ThemeType.SYSTEM -> stringResource(R.string.theme_system)
                                     ThemeType.LIGHT -> stringResource(R.string.theme_light)
                                     ThemeType.DARK -> stringResource(R.string.theme_dark)
+                                    ThemeType.GRADIENT -> stringResource(R.string.theme_gradient)
                                 }
                             },
                             onValueSelected = onThemeTypeChange,
