@@ -110,6 +110,7 @@ fun IdleState() {
             Icon(
                 painter = painterResource(R.drawable.weather),
                 contentDescription = null,
+                tint = textColor,
                 modifier = Modifier
                     .size(220.dp)
                     .clip(CircleShape)
