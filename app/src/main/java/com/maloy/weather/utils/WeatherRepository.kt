@@ -10,7 +10,7 @@ import com.maloy.weather.data.YandexWeatherResponse
 class WeatherRepository {
     private val yandexGeocodingService = YandexGeocodingService.create()
     private val yandexWeatherService =
-        YandexWeatherService.Companion.create("8f7cdf69-b220-46f6-8230-4fc569ed9f69")
+        YandexWeatherService.Companion.create("43e5d151-7a6d-4f3f-a7c7-aa120ebcf12f")
     private val yandexGeocodingApiKey = "d6d3c9b5-dec8-45f4-aabc-2080d876b697"
 
     suspend fun getWeather(city: String): WeatherResponse? {

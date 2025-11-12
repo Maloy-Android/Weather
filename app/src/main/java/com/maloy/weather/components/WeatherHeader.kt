@@ -76,7 +76,7 @@ fun WeatherHeader(weather: WeatherResponse) {
                     )
                 )
 
-                getConditionIcon(weather.current.condition, forecast = null)?.let { icon ->
+                getConditionIcon(weather.current.condition)?.let { icon ->
                     if (icon.isNotEmpty()) {
                         Spacer(modifier = Modifier.width(16.dp))
                         Text(
