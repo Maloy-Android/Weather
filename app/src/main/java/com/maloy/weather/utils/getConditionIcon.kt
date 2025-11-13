@@ -6,27 +6,26 @@ fun getConditionIcon(condition: String): String? {
     val isNight = isNightTimeNow()
     return when (condition) {
         "Ясно" -> if (isNight) "🌙" else "☀️"
-        "Облачно" -> if (isNight) "🌙☁️" else "☁️"
-        "Малооблачно" -> if (isNight) "🌙☁️" else "🌤️"
-        "Облачно с прояснениями" -> if (isNight) "🌙☁️" else "🌤️"
+        "Облачно" -> if (isNight) "☁️" else "⛅"
+        "Малооблачно" -> if (isNight) "☁️" else "🌤️"
+        "Облачно с прояснениями" -> if (isNight) "☁️" else "🌤️"
         "Пасмурно" -> "☁️"
-        "Дождь" -> if (isNight) "🌙🌧️" else "🌧️"
-        "Небольшой дождь" -> if (isNight) "🌙🌧️" else "🌧️"
+        "Дождь" -> "🌧️"
+        "Небольшой дождь" -> "🌧️"
         "Ливень" -> "⛈️"
-        "Снег" -> if (isNight) "🌙❄️" else "❄️"
+        "Снег" ->  "❄️"
         "Гроза" -> "🌩️"
         "Туман" -> "🌫️"
         else -> if (isNight) "🌙" else "☀️"
     }
 }
-
 fun getWeatherEmoji(condition: String): String {
     val isNight = isNightTimeNow()
     return when {
         condition.contains("Ясно") -> if (isNight) "🌙" else "☀️"
-        condition.contains("Облачно") -> "⛅"
-        condition.contains("Малооблачно") -> "🌤️"
-        condition.contains("Облачно с прояснениями") -> "⛅"
+        condition.contains("Облачно") -> if (isNight) "☁️" else "⛅"
+        condition.contains("Малооблачно") -> if (isNight) "☁️" else "🌤️"
+        condition.contains("Облачно с прояснениями") -> if (isNight) "☁️" else "🌤️"
         condition.contains("Пасмурно") -> "☁️"
         condition.contains("Дождь") -> "🌧️"
         condition.contains("Небольшой дождь") -> "🌧️"
@@ -34,8 +33,8 @@ fun getWeatherEmoji(condition: String): String {
         condition.contains("Снег") -> "❄️"
         condition.contains("Гроза") -> "🌩️"
         condition.contains("Туман") -> "🌫️"
-        else -> null
-    }!!
+        else -> if (isNight) "🌙" else "☀️"
+    }
 }
 
 fun getWeeklyConditionIcon(condition: String): String? {
@@ -51,7 +50,7 @@ fun getWeeklyConditionIcon(condition: String): String? {
         "Снег" -> "❄️"
         "Гроза" -> "🌩️"
         "Туман" -> "🌫️"
-        else -> null
+        else -> "☀️"
     }
 }
 
@@ -59,14 +58,14 @@ fun getHourlyConditionIcon(condition: String, forecast: HourlyForecast?): String
     val isNight = isNightTime(forecast?.time)
     return when (condition) {
         "Ясно" -> if (isNight) "🌙" else "☀️"
-        "Малооблачно" -> if (isNight) "🌙☁️" else "🌤️"
-        "Облачно с прояснениями" -> if (isNight) "🌙⛅" else "⛅"
-        "Облачно" -> if (isNight) "🌙☁️" else "☁️"
+        "Облачно" -> if (isNight) "☁️" else "⛅"
+        "Малооблачно" -> if (isNight) "☁️" else "🌤️"
+        "Облачно с прояснениями" -> if (isNight) "☁️" else "🌤️"
         "Пасмурно" -> "☁️"
-        "Дождь" -> if (isNight) "🌙🌧️" else "🌧️"
-        "Небольшой дождь" -> if (isNight) "🌙🌧️" else "🌧️"
+        "Дождь" -> "🌧️"
+        "Небольшой дождь" -> "🌧️"
         "Ливень" -> "⛈️"
-        "Снег" -> if (isNight) "🌙❄️" else "❄️"
+        "Снег" -> "❄️"
         "Гроза" -> "🌩️"
         "Туман" -> "🌫️"
         else -> if (isNight) "🌙" else "☀️"
