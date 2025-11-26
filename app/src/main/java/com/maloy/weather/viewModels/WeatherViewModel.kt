@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class WeatherViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository = WeatherRepository()
+    private val repository = WeatherRepository(application.applicationContext)
     private val searchHistoryManager = SearchHistoryManager(application.applicationContext)
 
     private val _weatherState = MutableStateFlow<WeatherState>(WeatherState.Idle)

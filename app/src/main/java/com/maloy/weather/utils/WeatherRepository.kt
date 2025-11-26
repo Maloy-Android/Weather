@@ -1,5 +1,6 @@
 package com.maloy.weather.utils
 
+import android.content.Context
 import com.maloy.weather.data.CurrentWeather
 import com.maloy.weather.data.WeeklyForecast
 import com.maloy.weather.data.GeocodingSuggestion
@@ -7,14 +8,34 @@ import com.maloy.weather.data.Location
 import com.maloy.weather.data.WeatherResponse
 import com.maloy.weather.data.YandexWeatherResponse
 
-class WeatherRepository {
+class WeatherRepository(context: Context) {
+    private val apiKeyService = ApiKeyServiceImpl(httpClient)
+    private val apiKeyManager = ApiKeyManager(context, apiKeyService)
+
+    private var yandexWeatherService: YandexWeatherService? = null
     private val yandexGeocodingService = YandexGeocodingService.create()
-    private val yandexWeatherService =
-        YandexWeatherService.Companion.create("43e5d151-7a6d-4f3f-a7c7-aa120ebcf12f")
     private val yandexGeocodingApiKey = "d6d3c9b5-dec8-45f4-aabc-2080d876b697"
+
+    private suspend fun getWeatherService(): YandexWeatherService {
+        if (yandexWeatherService == null) {
+            val apiKey = apiKeyManager.getApiKey()
+            yandexWeatherService = YandexWeatherService.Companion.create(apiKey)
+        }
+        return yandexWeatherService!!
+    }
+
+    private suspend fun refreshWeatherService() {
+        try {
+            val newApiKey = apiKeyManager.refreshApiKey()
+            yandexWeatherService = YandexWeatherService.Companion.create(newApiKey)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
 
     suspend fun getWeather(city: String): WeatherResponse? {
         try {
+            val weatherService = getWeatherService()
             val geocodingResponse = yandexGeocodingService.geocode(
                 query = city,
                 apiKey = yandexGeocodingApiKey
@@ -24,7 +45,7 @@ class WeatherRepository {
                 throw Exception("Город '$city' не найден")
             }
 
-            val weatherResponse = yandexWeatherService.getWeather(
+            val weatherResponse = weatherService.getWeather(
                 lat = geocodingResponse.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(" ")[1].toDouble(),
                 lon = geocodingResponse.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(" ")[0].toDouble()
             )
@@ -60,38 +81,65 @@ class WeatherRepository {
                 sunTimes = sunTimes
             )
         } catch (e: Exception) {
-            e.printStackTrace()
-            throw Exception("Ошибка получения погоды: ${e.message ?: "Неизвестная ошибка"}")
+            if (e.message?.contains("api_key", ignoreCase = true) == true ||
+                e.message?.contains("403", ignoreCase = true) == true ||
+                e.message?.contains("401", ignoreCase = true) == true) {
+
+                try {
+                    refreshWeatherService()
+                    return getWeather(city)
+                } catch (_: Exception) {
+                    e.printStackTrace()
+                    throw Exception("Ошибка получения погоды: ${e.message ?: "Неизвестная ошибка"}")
+                }
+            } else {
+                e.printStackTrace()
+                throw Exception("Ошибка получения погоды: ${e.message ?: "Неизвестная ошибка"}")
+            }
         }
     }
 
     suspend fun getCitySuggestions(query: String): List<GeocodingSuggestion> {
         try {
             if (query.length < 2) return emptyList()
+            val weatherService = getWeatherService()
             val geocodingResponse = yandexGeocodingService.geocode(
                 query = query,
                 apiKey = yandexGeocodingApiKey,
                 results = 5
             )
+
             return geocodingResponse.response.GeoObjectCollection.featureMember.map { feature ->
-                val weatherResponse = yandexWeatherService.getWeather(
+                val weatherResponse = weatherService.getWeather(
                     lat = feature.GeoObject.Point.pos.split(" ")[1].toDouble(),
                     lon = feature.GeoObject.Point.pos.split(" ")[0].toDouble()
                 )
                 GeocodingSuggestion(
                     name = feature.GeoObject.name,
                     description = feature.GeoObject.description ?: "",
-                    temperature = yandexWeatherService.getWeather(
-                        lat = feature.GeoObject.Point.pos.split(
-                            " "
-                        )[1].toDouble(), lon = feature.GeoObject.Point.pos.split(" ")[0].toDouble()
+                    temperature = weatherService.getWeather(
+                        lat = feature.GeoObject.Point.pos.split(" ")[1].toDouble(),
+                        lon = feature.GeoObject.Point.pos.split(" ")[0].toDouble()
                     ).fact.temp,
                     condition = mapYandexCondition(weatherResponse.fact.condition)
                 )
             }
         } catch (e: Exception) {
-            e.printStackTrace()
-            return emptyList()
+            if (e.message?.contains("api_key", ignoreCase = true) == true ||
+                e.message?.contains("403", ignoreCase = true) == true ||
+                e.message?.contains("401", ignoreCase = true) == true) {
+
+                try {
+                    refreshWeatherService()
+                    return getCitySuggestions(query)
+                } catch (_: Exception) {
+                    e.printStackTrace()
+                    return emptyList()
+                }
+            } else {
+                e.printStackTrace()
+                return emptyList()
+            }
         }
     }
 

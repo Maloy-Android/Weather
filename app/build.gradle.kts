@@ -60,4 +60,8 @@ dependencies {
     implementation(libs.jsoup)
     implementation(libs.datastore)
     implementation(libs.location)
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.android)
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.serialization.kotlinx.json)
 }
