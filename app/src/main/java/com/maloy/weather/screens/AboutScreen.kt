@@ -156,7 +156,7 @@ fun AboutScreen(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = "1.3",
+                    text = "0.20.0-beta",
                     style = MaterialTheme.typography.bodyMedium.copy(
                         color = textColor.copy(alpha = 0.8f)
                     )
