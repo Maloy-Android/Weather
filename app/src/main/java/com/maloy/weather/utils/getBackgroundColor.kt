@@ -11,7 +11,7 @@ fun getBackgroundColors(weatherState: WeatherState): List<Color> {
             getDynamicBackground(weatherState.weather.dayPhase)
         }
         else -> {
-            listOf(Color(0xFF2C3E50), Color(0xFF34495E))
+            listOf(Color(0xFF64B5F6), Color(0xFF1976D2))
         }
     }
 }
