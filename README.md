@@ -43,6 +43,6 @@
 
 | Main Screen | Detailed Forecast | Hourly & Moon |
 |:---:|:---:|:---:|
-| <img src="screenshots/main.png" width="200"> | <img src="screenshots/detail.png" width="200"> | <img src="screenshots/hourly_moon.png" width="200"> |
+| <img src="images/image1.jfif width="200"> | <img src="images/image2.jfif" width="200"> | <img src="images/image3.jfif" width="200"> | <img src="images/image4.jfif" width="200"> | <img src="images/image5.jfif" width="200"> | <img src="images/image6.jfif" width="200"> | 
 
 </div>
