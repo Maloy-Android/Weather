@@ -29,7 +29,7 @@ import com.maloy.weather.constans.ThemeType
 import com.maloy.weather.constans.themeType
 import com.maloy.weather.data.MoonData
 import com.maloy.weather.utils.getMoonEmoji
-import com.maloy.weather.utils.rememberEnumPreference
+import com.maloy.weather.utils.app.rememberEnumPreference
 
 @Composable
 fun MoonPhaseCard(moonData: MoonData) {

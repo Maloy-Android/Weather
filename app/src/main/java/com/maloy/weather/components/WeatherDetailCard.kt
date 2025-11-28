@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.maloy.weather.constans.ThemeType
 import com.maloy.weather.constans.themeType
 import com.maloy.weather.data.WeatherDetailItem
-import com.maloy.weather.utils.rememberEnumPreference
+import com.maloy.weather.utils.app.rememberEnumPreference
 
 @Composable
 fun WeatherDetailCard(detail: WeatherDetailItem, modifier: Modifier = Modifier) {

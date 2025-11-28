@@ -41,8 +41,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.maloy.weather.R
 import com.maloy.weather.constans.ThemeType
 import com.maloy.weather.constans.themeType
-import com.maloy.weather.utils.PermissionUtils
-import com.maloy.weather.utils.rememberEnumPreference
+import com.maloy.weather.utils.app.PermissionUtils
+import com.maloy.weather.utils.app.rememberEnumPreference
 import com.maloy.weather.viewModels.WeatherViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)

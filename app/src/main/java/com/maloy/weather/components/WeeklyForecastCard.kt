@@ -26,7 +26,7 @@ import com.maloy.weather.constans.ThemeType
 import com.maloy.weather.constans.themeType
 import com.maloy.weather.data.WeeklyForecast
 import com.maloy.weather.utils.getWeeklyConditionIcon
-import com.maloy.weather.utils.rememberEnumPreference
+import com.maloy.weather.utils.app.rememberEnumPreference
 
 @Composable
 fun WeeklyForecastCard(forecasts: List<WeeklyForecast>) {

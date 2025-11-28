@@ -1,4 +1,4 @@
-package com.maloy.weather.utils
+package com.maloy.weather.utils.apikey
 
 import com.maloy.weather.data.ApiKeyResponse
 import io.ktor.client.HttpClient

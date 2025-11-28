@@ -45,7 +45,7 @@ import androidx.compose.ui.window.DialogProperties
 import com.maloy.weather.R
 import com.maloy.weather.constans.ThemeType
 import com.maloy.weather.constans.themeType
-import com.maloy.weather.utils.rememberEnumPreference
+import com.maloy.weather.utils.app.rememberEnumPreference
 
 @Composable
 fun <T> ListPreference(

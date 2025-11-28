@@ -23,7 +23,7 @@ import com.maloy.weather.data.HourlyForecast
 import com.maloy.weather.R
 import com.maloy.weather.constans.ThemeType
 import com.maloy.weather.constans.themeType
-import com.maloy.weather.utils.rememberEnumPreference
+import com.maloy.weather.utils.app.rememberEnumPreference
 
 @Composable
 fun HourlyForecastSection(forecasts: List<HourlyForecast>) {

@@ -1,4 +1,7 @@
-package com.maloy.weather.data
+package com.maloy.weather.data.yandex
+
+import com.maloy.weather.data.yandex.YandexForecastParts
+import com.maloy.weather.data.yandex.YandexHour
 
 data class YandexForecast(
     val date: String,
@@ -6,6 +9,6 @@ data class YandexForecast(
     val parts: YandexForecastParts,
     val hours: List<YandexHour>?,
     val moon_code: Int?,
-    val sunrise: String?, // Добавляем поле восхода
+    val sunrise: String?,
     val sunset: String?
 )

@@ -1,4 +1,4 @@
-package com.maloy.weather.utils
+package com.maloy.weather.utils.app
 
 import android.content.Context
 import androidx.compose.runtime.*

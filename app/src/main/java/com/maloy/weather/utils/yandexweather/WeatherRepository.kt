@@ -1,19 +1,29 @@
-package com.maloy.weather.utils
+package com.maloy.weather.utils.yandexweather
 
 import android.content.Context
 import com.maloy.weather.data.CurrentWeather
-import com.maloy.weather.data.WeeklyForecast
 import com.maloy.weather.data.GeocodingSuggestion
 import com.maloy.weather.data.Location
 import com.maloy.weather.data.WeatherResponse
-import com.maloy.weather.data.YandexWeatherResponse
+import com.maloy.weather.data.WeeklyForecast
+import com.maloy.weather.data.yandex.YandexWeatherResponse
+import com.maloy.weather.utils.apikey.ApiKeyManager
+import com.maloy.weather.utils.apikey.ApiKeyServiceImpl
+import com.maloy.weather.utils.SunTimesUtils
+import com.maloy.weather.utils.formatDateForDisplay
+import com.maloy.weather.utils.getDayOfWeek
+import com.maloy.weather.utils.getDayPhase
+import com.maloy.weather.utils.getHourlyForecast
+import com.maloy.weather.utils.getMoonData
+import com.maloy.weather.utils.apikey.httpClient
+import com.maloy.weather.utils.mapYandexCondition
 
 class WeatherRepository(context: Context) {
     private val apiKeyService = ApiKeyServiceImpl(httpClient)
     private val apiKeyManager = ApiKeyManager(context, apiKeyService)
 
     private var yandexWeatherService: YandexWeatherService? = null
-    private val yandexGeocodingService = YandexGeocodingService.create()
+    private val yandexGeocodingService = YandexGeocodingService.Companion.create()
     private val yandexGeocodingApiKey = "d6d3c9b5-dec8-45f4-aabc-2080d876b697"
 
     private suspend fun getWeatherService(): YandexWeatherService {
@@ -62,7 +72,8 @@ class WeatherRepository(context: Context) {
             return WeatherResponse(
                 location = Location(
                     name = geocodingResponse.response.GeoObjectCollection.featureMember[0].GeoObject.name,
-                    country = geocodingResponse.response.GeoObjectCollection.featureMember[0].GeoObject.description ?: "",
+                    country = geocodingResponse.response.GeoObjectCollection.featureMember[0].GeoObject.description
+                        ?: "",
                 ),
                 current = CurrentWeather(
                     temperature = weatherResponse.fact.temp.toDouble(),
@@ -71,8 +82,9 @@ class WeatherRepository(context: Context) {
                     humidity = weatherResponse.fact.humidity,
                     feelsLike = weatherResponse.fact.feels_like.toDouble(),
                     pressure = weatherResponse.fact.pressure_mm,
-                    uvIndex = weatherResponse.fact.uv_index?: 0,
-                    yesterdayTemperature = weatherResponse.forecasts.getOrNull(0)?.parts?.day?.temp_avg?.toDouble() ?: 0.0,
+                    uvIndex = weatherResponse.fact.uv_index ?: 0,
+                    yesterdayTemperature = weatherResponse.forecasts.getOrNull(0)?.parts?.day?.temp_avg?.toDouble()
+                        ?: 0.0,
                     hourlyForecast = getHourlyForecast(weatherResponse)
                 ),
                 dayPhase = getDayPhase(weatherResponse, forecast = null),

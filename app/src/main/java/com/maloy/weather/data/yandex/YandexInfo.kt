@@ -1,4 +1,4 @@
-package com.maloy.weather.data
+package com.maloy.weather.data.yandex
 
 data class YandexInfo(
     val lat: Double,

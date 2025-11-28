@@ -1,9 +1,9 @@
-package com.maloy.weather.utils
+package com.maloy.weather.utils.apikey
 
 import android.content.Context
+import androidx.core.content.edit
 import com.maloy.weather.data.ApiKeyResponse
 import java.util.Date
-import androidx.core.content.edit
 
 class ApiKeyManager(
     context: Context,

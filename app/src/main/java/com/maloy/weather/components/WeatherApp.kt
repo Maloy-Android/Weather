@@ -34,7 +34,7 @@ import com.maloy.weather.R
 import com.maloy.weather.constans.ThemeType
 import com.maloy.weather.constans.themeType
 import com.maloy.weather.utils.getBackgroundColors
-import com.maloy.weather.utils.rememberEnumPreference
+import com.maloy.weather.utils.app.rememberEnumPreference
 import com.maloy.weather.utils.shareWeather
 import com.maloy.weather.viewModels.WeatherState
 import com.maloy.weather.viewModels.WeatherViewModel

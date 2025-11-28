@@ -1,8 +1,9 @@
 package com.maloy.weather.utils
 
 import com.maloy.weather.data.HourlyForecast
+import com.maloy.weather.data.yandex.YandexWeatherResponse
 
-fun getDayPhase(weatherResponse: com.maloy.weather.data.YandexWeatherResponse,forecast: HourlyForecast?): String {
+fun getDayPhase(weatherResponse: YandexWeatherResponse, forecast: HourlyForecast?): String {
     return try {
         if (isNightTime(forecast?.time)) {
             when (weatherResponse.fact.condition) {

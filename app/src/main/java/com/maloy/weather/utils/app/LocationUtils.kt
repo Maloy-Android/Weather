@@ -1,6 +1,4 @@
-@file:Suppress("DEPRECATION")
-
-package com.maloy.weather.utils
+package com.maloy.weather.utils.app
 
 import android.annotation.SuppressLint
 import android.content.Context

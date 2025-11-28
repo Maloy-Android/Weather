@@ -8,10 +8,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.maloy.weather.data.GeocodingSuggestion
 import com.maloy.weather.data.WeatherResponse
-import com.maloy.weather.utils.LocationUtils
-import com.maloy.weather.utils.NotificationService
+import com.maloy.weather.utils.app.LocationUtils
+import com.maloy.weather.utils.app.NotificationService
 import com.maloy.weather.utils.SearchHistoryManager
-import com.maloy.weather.utils.WeatherRepository
+import com.maloy.weather.utils.yandexweather.WeatherRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

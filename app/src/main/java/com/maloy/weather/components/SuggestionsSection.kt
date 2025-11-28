@@ -30,7 +30,7 @@ import com.maloy.weather.constans.ThemeType
 import com.maloy.weather.constans.themeType
 import com.maloy.weather.data.GeocodingSuggestion
 import com.maloy.weather.utils.getConditionIcon
-import com.maloy.weather.utils.rememberEnumPreference
+import com.maloy.weather.utils.app.rememberEnumPreference
 
 @Composable
 fun SuggestionsSection(

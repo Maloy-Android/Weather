@@ -1,6 +1,6 @@
-package com.maloy.weather.utils
+package com.maloy.weather.utils.yandexweather
 
-import com.maloy.weather.data.YandexWeatherResponse
+import com.maloy.weather.data.yandex.YandexWeatherResponse
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

@@ -1,4 +1,4 @@
-package com.maloy.weather.utils
+package com.maloy.weather.utils.app
 
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
@@ -9,6 +9,8 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.maloy.weather.R
 import com.maloy.weather.data.WeatherResponse
+import com.maloy.weather.utils.app.PermissionUtils
+import com.maloy.weather.utils.getWeatherEmoji
 
 class NotificationService(private val context: Context) {
 

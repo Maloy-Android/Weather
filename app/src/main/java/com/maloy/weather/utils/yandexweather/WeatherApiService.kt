@@ -1,6 +1,6 @@
-package com.maloy.weather.utils
+package com.maloy.weather.utils.yandexweather
 
-import com.maloy.weather.data.YandexGeocodingResponse
+import com.maloy.weather.data.yandex.YandexGeocodingResponse
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET

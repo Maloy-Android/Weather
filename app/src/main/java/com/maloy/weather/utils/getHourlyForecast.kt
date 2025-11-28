@@ -1,8 +1,9 @@
 package com.maloy.weather.utils
 
 import com.maloy.weather.data.HourlyForecast
+import com.maloy.weather.data.yandex.YandexWeatherResponse
 
-fun getHourlyForecast(weatherResponse: com.maloy.weather.data.YandexWeatherResponse): List<HourlyForecast> {
+fun getHourlyForecast(weatherResponse: YandexWeatherResponse): List<HourlyForecast> {
     return try {
         val todayForecast = weatherResponse.forecasts.firstOrNull()
         val keyHours = listOf("0", "3", "6", "9", "12", "15", "18", "21")

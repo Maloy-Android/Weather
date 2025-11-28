@@ -42,7 +42,7 @@ import com.maloy.weather.components.SearchLoadingState
 import com.maloy.weather.constans.ThemeType
 import com.maloy.weather.constans.themeType
 import com.maloy.weather.utils.getBackgroundColors
-import com.maloy.weather.utils.rememberEnumPreference
+import com.maloy.weather.utils.app.rememberEnumPreference
 import com.maloy.weather.viewModels.WeatherViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
