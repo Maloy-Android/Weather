@@ -2,7 +2,7 @@
 
 <div align="center">
 
-<img src="app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" width="100" height="100" alt="Weather App Icon">
+<img src="images/app_logo.webp" width="100" height="100" alt="Weather App Icon">
 
 ![Kotlin](https://img.shields.io/badge/Kotlin-1.9.0-%237F52FF?logo=kotlin&logoColor=white)
 ![Android](https://img.shields.io/badge/Android-API_21+-%233DDC84?logo=android&logoColor=white)
@@ -52,4 +52,3 @@
 - Android 5.0 (API 21) or higher
 - Internet connection
 - Location permission (optional)
-
