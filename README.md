@@ -40,9 +40,15 @@
 ## 📸 Screenshots
 
 <div align="center">
-
-| Main Screen | Detailed Forecast | Hourly & Moon |
-|:---:|:---:|:---:|
-| <img src="images/image1.jfif width="200"> | <img src="images/image2.jfif" width="200"> | <img src="images/image3.jfif" width="200"> | <img src="images/image4.jfif" width="200"> | <img src="images/image5.jfif" width="200"> | <img src="images/image6.jfif" width="200"> | 
-
+  <h2>📱 Weather App Screenshots</h2>
+  
+  <div align="center">
+    <img src="images/image1.jfif" width="180" alt="Main Screen" style="border-radius: 15px; margin: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+    <img src="images/image2.jfif" width="180" alt="Detailed Forecast" style="border-radius: 15px; margin: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+    <img src="images/image3.jfif" width="180" alt="Hourly Forecast" style="border-radius: 15px; margin: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+    <img src="images/image4.jfif" width="180" alt="Moon Phase" style="border-radius: 15px; margin: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+    <img src="images/image5.jfif" width="180" alt="Settings" style="border-radius: 15px; margin: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+  </div>
+  
+  <br>
 </div>
