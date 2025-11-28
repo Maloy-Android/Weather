@@ -11,16 +11,17 @@
 
 *Elegant weather app with accurate forecasts and beautiful interface*
 
-[Features](#-features) • [Screenshots](#-screenshots) • [Installation](#-installation) • [Development](#-development)
+[Features](#-features) • [Screenshots](#-screenshots) • [Download](https://github.com/Maloy-Android/Weather/releases) • [Development](https://github.com/Maloy-Android/Weather/pulls)
 
 </div>
 
 ## ✨ Features
 
 ### 🎨 User Interface
-- **GRADIENT** - gradient bakcground colors when weather state
+- **GRADIENT** - gradient background colors when weather state
 - **Dark & light themes** - automatic adaptation
 - **Intuitive gestures** - swipe to refresh and navigate
+- **Notifications** - see weather on lock screen
 
 ### 🌡️ Weather Data
 - **Accurate forecasts** - data from Yandex Weather API
@@ -45,10 +46,3 @@
 | <img src="screenshots/main.png" width="200"> | <img src="screenshots/detail.png" width="200"> | <img src="screenshots/hourly_moon.png" width="200"> |
 
 </div>
-
-## 🚀 Installation
-
-### Requirements
-- Android 5.0 (API 21) or higher
-- Internet connection
-- Location permission (optional)
