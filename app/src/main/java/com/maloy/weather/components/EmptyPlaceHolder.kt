@@ -52,6 +52,7 @@ fun EmptyPlaceholder(
 
         Text(
             text = text,
+            color = buttonColor,
             style = MaterialTheme.typography.bodyLarge
         )
     }
