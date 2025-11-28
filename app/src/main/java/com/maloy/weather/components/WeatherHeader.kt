@@ -119,6 +119,15 @@ fun WeatherHeader(weather: WeatherResponse) {
                     .fillMaxWidth()
                     .padding(top = 2.dp)
             )
+
+            weather.precipitationEndTime?.let { endTime ->
+                Spacer(modifier = Modifier.height(16.dp))
+                PrecipitationEndCard(
+                    precipitationType = weather.current.condition,
+                    endTime = endTime,
+                    textColor = textColor
+                )
+            }
         }
     }
 }

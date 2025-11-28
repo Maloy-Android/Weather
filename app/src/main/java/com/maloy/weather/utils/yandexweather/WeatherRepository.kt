@@ -17,6 +17,8 @@ import com.maloy.weather.utils.getHourlyForecast
 import com.maloy.weather.utils.getMoonData
 import com.maloy.weather.utils.apikey.httpClient
 import com.maloy.weather.utils.mapYandexCondition
+import java.util.Calendar
+import java.util.Locale
 
 class WeatherRepository(context: Context) {
     private val apiKeyService = ApiKeyServiceImpl(httpClient)
@@ -40,6 +42,60 @@ class WeatherRepository(context: Context) {
             yandexWeatherService = YandexWeatherService.Companion.create(newApiKey)
         } catch (e: Exception) {
             e.printStackTrace()
+        }
+    }
+
+    private fun getPrecipitationEndTime(weatherResponse: YandexWeatherResponse): String? {
+        return runCatching {
+            val currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+            val currentFact = weatherResponse.fact
+
+            if (!hasPrecipitation(currentFact.prec_type, currentFact.prec_strength)) {
+                return null
+            }
+
+            findPrecipitationEndInTodayForecast(weatherResponse, currentHour)
+                ?: findPrecipitationEndInTomorrowForecast(weatherResponse)
+
+        }.getOrElse { exception ->
+            null
+        }
+    }
+
+    private fun hasPrecipitation(precType: Int, precStrength: Double): Boolean {
+        return precType != 0 && precStrength > 0.0
+    }
+
+    private fun findPrecipitationEndInTodayForecast(
+        weatherResponse: YandexWeatherResponse,
+        currentHour: Int
+    ): String? {
+        val todayHours = weatherResponse.forecasts.firstOrNull()?.hours ?: return null
+
+        return todayHours
+            .asSequence()
+            .filter { hour ->
+                hour.hour.toIntOrNull()?.let { it > currentHour } == true
+            }
+            .firstOrNull { hour ->
+                !hasPrecipitation(hour.prec_type, hour.prec_strength)
+            }
+            ?.let { endHour ->
+                val hourInt = endHour.hour.toIntOrNull() ?: 0
+                String.format(Locale.getDefault(), "%02d:00", hourInt)
+            }
+    }
+
+    private fun findPrecipitationEndInTomorrowForecast(weatherResponse: YandexWeatherResponse): String? {
+        if (weatherResponse.forecasts.size <= 1) return null
+
+        val tomorrowFirstHour = weatherResponse.forecasts[1].hours?.firstOrNull() ?: return null
+
+        return if (!hasPrecipitation(tomorrowFirstHour.prec_type, tomorrowFirstHour.prec_strength)) {
+            val hourInt = tomorrowFirstHour.hour.toIntOrNull() ?: 0
+            String.format(Locale.getDefault(), "завтра в %02d:00", hourInt)
+        } else {
+            null
         }
     }
 
@@ -90,7 +146,8 @@ class WeatherRepository(context: Context) {
                 dayPhase = getDayPhase(weatherResponse, forecast = null),
                 weeklyForecast = getWeeklyForecast(weatherResponse),
                 moonData = getMoonData(weatherResponse.forecasts.firstOrNull()?.moon_code),
-                sunTimes = sunTimes
+                sunTimes = sunTimes,
+                precipitationEndTime = getPrecipitationEndTime(weatherResponse)
             )
         } catch (e: Exception) {
             if (e.message?.contains("api_key", ignoreCase = true) == true ||
