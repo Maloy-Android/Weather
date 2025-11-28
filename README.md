@@ -2,6 +2,8 @@
 
 <div align="center">
 
+<img src="app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" width="100" height="100" alt="Weather App Icon">
+
 ![Kotlin](https://img.shields.io/badge/Kotlin-1.9.0-%237F52FF?logo=kotlin&logoColor=white)
 ![Android](https://img.shields.io/badge/Android-API_21+-%233DDC84?logo=android&logoColor=white)
 ![Architecture](https://img.shields.io/badge/Architecture-MVVM-%23007ACC?logo=android)
@@ -16,8 +18,7 @@
 ## ✨ Features
 
 ### 🎨 User Interface
-- **Material You** - dynamic colors matching your wallpaper
-- **Animated weather icons** - smooth transitions between states
+- **GRADIENT** - gradient bakcground colors when weather state
 - **Dark & light themes** - automatic adaptation
 - **Intuitive gestures** - swipe to refresh and navigate
 
@@ -27,7 +28,7 @@
 - **7-day outlook** - long-term planning
 - **Detailed metrics** - humidity, pressure, wind, UV index
 - **Geolocation** - automatic location detection
-- **🌙 Moon Phase** - current moon stage with visual representation
+- **Moon Phase** - current moon stage with visual representation
 
 ### 🚀 Technologies
 - **Kotlin & Coroutines** - modern asynchronous programming
@@ -51,3 +52,4 @@
 - Android 5.0 (API 21) or higher
 - Internet connection
 - Location permission (optional)
+
