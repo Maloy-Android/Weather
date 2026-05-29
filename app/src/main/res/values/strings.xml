@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Weather</string>
     <string name="search">Search</string>
+    <string name="speak_now">Speak now…</string>
     <string name="enter_city_name">Enter the city name</string>
     <string name="search_description">Find out the weather in any city</string>
     <string name="loading_weather_data">Loading weather data…</string>

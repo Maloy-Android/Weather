@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Погода</string>
     <string name="search">Поиск</string>
+    <string name="speak_now">Говорите сейчас…</string>
     <string name="enter_city_name">Введите название города</string>
     <string name="search_description">Узнайте погоду в любом городе</string>
     <string name="loading_weather_data">Загрузка данных о погоде…</string>
