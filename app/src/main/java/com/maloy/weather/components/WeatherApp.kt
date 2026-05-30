@@ -118,7 +118,7 @@ fun WeatherApp(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(64.dp)
+                .height(60.dp)
                 .background(
                     brush = Brush.verticalGradient(
                         colors = listOf(

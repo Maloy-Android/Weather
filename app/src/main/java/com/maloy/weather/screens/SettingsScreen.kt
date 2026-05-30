@@ -407,6 +407,7 @@ fun SettingsScreen(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
+                .height(60.dp)
                 .background(
                     brush = Brush.verticalGradient(
                         colors = listOf(
