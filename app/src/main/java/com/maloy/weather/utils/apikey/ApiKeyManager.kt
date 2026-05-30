@@ -23,7 +23,7 @@ class ApiKeyManager(
             freshKey.api_key
         } catch (e: Exception) {
             e.printStackTrace()
-            getStoredApiKey() ?: "242b87b0-dc22-4bd9-89bf-a5992afc797d"
+            getStoredApiKey() ?: "66b6794f-5580-41d3-99d0-0e5fc9ea781d"
         }
     }
 
