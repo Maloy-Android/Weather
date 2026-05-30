@@ -25,13 +25,13 @@ class WeatherRepository(context: Context) {
     private val apiKeyManager = ApiKeyManager(context, apiKeyService)
 
     private var yandexWeatherService: YandexWeatherService? = null
-    private val yandexGeocodingService = YandexGeocodingService.Companion.create()
-    private val yandexGeocodingApiKey = "d6d3c9b5-dec8-45f4-aabc-2080d876b697"
+    private val yandexGeocodingService = YandexGeocodingService.create()
+    private val yandexGeocodingApiKey = "3730fb00-fe13-41b5-9264-1fb491a32a6e"
 
     private suspend fun getWeatherService(): YandexWeatherService {
         if (yandexWeatherService == null) {
             val apiKey = apiKeyManager.getApiKey()
-            yandexWeatherService = YandexWeatherService.Companion.create(apiKey)
+            yandexWeatherService = YandexWeatherService.create(apiKey)
         }
         return yandexWeatherService!!
     }
@@ -39,7 +39,7 @@ class WeatherRepository(context: Context) {
     private suspend fun refreshWeatherService() {
         try {
             val newApiKey = apiKeyManager.refreshApiKey()
-            yandexWeatherService = YandexWeatherService.Companion.create(newApiKey)
+            yandexWeatherService = YandexWeatherService.create(newApiKey)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -57,7 +57,7 @@ class WeatherRepository(context: Context) {
             findPrecipitationEndInTodayForecast(weatherResponse, currentHour)
                 ?: findPrecipitationEndInTomorrowForecast(weatherResponse)
 
-        }.getOrElse { exception ->
+        }.getOrElse {
             null
         }
     }
