@@ -145,7 +145,8 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
                                 _currentCity.value = cityName
                                 loadWeather(cityName)
                             } else {
-                                _weatherState.value = WeatherState.Error("Не удалось определить город")
+                                _weatherState.value =
+                                    WeatherState.Error("Не удалось определить город")
                                 _isLoadingLocation.value = false
                             }
                         } catch (_: Exception) {

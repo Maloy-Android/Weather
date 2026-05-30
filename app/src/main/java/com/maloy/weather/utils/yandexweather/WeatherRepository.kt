@@ -7,43 +7,24 @@ import com.maloy.weather.data.Location
 import com.maloy.weather.data.WeatherResponse
 import com.maloy.weather.data.WeeklyForecast
 import com.maloy.weather.data.yandex.YandexWeatherResponse
-import com.maloy.weather.utils.apikey.ApiKeyManager
-import com.maloy.weather.utils.apikey.ApiKeyServiceImpl
 import com.maloy.weather.utils.SunTimesUtils
 import com.maloy.weather.utils.formatDateForDisplay
 import com.maloy.weather.utils.getDayOfWeek
 import com.maloy.weather.utils.getDayPhase
 import com.maloy.weather.utils.getHourlyForecast
 import com.maloy.weather.utils.getMoonData
-import com.maloy.weather.utils.apikey.httpClient
 import com.maloy.weather.utils.mapYandexCondition
+import kotlinx.coroutines.delay
 import java.util.Calendar
 import java.util.Locale
 
 class WeatherRepository(context: Context) {
-    private val apiKeyService = ApiKeyServiceImpl(httpClient)
-    private val apiKeyManager = ApiKeyManager(context, apiKeyService)
-
-    private var yandexWeatherService: YandexWeatherService? = null
     private val yandexGeocodingService = YandexGeocodingService.create()
     private val yandexGeocodingApiKey = "3730fb00-fe13-41b5-9264-1fb491a32a6e"
+    private val apiKey = "faff5f41-b98e-487b-931f-8409e86de8dc"
 
-    private suspend fun getWeatherService(): YandexWeatherService {
-        if (yandexWeatherService == null) {
-            val apiKey = apiKeyManager.getApiKey()
-            yandexWeatherService = YandexWeatherService.create(apiKey)
-        }
-        return yandexWeatherService!!
-    }
-
-    private suspend fun refreshWeatherService() {
-        try {
-            val newApiKey = apiKeyManager.refreshApiKey()
-            yandexWeatherService = YandexWeatherService.create(newApiKey)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
+    private var retryCount = 0
+    private val MAX_RETRIES = 2
 
     private fun getPrecipitationEndTime(weatherResponse: YandexWeatherResponse): String? {
         return runCatching {
@@ -99,9 +80,9 @@ class WeatherRepository(context: Context) {
         }
     }
 
-    suspend fun getWeather(city: String): WeatherResponse? {
+    suspend fun getWeather(city: String, retryAttempt: Int = 0): WeatherResponse? {
         try {
-            val weatherService = getWeatherService()
+            val weatherService = YandexWeatherService.create(apiKey)
             val geocodingResponse = yandexGeocodingService.geocode(
                 query = city,
                 apiKey = yandexGeocodingApiKey
@@ -124,7 +105,7 @@ class WeatherRepository(context: Context) {
                     null
                 }
             }
-
+            retryCount = 0
             return WeatherResponse(
                 location = Location(
                     name = geocodingResponse.response.GeoObjectCollection.featureMember[0].GeoObject.name,
@@ -150,17 +131,14 @@ class WeatherRepository(context: Context) {
                 precipitationEndTime = getPrecipitationEndTime(weatherResponse)
             )
         } catch (e: Exception) {
-            if (e.message?.contains("api_key", ignoreCase = true) == true ||
-                e.message?.contains("403", ignoreCase = true) == true ||
-                e.message?.contains("401", ignoreCase = true) == true) {
-
-                try {
-                    refreshWeatherService()
-                    return getWeather(city)
-                } catch (_: Exception) {
-                    e.printStackTrace()
-                    throw Exception("Ошибка получения погоды: ${e.message ?: "Неизвестная ошибка"}")
-                }
+            if ((e.message?.contains("api_key", ignoreCase = true) == true ||
+                        e.message?.contains("403", ignoreCase = true) == true ||
+                        e.message?.contains("401", ignoreCase = true) == true ||
+                        e.message?.contains("429", ignoreCase = true) == true) &&
+                retryAttempt < MAX_RETRIES) {
+                android.util.Log.w("WeatherRepository", "API error, retry attempt ${retryAttempt + 1}/$MAX_RETRIES: ${e.message}")
+                delay(1000L * (retryAttempt + 1))
+                return getWeather(city, retryAttempt + 1)
             } else {
                 e.printStackTrace()
                 throw Exception("Ошибка получения погоды: ${e.message ?: "Неизвестная ошибка"}")
@@ -168,10 +146,10 @@ class WeatherRepository(context: Context) {
         }
     }
 
-    suspend fun getCitySuggestions(query: String): List<GeocodingSuggestion> {
+    suspend fun getCitySuggestions(query: String, retryAttempt: Int = 0): List<GeocodingSuggestion> {
         try {
             if (query.length < 2) return emptyList()
-            val weatherService = getWeatherService()
+            val weatherService = YandexWeatherService.create(apiKey)
             val geocodingResponse = yandexGeocodingService.geocode(
                 query = query,
                 apiKey = yandexGeocodingApiKey,
@@ -194,13 +172,14 @@ class WeatherRepository(context: Context) {
                 )
             }
         } catch (e: Exception) {
-            if (e.message?.contains("api_key", ignoreCase = true) == true ||
-                e.message?.contains("403", ignoreCase = true) == true ||
-                e.message?.contains("401", ignoreCase = true) == true) {
-
+            if ((e.message?.contains("api_key", ignoreCase = true) == true ||
+                        e.message?.contains("403", ignoreCase = true) == true ||
+                        e.message?.contains("401", ignoreCase = true) == true) &&
+                retryAttempt < MAX_RETRIES) {
                 try {
-                    refreshWeatherService()
-                    return getCitySuggestions(query)
+                    android.util.Log.w("WeatherRepository", "Suggestions API error, retry attempt ${retryAttempt + 1}")
+                    delay(1000L * (retryAttempt + 1))
+                    return getCitySuggestions(query, retryAttempt + 1)
                 } catch (_: Exception) {
                     e.printStackTrace()
                     return emptyList()
