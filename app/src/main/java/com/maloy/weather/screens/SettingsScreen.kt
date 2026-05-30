@@ -65,7 +65,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AboutScreen(
+fun SettingsScreen(
     onBackClick: () -> Unit,
     weatherViewModel: WeatherViewModel = viewModel()
 ) {

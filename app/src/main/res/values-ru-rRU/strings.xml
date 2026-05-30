@@ -1,6 +1,11 @@
 <resources>
-    <string name="app_name">Погода</string>
+
+    <!-- Navigation title -->
+    <string name="home">Главная</string>
     <string name="search">Поиск</string>
+    <string name="settings">Настройки</string>
+
+    <string name="app_name">Погода</string>
     <string name="speak_now">Говорите сейчас…</string>
     <string name="enter_city_name">Введите название города</string>
     <string name="search_description">Узнайте погоду в любом городе</string>
@@ -34,7 +39,6 @@
     <string name="sun_title">Солнце</string>
     <string name="sunrise">Восход</string>
     <string name="sunset">Закат</string>
-    <string name="settings">Настройки</string>
     <string name="select_theme">Выберите тему</string>
     <string name="theme_title">Тема приложения</string>
     <string name="theme_system">По умолчанию системы</string>

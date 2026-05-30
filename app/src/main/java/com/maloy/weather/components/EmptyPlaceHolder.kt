@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.maloy.weather.constans.ThemeType
@@ -23,7 +24,7 @@ import com.maloy.weather.utils.app.rememberEnumPreference
 
 @Composable
 fun EmptyPlaceholder(
-    @DrawableRes icon: Int,
+    icon: ImageVector,
     text: String,
     modifier: Modifier = Modifier,
 ) {
@@ -42,7 +43,7 @@ fun EmptyPlaceholder(
             .padding(horizontal = 12.dp, vertical = 24.dp)
     ) {
         Icon(
-            painter = painterResource(icon),
+            imageVector = icon,
             contentDescription = null,
             tint = buttonColor,
             modifier = Modifier.size(64.dp)

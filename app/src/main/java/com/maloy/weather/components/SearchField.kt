@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -95,7 +97,7 @@ fun SearchField(
         singleLine = true,
         leadingIcon = {
             Icon(
-                painter = painterResource(R.drawable.search),
+                imageVector = Icons.Default.Search,
                 contentDescription = null,
                 tint = textColor.copy(alpha = 0.7f)
             )

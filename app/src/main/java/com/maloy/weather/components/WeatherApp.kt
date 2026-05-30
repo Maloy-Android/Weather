@@ -30,6 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.maloy.weather.R
 import com.maloy.weather.constans.ThemeType
 import com.maloy.weather.constans.themeType
@@ -42,9 +43,8 @@ import com.maloy.weather.viewModels.WeatherViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WeatherApp(
-    onAboutClick: () -> Unit,
-    onSearchClick: () -> Unit,
-    weatherViewModel: WeatherViewModel = viewModel()
+    navController: NavHostController,
+    weatherViewModel: WeatherViewModel = viewModel(),
 ) {
     val weatherState by weatherViewModel.weatherState.collectAsState()
     val currentCity by weatherViewModel.currentCity.collectAsState()
@@ -54,7 +54,6 @@ fun WeatherApp(
         startY = 0f,
         endY = 1000f
     )
-
 
     val (themeType) = rememberEnumPreference(themeType, defaultValue = ThemeType.GRADIENT)
 
@@ -154,28 +153,6 @@ fun WeatherApp(
                                         tint = textColor
                                     )
                                 }
-                                IconButton(
-                                    onClick = onSearchClick,
-                                    modifier = Modifier.padding(start = 48.dp)
-                                ) {
-                                    Icon(
-                                        painter = painterResource(R.drawable.search),
-                                        contentDescription = stringResource(R.string.search),
-                                        tint = textColor
-                                    )
-                                }
-                            }
-                        }
-
-                        else -> {
-                            IconButton(
-                                onClick = onSearchClick
-                            ) {
-                                Icon(
-                                    painter = painterResource(R.drawable.search),
-                                    contentDescription = stringResource(R.string.search),
-                                    tint = textColor
-                                )
                             }
                         }
                     }
@@ -196,15 +173,6 @@ fun WeatherApp(
                                 tint = textColor
                             )
                         }
-                    }
-                    IconButton(
-                        onClick = onAboutClick
-                    ) {
-                        Icon(
-                            painter = painterResource(R.drawable.settings),
-                            contentDescription = null,
-                            tint = textColor
-                        )
                     }
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
