@@ -29,11 +29,17 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ScrollableTabRow
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -50,12 +56,12 @@ import androidx.core.net.toUri
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.maloy.weather.R
-import com.maloy.weather.components.EnumListPreference
 import com.maloy.weather.constans.ThemeType
 import com.maloy.weather.constans.themeType
 import com.maloy.weather.utils.getBackgroundColors
 import com.maloy.weather.utils.app.rememberEnumPreference
 import com.maloy.weather.viewModels.WeatherViewModel
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -90,6 +96,24 @@ fun AboutScreen(
         ThemeType.DARK -> Color.White
         ThemeType.LIGHT -> Color.Black
         ThemeType.GRADIENT -> Color.White
+    }
+
+    val themeOptions = listOf(
+        ThemeType.SYSTEM to stringResource(R.string.theme_system),
+        ThemeType.LIGHT to stringResource(R.string.theme_light),
+        ThemeType.DARK to stringResource(R.string.theme_dark),
+        ThemeType.GRADIENT to stringResource(R.string.theme_gradient)
+    )
+
+    val selectedIndex = themeOptions.indexOfFirst { it.first == themeType }
+    val scrollState = rememberScrollState()
+    val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(themeType) {
+        coroutineScope.launch {
+            kotlinx.coroutines.delay(100)
+            scrollState.animateScrollTo(selectedIndex)
+        }
     }
 
     Box(
@@ -205,47 +229,64 @@ fun AboutScreen(
                     shape = MaterialTheme.shapes.large
                 ) {
                     Column(
-                        modifier = Modifier.padding(vertical = 8.dp)
+                        modifier = Modifier.padding(vertical = 16.dp)
                     ) {
-                        Text(
-                            text = stringResource(R.string.settings),
-                            style = MaterialTheme.typography.titleLarge.copy(
-                                fontWeight = FontWeight.Bold,
-                                color = textColor
-                            ),
-                            modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp)
-                        )
-
-                        EnumListPreference(
+                        Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(horizontal = 16.dp, vertical = 8.dp),
-                            title = {
-                                Text(
-                                    stringResource(R.string.theme_title),
-                                    style = MaterialTheme.typography.titleMedium.copy(
-                                        color = textColor
+                                .padding(horizontal = 20.dp, vertical = 8.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.palette),
+                                contentDescription = null,
+                                tint = textColor,
+                                modifier = Modifier.size(24.dp)
+                            )
+                            Text(
+                                stringResource(R.string.theme_title),
+                                style = MaterialTheme.typography.titleMedium.copy(
+                                    fontWeight = FontWeight.Medium,
+                                    color = textColor
+                                )
+                            )
+                        }
+
+                        ScrollableTabRow(
+                            selectedTabIndex = selectedIndex,
+                            containerColor = Color.Transparent,
+                            edgePadding = 16.dp,
+                            divider = {},
+                            indicator = { tabPositions ->
+                                if (selectedIndex < tabPositions.size) {
+                                    TabRowDefaults.SecondaryIndicator(
+                                        modifier = Modifier.tabIndicatorOffset(tabPositions[selectedIndex]),
+                                        height = 2.dp,
+                                        color = MaterialTheme.colorScheme.primary
                                     )
-                                )
-                            },
-                            icon = {
-                                Icon(
-                                    painterResource(R.drawable.palette),
-                                    null,
-                                    tint = textColor
-                                )
-                            },
-                            selectedValue = themeType,
-                            valueText = {
-                                when (it) {
-                                    ThemeType.SYSTEM -> stringResource(R.string.theme_system)
-                                    ThemeType.LIGHT -> stringResource(R.string.theme_light)
-                                    ThemeType.DARK -> stringResource(R.string.theme_dark)
-                                    ThemeType.GRADIENT -> stringResource(R.string.theme_gradient)
                                 }
-                            },
-                            onValueSelected = onThemeTypeChange
-                        )
+                            }
+                        ) {
+                            themeOptions.forEachIndexed { index, (type, title) ->
+                                Tab(
+                                    selected = selectedIndex == index,
+                                    onClick = { onThemeTypeChange(type) },
+                                    text = {
+                                        Text(
+                                            text = title,
+                                            style = MaterialTheme.typography.bodyMedium.copy(
+                                                fontWeight = if (selectedIndex == index) FontWeight.Bold else FontWeight.Normal,
+                                                color = textColor.copy(
+                                                    alpha = if (selectedIndex == index) 1f else 0.7f
+                                                )
+                                            )
+                                        )
+                                    },
+                                    modifier = Modifier.padding(horizontal = 8.dp)
+                                )
+                            }
+                        }
                     }
                 }
 
