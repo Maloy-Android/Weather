@@ -166,7 +166,7 @@ fun SearchScreen(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(60.dp)
+                .height(64.dp)
                 .background(
                     brush = Brush.verticalGradient(
                         colors = listOf(
